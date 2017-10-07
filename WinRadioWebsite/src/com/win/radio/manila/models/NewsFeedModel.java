@@ -12,6 +12,7 @@ public class NewsFeedModel {
 	private String description;
 	private String content;
 	private String link;
+	private String codRegion;
 	
 	public Date getCreateDate() {
 		return createDate;
@@ -60,6 +61,12 @@ public class NewsFeedModel {
 	}
 	public void setLink(String link) {
 		this.link = link;
+	}
+	public String getCodRegion() {
+		return codRegion;
+	}
+	public void setCodRegion(String codRegion) {
+		this.codRegion = codRegion;
 	}
 	
 }

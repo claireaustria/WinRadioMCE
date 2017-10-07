@@ -12,6 +12,8 @@ public class ProgramModel {
 	private String title;
 	private String description;
 	private String schedule;
+	private String codRegion;
+	
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -59,6 +61,12 @@ public class ProgramModel {
 	}
 	public void setSchedule(String schedule) {
 		this.schedule = schedule;
+	}
+	public String getCodRegion() {
+		return codRegion;
+	}
+	public void setCodRegion(String codRegion) {
+		this.codRegion = codRegion;
 	}
 		
 }

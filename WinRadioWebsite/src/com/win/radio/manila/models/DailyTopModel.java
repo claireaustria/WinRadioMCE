@@ -11,6 +11,7 @@ public class DailyTopModel {
 	private int rank;
 	private String title;
 	private String artist;
+	private String codRegion;
 	
 	public Date getCreateDate() {
 		return createDate;
@@ -53,6 +54,12 @@ public class DailyTopModel {
 	}
 	public void setArtist(String artist) {
 		this.artist = artist;
+	}
+	public String getCodRegion() {
+		return codRegion;
+	}
+	public void setCodRegion(String codRegion) {
+		this.codRegion = codRegion;
 	}
 	
 }

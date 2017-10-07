@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.win.radio.manila.utilities.AccountOperations;
 import com.win.radio.manila.utilities.ConnectionUtil;
 
 
@@ -33,17 +34,12 @@ public class LoginController extends HttpServlet {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String incorrect = "username";
-		
-		new ConnectionUtil();
-		Connection conn = null;
-		
+				
 		ResultSet resultSet = null;	
 		try {
-			conn = ConnectionUtil.getConnection();
 			
-			PreparedStatement pstmt = conn.prepareStatement("SELECT USERNAME, PASSWORD FROM ACCOUNT WHERE USERNAME = ?");
-			pstmt.setString(1, username);
-			resultSet = pstmt.executeQuery();
+			new AccountOperations();
+			resultSet = AccountOperations.getCredentials(username);
 			
 			while (resultSet.next()) {
 				String rsUsername = resultSet.getString("USERNAME");
@@ -62,9 +58,15 @@ public class LoginController extends HttpServlet {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		} 
+		} finally {
+			try {
+				if(resultSet!=null) {
+					resultSet.close();
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	String encryptedcode(String password) {

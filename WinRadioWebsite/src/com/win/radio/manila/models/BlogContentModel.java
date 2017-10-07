@@ -11,6 +11,7 @@ public class BlogContentModel {
 	private String title;
 	private String content;
 	private int postOwner;
+	private String codRegion;
 	
 	public Date getCreateDate() {
 		return createDate;
@@ -53,6 +54,12 @@ public class BlogContentModel {
 	}
 	public void setPostOwner(int postOwner) {
 		this.postOwner = postOwner;
+	}
+	public String getCodRegion() {
+		return codRegion;
+	}
+	public void setCodRegion(String codRegion) {
+		this.codRegion = codRegion;
 	}
 	
 }

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.win.radio.manila.utilities.AccountOperations;
 import com.win.radio.manila.utilities.ConnectionUtil;
 
 @WebServlet("/checkIfUsernameExists")
@@ -33,15 +34,11 @@ public class CheckIfUsernameExistsController extends HttpServlet {
 		String responseMessage = "";
 		String username = request.getParameter("username");
 	    
-		new ConnectionUtil();
-		Connection conn = null;
 		ResultSet resultSet = null;
 		
 		try {
-			conn = ConnectionUtil.getConnection();
-			PreparedStatement pstmt = conn.prepareStatement("SELECT USERNAME FROM ACCOUNT WHERE USERNAME = ?");
-			pstmt.setString(1, username);
-			resultSet = pstmt.executeQuery();
+			new AccountOperations();
+			resultSet = AccountOperations.getUsernameIfExisting(username);
 			
 			while (resultSet.next()) {
 				responseMessage = "Username already taken.";
@@ -52,12 +49,10 @@ public class CheckIfUsernameExistsController extends HttpServlet {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
 		} finally {
 			try {
-				if(conn!=null) {
-					conn.close();
+				if(resultSet!=null) {
+					resultSet.close();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

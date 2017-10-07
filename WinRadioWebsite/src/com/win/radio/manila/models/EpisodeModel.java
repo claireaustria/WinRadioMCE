@@ -11,6 +11,7 @@ public class EpisodeModel {
 	private String title;
 	private String description;
 	private String image;
+	private String codRegion;
 	
 	public Date getCreateDate() {
 		return createDate;
@@ -53,5 +54,11 @@ public class EpisodeModel {
 	}
 	public void setImage(String image) {
 		this.image = image;
+	}
+	public String getCodRegion() {
+		return codRegion;
+	}
+	public void setCodRegion(String codRegion) {
+		this.codRegion = codRegion;
 	}
 }

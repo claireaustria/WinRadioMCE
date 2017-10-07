@@ -18,17 +18,15 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.win.radio.manila.utilities.AccountOperations;
+import com.win.radio.manila.utilities.CodeUtil;
 import com.win.radio.manila.utilities.SQLOperations;
 import com.win.radio.manila.models.AccountModel;
 
 @WebServlet("/createUserController")
 public class CreateUserController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
-	private final static String COD_STATUS_ACTIVE = "STATUS001";
-	private final static String DEFAULT_FROM_EMAIL = "winradio.donotreply@gmail.com";
-	private final static String DEFAULT_EMAIL_PW = "Winradio2017";
-       
+	       
     public CreateUserController() {
         super();
     }
@@ -47,14 +45,14 @@ public class CreateUserController extends HttpServlet {
 		account.setLastName(request.getParameter("lastName"));
 		account.setFirstName(request.getParameter("firstName"));
 		account.setGender(request.getParameter("gender"));
-		account.setMobileNo(Long.valueOf(request.getParameter("mobileNo")));
+		account.setMobileNo(request.getParameter("mobileNo"));
 		account.setUsername(request.getParameter("username"));
 		account.setPassword(String.valueOf(saltString.hashCode()));
-		account.setCodStatus(COD_STATUS_ACTIVE);
+		account.setCodStatus(CodeUtil.COD_STATUS_ACTIVE);
 		
 		try{
-			new SQLOperations();
-			SQLOperations.addUser(account);
+			new AccountOperations();
+			AccountOperations.addUser(account);
 			
 			sendInitialEmail(account, saltString);
 			
@@ -98,8 +96,8 @@ public class CreateUserController extends HttpServlet {
 	protected void sendInitialEmail(AccountModel account, String saltString) {
 
 		// Sender's email ID needs to be mentioned
-		String from = DEFAULT_FROM_EMAIL;
-		String pass = DEFAULT_EMAIL_PW;
+		String from = CodeUtil.DEFAULT_FROM_EMAIL;
+		String pass = CodeUtil.DEFAULT_EMAIL_PW;
 	    // Recipient's email ID needs to be mentioned.
 		String to = account.getEmail();
 		String host = "smtp.gmail.com";
@@ -132,7 +130,7 @@ public class CreateUserController extends HttpServlet {
 			message.setSubject("Win Radio Account Credentials");
 
 			// Now set the actual message
-			message.setText("Password: " + saltString);
+			message.setText("Username: " + account.getUsername() + " " + "Password: " + saltString);
 
 			// Send message
 			Transport transport = session.getTransport("smtp");

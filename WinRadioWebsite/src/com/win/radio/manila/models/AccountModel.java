@@ -16,9 +16,22 @@ public class AccountModel {
 	private String lastName;
 	private String firstName;
 	private String gender;
-	private long mobileNo;
 	private String codStatus;
+	private String mobileNo;
+	private String codRegion;
 	
+	public String getMobileNo() {
+		return mobileNo;
+	}
+	public void setMobileNo(String mobileNo) {
+		this.mobileNo = mobileNo;
+	}
+	public String getCodRegion() {
+		return codRegion;
+	}
+	public void setCodRegion(String codRegion) {
+		this.codRegion = codRegion;
+	}
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -90,12 +103,6 @@ public class AccountModel {
 	}
 	public void setEmail(String email) {
 		this.email = email;
-	}
-	public long getMobileNo() {
-		return mobileNo;
-	}
-	public void setMobileNo(long mobileNo) {
-		this.mobileNo = mobileNo;
 	}
 	public String getCodStatus() {
 		return codStatus;

@@ -119,4 +119,19 @@ public class AccountOperations implements AccountCommands  {
 		}
 		return true;
 	}
+	
+	public static ResultSet getAccountProfile(int idAccount) {
+		ResultSet rs = null;
+		try{
+	
+			PreparedStatement pstmt = getConnection().prepareStatement(GET_USER_PROFILE);
+			pstmt.setInt(1, idAccount);
+			rs = pstmt.executeQuery();
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		return rs;
+	}
 }

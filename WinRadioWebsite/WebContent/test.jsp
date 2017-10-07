@@ -8,8 +8,6 @@
 <title>Insert title here</title>
 </head>
 <body>
-	<h1>This is Claire's update.</h1>
-	
-	<h1>This is Marvin's update.</h1>
+	<h3>This is Elias' update.</h3>
 </body>
 </html>

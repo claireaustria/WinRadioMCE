@@ -10,6 +10,12 @@
 <body>
 	<h3>This is Elias' update.</h3>
 	
+<<<<<<< HEAD
 	<h4>THis is 2nd ELias' update.</h4>
+=======
+	<h1>This is Marvin's update.</h1>
+	
+	<h1>This is another update. - Marvin</h1>
+>>>>>>> branch 'master' of https://github.com/claireaustria/WinRadioMCE.git
 </body>
 </html>

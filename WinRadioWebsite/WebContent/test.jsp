@@ -8,6 +8,16 @@
 <title>Insert title here</title>
 </head>
 <body>
+<<<<<<< HEAD
 	Whats Happening?
+=======
+<<<<<<< HEAD
+
+<h1>TESTESTESTSETSETssS</h1>
+
+=======
+	dis the bomb
+>>>>>>> branch 'master' of https://github.com/claireaustria/WinRadioMCE.git
+>>>>>>> branch 'master' of https://github.com/claireaustria/WinRadioMCE.git
 </body>
 </html>

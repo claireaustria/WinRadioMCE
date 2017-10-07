@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Context>
+  <Resource name="jdbc/WinRadioDB" auth="Container"
+            type="javax.sql.DataSource" username="sa" password="12345"
+            driverClassName="net.sourceforge.jtds.jdbc.Driver" 
+            url="jdbc:jtds:sqlserver://localhost:1433/WinRadio;SelectMethod=cursor;"
+            maxActive="8" 
+            />
+
+</Context>

@@ -1,0 +1,26 @@
+/*Global*/
+.btn-options {
+	margin: 0px 5px 0px 5px;
+}
+
+input::-webkit-inner-spin-button {
+    /* removes spinners on number input */
+    -webkit-appearance: none;
+    margin: 0; 
+}
+
+/*Dashboard*/
+.iconStats {
+	height:15%;
+	border: 1px solid black;
+	border-radius: 5px;
+}
+
+/*User Maintenance*/
+#dataTable_wrapper {
+	padding: 20px 15px 20px 15px;
+	margin: 5px;
+}
+
+.highlight { background: yellow; }
+

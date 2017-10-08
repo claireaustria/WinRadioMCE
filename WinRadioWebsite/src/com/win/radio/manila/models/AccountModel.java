@@ -8,7 +8,7 @@ public class AccountModel {
 	private Date updateDate;
 	private String updateUser;
 	private int idAccount;
-	private String codProfile;
+	private String codType;
 	private String username;
 	private String email;
 	private String password;
@@ -19,6 +19,7 @@ public class AccountModel {
 	private String codStatus;
 	private String mobileNo;
 	private String codRegion;
+	private int indChangePwd;
 	
 	public String getMobileNo() {
 		return mobileNo;
@@ -55,12 +56,6 @@ public class AccountModel {
 	}
 	public void setIdAccount(int idAccount) {
 		this.idAccount = idAccount;
-	}
-	public String getCodProfile() {
-		return codProfile;
-	}
-	public void setCodProfile(String codProfile) {
-		this.codProfile = codProfile;
 	}
 	public String getUsername() {
 		return username;
@@ -109,6 +104,18 @@ public class AccountModel {
 	}
 	public void setCodStatus(String codStatus) {
 		this.codStatus = codStatus;
+	}
+	public String getCodType() {
+		return codType;
+	}
+	public void setCodType(String codType) {
+		this.codType = codType;
+	}
+	public int getIndChangePwd() {
+		return indChangePwd;
+	}
+	public void setIndChangePwd(int indChangePwd) {
+		this.indChangePwd = indChangePwd;
 	}
 	
 	

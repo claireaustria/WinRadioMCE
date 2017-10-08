@@ -107,13 +107,13 @@
 		    						<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">Account Type</label>
 									  <div class="col-9">
-									  	<select class="form-control" id="dropdownUserProfiles" name="codProfile">
+									  	<select class="form-control" id="dropdownUserProfiles" name="codType">
 									  		<%
 											try{	
-											ResultSet rs = new AccountOperations().getUserProfiles();
+											ResultSet rs = new AccountOperations().getAccountTypes();
 											while(rs.next()){
 											%>
-									      	<option value="<%=rs.getString("COD_PROFILE") %>"><%=rs.getString("NAME_TYPE") %></option>
+									      	<option value="<%=rs.getString("COD_TYPE") %>"><%=rs.getString("NAME") %></option>
 									      	<%}
 											rs.close();  
 											} catch (Exception e) {

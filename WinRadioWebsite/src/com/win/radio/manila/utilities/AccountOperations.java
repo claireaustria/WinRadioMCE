@@ -44,11 +44,11 @@ public class AccountOperations implements AccountCommands  {
 		return rs;
 	}
 	
-	public static ResultSet getUserProfiles() {
+	public static ResultSet getAccountTypes() {
 		ResultSet rs = null;
 		try{
 			Statement select = getConnection().createStatement();
-				rs = select.executeQuery(GET_USER_PROFILES);
+				rs = select.executeQuery(GET_ACCOUNT_TYPES);
 		}
 		catch(Exception ex)
 		{
@@ -93,10 +93,10 @@ public class AccountOperations implements AccountCommands  {
 			PreparedStatement pstmt = getConnection().prepareStatement(ADD_ACCOUNT);
 			pstmt.setDate(1, account.getCreateDate());
 			pstmt.setDate(2, account.getUpdateDate());
-			pstmt.setString(3, account.getCodProfile());
+			pstmt.setString(3, account.getCodType());
 			pstmt.setString(4, account.getUsername());
 			pstmt.setString(5, account.getPassword());
-			if (account.getCodProfile().equals(CodeUtil.COD_PROFILE_DJ))
+			if (account.getCodType().equals(CodeUtil.COD_TYPE_DJ))
 			{
 				pstmt.setString(6, account.getScreenName());
 			} else {
@@ -118,20 +118,5 @@ public class AccountOperations implements AccountCommands  {
 			return false;
 		}
 		return true;
-	}
-	
-	public static ResultSet getAccountProfile(int idAccount) {
-		ResultSet rs = null;
-		try{
-	
-			PreparedStatement pstmt = getConnection().prepareStatement(GET_USER_PROFILE);
-			pstmt.setInt(1, idAccount);
-			rs = pstmt.executeQuery();
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return rs;
 	}
 }

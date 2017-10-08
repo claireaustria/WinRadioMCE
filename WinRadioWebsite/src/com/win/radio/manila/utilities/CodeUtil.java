@@ -2,9 +2,9 @@ package com.win.radio.manila.utilities;
 
 public class CodeUtil {
 
-	public final static String COD_PROFILE_ADMIN = "PROFILE001";
-	public final static String COD_PROFILE_CONTENT_MANAGER = "PROFILE002";
-	public final static String COD_PROFILE_DJ = "PROFILE003";
+	public final static String COD_TYPE_ADMIN = "PROFILE001";
+	public final static String COD_TYPE_CONTENT_MANAGER = "PROFILE002";
+	public final static String COD_TYPE_DJ = "PROFILE003";
 
 	public final static String COD_STATUS_ACTIVE = "STATUS001";
 	

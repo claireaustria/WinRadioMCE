@@ -39,7 +39,7 @@ public class CreateUserController extends HttpServlet {
 		AccountModel account = new AccountModel();
 		account.setCreateDate(currentDateTime);
 		account.setUpdateDate(currentDateTime);
-		account.setCodProfile(request.getParameter("codProfile"));
+		account.setCodType(request.getParameter("codType"));
 		account.setEmail(request.getParameter("email"));
 		account.setScreenName(request.getParameter("screenName"));
 		account.setLastName(request.getParameter("lastName"));

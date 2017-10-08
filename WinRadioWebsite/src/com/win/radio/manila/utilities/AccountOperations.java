@@ -57,6 +57,19 @@ public class AccountOperations implements AccountCommands  {
 		return rs;
 	}
 	
+	public static ResultSet getIndChangePwd() {
+		ResultSet rs = null;
+		try{
+			Statement select = getConnection().createStatement();
+				rs = select.executeQuery(GET_IND_CHANGE_PWD);
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		return rs;
+	}
+	
 	/* CONTROLLER FUNCTIONS */
 	
 	public static ResultSet getCredentials(String username) {

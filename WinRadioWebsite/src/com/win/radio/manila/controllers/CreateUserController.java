@@ -52,24 +52,25 @@ public class CreateUserController extends HttpServlet {
 		
 		try{
 			new AccountOperations();
-			AccountOperations.addUser(account);
 			
-			sendInitialEmail(account, saltString);
+			if(AccountOperations.addUser(account)) {
+				sendInitialEmail(account, saltString);
 			
-			/*
-			 * Use for alert display for successful transaction
-			 * 
-			//PrintWriter rspns = response.getWriter();
-			RequestDispatcher rd = null;
-			//rspns.println("<div class=\"alert bg-success\" role=\"alert\"><em class=\"fa fa-check-circle mr-2\"></em> Account successfully created. <a href=\"#\" class=\"float-right\"><em class=\"fa fa-remove\"></em></a></div>");
-			rd = request.getRequestDispatcher("manila/adminUserMaintenance.jsp");
-			request.setAttribute("isSuccess", "success");
-			rd.include(request, response);
-			//rspns.close();
-			 * 
-			 * */
-			
-			response.sendRedirect("manila/adminUserMaintenance.jsp");
+				/*
+				 * Use for alert display for successful transaction
+				 * 
+				//PrintWriter rspns = response.getWriter();
+				RequestDispatcher rd = null;
+				//rspns.println("<div class=\"alert bg-success\" role=\"alert\"><em class=\"fa fa-check-circle mr-2\"></em> Account successfully created. <a href=\"#\" class=\"float-right\"><em class=\"fa fa-remove\"></em></a></div>");
+				rd = request.getRequestDispatcher("manila/adminUserMaintenance.jsp");
+				request.setAttribute("isSuccess", "success");
+				rd.include(request, response);
+				//rspns.close();
+				 * 
+				 * */
+				
+				response.sendRedirect("manila/adminUserMaintenance.jsp");
+			}
 		}
 		catch(Exception e)
 		{

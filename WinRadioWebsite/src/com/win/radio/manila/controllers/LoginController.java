@@ -47,14 +47,15 @@ public class LoginController extends HttpServlet {
 				String rsPassword = resultSet.getString("PASSWORD");
 				int rsIdAccount = resultSet.getInt("ID_ACCOUNT");
 				String rsCodAcctType = resultSet.getString("COD_TYPE");
+				int rsIndChangePwd = resultSet.getInt("IND_CHANGE_PWD");
 				
 				if ((username.equals(rsUsername)) && (encryptedcode(password).equals(rsPassword))) {
 					incorrect = "";
-					// Session for Account ID
+					// Account session 
 					HttpSession session = request.getSession();
-					session.setAttribute("AccountID", rsIdAccount);
-					// Session for Account type
+					session.setAttribute("idAccount", rsIdAccount);
 					session.setAttribute("codType", rsCodAcctType);
+					session.setAttribute("indChangePwd", rsIndChangePwd);
 				} else if (!encryptedcode(password).equals(rsPassword)) {
 					incorrect = "password";
 				}

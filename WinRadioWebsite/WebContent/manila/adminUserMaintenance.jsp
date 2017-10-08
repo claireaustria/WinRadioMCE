@@ -29,6 +29,21 @@
     <!-- Custom styles for this template -->
     <link href="custom-css/style.css" rel="stylesheet">
     <link href="custom-css/admin.css" rel="stylesheet">
+    
+    <style>
+    #dataTable_wrapper {
+		padding: 20px 15px 20px 15px;
+		margin: 5px;
+	}
+	
+	.highlight { 
+		background: #F0F0F0; 
+	}
+	
+	.clickableRow:hover {
+		cursor: pointer;
+	}
+    </style>
 </head>
 <body>
 	<div class="container-fluid" id="wrapper">

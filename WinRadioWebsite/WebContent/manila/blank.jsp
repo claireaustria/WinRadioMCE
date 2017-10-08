@@ -24,8 +24,8 @@
     <link href="../core-css/font-awesome.css" rel="stylesheet">
     
     <!-- Custom styles for this template -->
-    <link href="../custom-css/style.css" rel="stylesheet">
-    <link href="../custom-css/admin.css" rel="stylesheet">
+    <link href="custom-css/style.css" rel="stylesheet">
+    <link href="custom-css/admin.css" rel="stylesheet">
 </head>
 <body>
 	<div class="container-fluid" id="wrapper">
@@ -64,11 +64,11 @@
 	</div>
 
     <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script src="../core-js/jquery-3.2.1.min.js"></script>
+    <script src="../core-js/jquery.min.js"></script>
     <script src="../core-js/tether.min.js"></script>
     <script src="../core-js/bootstrap.min.js"></script>
     
-    <script src="custom-js/custom.js"></script>
-	  </body>
+    <script src="custom-js/admin.js"></script>
+</body>
 </html>

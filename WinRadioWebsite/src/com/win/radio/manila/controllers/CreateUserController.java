@@ -131,7 +131,14 @@ public class CreateUserController extends HttpServlet {
 			message.setSubject("Win Radio Account Credentials");
 
 			// Now set the actual message
-			message.setText("Username: " + account.getUsername() + " " + "Password: " + saltString);
+			String msg = "Hi, " + account.getFirstName() + "! <br>";
+			msg += "You have been assigned an account at Win Radio PH. <br>";
+			msg += "<b>Username: </b>" + account.getUsername() + " " + "<b>Password:</b> " + saltString + "<br>";
+			msg += "To login, go to <b>www.winradio.com.ph/admin. </b><br><br><br>";
+			msg += "This is an automated message, please do not respond. <br>";
+			msg += "For assistance, please contact your systems administrator.";
+			
+			message.setContent(msg, "text/html; charset=utf-8");
 
 			// Send message
 			Transport transport = session.getTransport("smtp");

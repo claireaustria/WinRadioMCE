@@ -12,7 +12,7 @@
 	<meta name="description" content="Win Radio website">
 	<meta name="author" content="Win Radio 2017">
 	
-	<title>User Maintenance</title>
+	<title>Win Radio Admin - User Maintenance</title>
 	
     <!-- Bootstrap core CSS -->
     <link href="../core-css/bootstrap.min.css" rel="stylesheet">
@@ -73,14 +73,6 @@
 						<div class="card">
 							<div class="card-block">
 								<h3 class="card-title">Create a new user</h3>
-								
-								<div class="dropdown card-title-btn-container">
-									<button class="btn btn-sm btn-subtle dropdown-toggle" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><em class="fa fa-cog"></em></button>
-									
-									<div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuButton"><a class="dropdown-item" href="#"><em class="fa fa-search mr-1"></em> More info</a>
-										<a class="dropdown-item" href="#"><em class="fa fa-thumb-tack mr-1"></em> Pin Window</a>
-										<a class="dropdown-item" href="#"><em class="fa fa-remove mr-1"></em> Close Window</a></div>
-								</div>
 								
 								<form id="formNewUser" class="form" method="post" action="${pageContext.request.contextPath}/createUserController">
 				      				<div class="form-group row">

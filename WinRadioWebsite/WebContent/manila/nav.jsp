@@ -31,11 +31,11 @@
                 <a href="#"><span class="nav-item nav-dropdown-item">DJ Blogs</span></a>
               </li>
               <li>
-                <a href="adminAbout.jsp"><span class="nav-item nav-dropdown-item">About Us</span></a>
+                <a href="adminAboutUs.jsp"><span class="nav-item nav-dropdown-item">About Us</span></a>
               </li>
             </ul>
-         </li>
-		<li class="nav-item"><a class="nav-link" href="adminUserMaintenance.jsp"><em class="fa fa-wrench"></em> User Maintenance</a></li>	
+        </li>
+        <li class="nav-item"><a class="nav-link" href="adminUserMaintenance.jsp"><em class="fa fa-wrench"></em> User Maintenance</a></li>	
 	</ul>
 	
 </nav>

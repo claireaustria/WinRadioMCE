@@ -26,6 +26,23 @@
     <!-- Custom styles for this template -->
     <link href="custom-css/style.css" rel="stylesheet">
     <link href="custom-css/admin.css" rel="stylesheet">
+    
+    <style type="text/css">
+    	.card-body-icon {
+			position: absolute;
+			z-index: 0;
+			top: -10px;
+			right: -25px;
+			font-size: 5rem;
+			-webkit-transform: rotate(15deg);
+			-ms-transform: rotate(15deg);
+			transform: rotate(15deg);
+		}
+		
+		.card-header {
+			height: 12%;
+		}
+    </style>
 </head>
 <body>
 	<div class="container-fluid" id="wrapper">
@@ -89,15 +106,75 @@
 				
 				<!-- ROW START -->
 				<div class="row">
-					<div class="col-md-12 col-lg-8">
-						<div class="row" id="iconStatsRow">
-							<div class="col-lg-4 iconStats">asdsdf</div>
-							<div class="col-lg-4 iconStats">asd</div>
-							<div class="col-lg-4 iconStats">asd</div>
-						</div>
+					
+					<div class="col-lg-8">
+						<section class="row">
+							<div class="col-lg-12">
+								<div class="jumbotron">
+									<h1 class="mb-4">Hello, user!</h1>
+									<p class="lead">Welcome to the admin page of Win Radio PH.</p>		
+								</div>
+							</div>
+						</section>
+						
+						<!-- Card statistics start -->
+						<section class="row">
+							<div class="col-lg-4">
+								<div class="card card-inverse card-info">
+									<div class="card-header">
+										<div class="card-body-icon">
+						                  <i class="fa fa-fw fa-globe"></i>
+						                </div>126 Site Views <br />Today
+					                </div>
+									
+									<a href="#" class="card-footer text-white clearfix small z-1">
+						                <span class="float-left">View Details</span>
+						                <span class="float-right">
+						                  <i class="fa fa-angle-right"></i>
+						                </span>
+					              	</a>
+								</div>
+							</div>
+							
+							<div class="col-lg-4">
+								<div class="card card-inverse card-warning">
+									<div class="card-header">
+										<div class="card-body-icon">
+						                  <i class="fa fa-fw fa-tasks"></i>
+						                </div>2 User Activities<br /> Today
+					                </div>
+									
+									<a href="#" class="card-footer text-white clearfix small z-1">
+						                <span class="float-left">View Details</span>
+						                <span class="float-right">
+						                  <i class="fa fa-angle-right"></i>
+						                </span>
+					              	</a>
+								</div>
+							</div>
+							
+							<div class="col-lg-4">
+								<div class="card card-inverse card-success">
+									<div class="card-header">
+										<div class="card-body-icon">
+						                  <i class="fa fa-fw fa-globe"></i>
+						                </div>126 Site Views <br />Today
+					                </div>
+									
+									<a href="#" class="card-footer text-white clearfix small z-1">
+						                <span class="float-left">View Details</span>
+						                <span class="float-right">
+						                  <i class="fa fa-angle-right"></i>
+						                </span>
+					              	</a>
+								</div>
+							</div>
+						</section>
+						<!-- Card statistics end -->
 					</div>
-					 
-					<div class="col-md-12 col-lg-4">
+					
+					<!-- User activity start -->
+					<div class="col-lg-4">
 						<div class="card mb-4">
 							<div class="card-block">
 								<h3 class="card-title">Recent Activities</h3>
@@ -135,6 +212,7 @@
 							</div>
 						</div>
 					</div>
+					<!-- User activity end -->
 				</div>
 				<!-- ROW END -->
 				
@@ -161,9 +239,8 @@
     <script src="custom-js/custom.js"></script>
     <script>
 	window.onload = function () {
-
-		$('#modalChangePassword').modal({backdrop: 'static', keyboard: false})  
-		$('#modalChangePassword').modal('show');
+		//$('#modalChangePassword').modal({backdrop: 'static', keyboard: false})  
+		//$('#modalChangePassword').modal('show');
 	};
 	</script>
     

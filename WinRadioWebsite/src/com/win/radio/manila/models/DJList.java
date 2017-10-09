@@ -10,6 +10,8 @@ public class DJList {
 	private int			idDJ;
 	private String		djName;
 	private String		description;
+	private String 		codRegion;
+	
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -52,9 +54,6 @@ public class DJList {
 	}
 	public void setCodRegion(String codRegion) {
 		this.codRegion = codRegion;
-	}
-	private String 		codRegion;
-	
-	
+	}	
 	
 }

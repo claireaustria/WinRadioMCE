@@ -1,9 +1,6 @@
 package com.win.radio.manila.utilities;
 
 public interface AccountCommands {
-
-	String DS_SOURCE="java:comp/env/jdbc/WinRadioDB";
-	String CONNECTION_NOT_FOUND="Invalid connection. Unable to process request.";
 	
 	/* JSP SCRIPTS */
 	public String GET_ALL_USERS = "SELECT FORMAT(A.CREATE_DATE, 'MMM/dd/yyyy') AS CREATE_DATE, A.LAST_NAME, STAT.NAME AS 'ACCOUNT_STATUS', " + 
@@ -26,8 +23,11 @@ public interface AccountCommands {
 	public String GET_USERNAME = "SELECT USERNAME FROM ACCOUNT WHERE USERNAME = ? " +
 			"AND COD_REGION = '" + CodeUtil.COD_REGION_MNL + "'";
 	
+	public String GET_EMAIL = "SELECT EMAIL FROM ACCOUNT WHERE EMAIL = ? " +
+			"AND COD_REGION = '" + CodeUtil.COD_REGION_MNL + "'";
+	
 	public String ADD_ACCOUNT = "INSERT INTO ACCOUNT (CREATE_DATE, UPDATE_DATE, UPDATE_USER, COD_TYPE, " + 
-			"	USERNAME, PASSWORD, SCREEN_NAME, LAST_NAME, FIRST_NAME, GENDER, " + 
-			"	MOBILE_NO, EMAIL, COD_STATUS, COD_REGION, IND_CHANGE_PWD) VALUES (?, ?, 0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
+			"	USERNAME, PASSWORD, LAST_NAME, FIRST_NAME, GENDER, " + 
+			"	MOBILE_NO, EMAIL, COD_STATUS, COD_REGION, IND_CHANGE_PWD) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
 	
 }

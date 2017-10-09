@@ -19,7 +19,7 @@ public class AccountOperations implements AccountCommands  {
 		
 		try{
 			DataSource dataSource = 
-			(DataSource) InitialContext.doLookup(DS_SOURCE);
+			(DataSource) InitialContext.doLookup(CodeUtil.DS_SOURCE);
 			connection = dataSource.getConnection();
 		}catch (NamingException e){
 			e.printStackTrace();
@@ -101,32 +101,39 @@ public class AccountOperations implements AccountCommands  {
 		return rs;
 	}
 	
+	public static ResultSet getEmailIfExisting(String email) {
+		ResultSet rs = null;
+		try{
+	
+			PreparedStatement pstmt = getConnection().prepareStatement(GET_EMAIL);
+			pstmt.setString(1, email);
+			rs = pstmt.executeQuery();
+		}
+		catch(Exception ex)
+		{
+			ex.printStackTrace();
+		}
+		return rs;
+	}
+	
 	public static boolean addUser(AccountModel account){
 		try {
 			PreparedStatement pstmt = getConnection().prepareStatement(ADD_ACCOUNT);
 			pstmt.setDate(1, account.getCreateDate());
 			pstmt.setDate(2, account.getUpdateDate());
-			pstmt.setString(3, account.getCodType());
-			pstmt.setString(4, account.getUsername());
-			pstmt.setString(5, account.getPassword());
-			if (account.getCodType().equals(CodeUtil.COD_TYPE_DJ))
-			{
-				pstmt.setString(6, account.getScreenName());
-			} else {
-				pstmt.setString(6, account.getScreenName());
-			}
+			pstmt.setString(3, account.getUpdateUser());
+			pstmt.setString(4, account.getCodType());
+			pstmt.setString(5, account.getUsername());
+			pstmt.setString(6, account.getPassword());
 			pstmt.setString(7, account.getLastName());
 			pstmt.setString(8, account.getFirstName());
 			pstmt.setString(9, account.getGender());
 			pstmt.setString(10, account.getMobileNo());
 			pstmt.setString(11, account.getEmail());
 			pstmt.setString(12, account.getCodStatus());
-			pstmt.setString(13, CodeUtil.COD_REGION_MNL);
-			
-			
-			
+			pstmt.setString(13, account.getCodRegion());
 			pstmt.executeUpdate(); 
-		}		catch (SQLException sqle){
+		}	catch (SQLException sqle){
 			System.out.println("SQLException - addUser: " +sqle.getMessage());
 			return false;
 		}

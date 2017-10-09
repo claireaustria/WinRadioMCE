@@ -2,7 +2,7 @@ package com.win.radio.manila.models;
 
 import java.sql.Date;
 
-public class DJList {
+public class DJListModel {
 	
 	private Date 		createDate;
 	private Date 		updateDate;

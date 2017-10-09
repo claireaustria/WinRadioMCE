@@ -119,25 +119,25 @@
 									<div class="form-group row" style="display:none;" id="divScreenName">
 									  <label for="example-text-input" class="col-3 col-form-label">Screen Name</label>
 									  <div class="col-9">
-									    <input class="form-control" name="ScreenName" type="text" placeholder="DJ Name">
+									    <input class="form-control" name="screenName" type="text" placeholder="DJ Name">
 									  </div>
 									</div>
 									<div class="form-group row">
 									  <label for="example-email-input" class="col-3 col-form-label">Email</label>
 									  <div class="col-9">
-									    <input class="form-control" name="email" type="email" required="required" placeholder="winradio@example.com" id="example-email-input">
+									    <input class="form-control" name="email" type="email" required="required" placeholder="winradio@example.com" id="email" onchange="checkIfEmailExists()">
 									  </div>
 									</div>
 									<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">Username</label>
 									  <div class="col-9">
-									    <input class="form-control" id="username" name="username" type="text" placeholder="janedoe" required="required" onchange="checkIfUsernameExists()" onblur="checkIfUsernameExists()">
+									    <input class="form-control" id="username" name="username" type="text" placeholder="janedoe" required="required" onchange="checkIfUsernameExists()">
 									  </div>
 									</div>
 									<div class="form-group row">
 									  <label for="example-tel-input" class="col-3 col-form-label">Mobile No.</label>
 									  <div class="col-9">
-									    <input class="form-control" name="mobileNo" type="number" required="required" placeholder="(09xx)xxxxxx" maxlength = "11"
+									    <input class="form-control" name="mobileNo" type="number" required="required" placeholder="(09xx)xxxxxx" pattern="[0-9]{}" title="11-digit mobile no" maxlength = "11"
 									    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" id="example-tel-input">
 									  </div>
 									</div>
@@ -175,16 +175,41 @@
     
     <script type="text/javascript">
 		function checkIfUsernameExists(){
-			var username=$("#username").val();// value in field email
+			var username=$("#username").val();// value in field username
 			$.ajax({
-	            url:'${pageContext.request.contextPath}/checkIfUsernameExists',
-	            data:{username: username},
+	            url:'${pageContext.request.contextPath}/checkIfValueExists',
+	            data:{username: username, email: '0'},
 	            type:'get',
 	            cache:false,
 	            success:function(data){
 	            	if ($.trim(data)) {
 	            		var usernameField =  $('#username').get(0);    
 	            		usernameField.setCustomValidity(data);
+	            	} else {
+	            		var usernameField =  $('#username').get(0);   
+	            		usernameField.setCustomValidity('');
+	            	}
+	            },
+	            error:function(){
+	              alert('error');
+	            }
+			});
+		}
+		
+		function checkIfEmailExists(){
+			var email=$("#email").val();// value in field email
+			$.ajax({
+	            url:'${pageContext.request.contextPath}/checkIfValueExists',
+	            data:{username: '0', email: email},
+	            type:'get',
+	            cache:false,
+	            success:function(data){
+	            	if ($.trim(data)) {
+	            		var emailField =  $('#email').get(0);    
+	            		emailField.setCustomValidity(data);
+	            	} else {
+	            		var emailField =  $('#email').get(0);   
+	            		emailField.setCustomValidity('');
 	            	}
 	            },
 	            error:function(){

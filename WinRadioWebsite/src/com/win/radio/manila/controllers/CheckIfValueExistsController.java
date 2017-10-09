@@ -17,11 +17,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.win.radio.manila.utilities.AccountOperations;
 import com.win.radio.manila.utilities.ConnectionUtil;
 
-@WebServlet("/checkIfUsernameExists")
-public class CheckIfUsernameExistsController extends HttpServlet {
+@WebServlet("/checkIfValueExists")
+public class CheckIfValueExistsController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
  
-    public CheckIfUsernameExistsController() {
+    public CheckIfValueExistsController() {
         super();
     }
 
@@ -33,15 +33,25 @@ public class CheckIfUsernameExistsController extends HttpServlet {
 		PrintWriter rspns = response.getWriter();
 		String responseMessage = "";
 		String username = request.getParameter("username");
+		String email = request.getParameter("email");
 	    
 		ResultSet resultSet = null;
 		
 		try {
-			new AccountOperations();
-			resultSet = AccountOperations.getUsernameIfExisting(username);
-			
-			while (resultSet.next()) {
-				responseMessage = "Username already taken.";
+			if (!username.equals("0")) {
+				new AccountOperations();
+				resultSet = AccountOperations.getUsernameIfExisting(username);
+				
+				while (resultSet.next()) {
+					responseMessage = "Username already taken.";
+				}
+			} else if (!email.equals("0")) {
+				new AccountOperations();
+				resultSet = AccountOperations.getEmailIfExisting(email);
+				
+				while (resultSet.next()) {
+					responseMessage = "Email already taken.";
+				}
 			}
 			
 			rspns.println(responseMessage);

@@ -12,7 +12,6 @@ public class AccountModel {
 	private String username;
 	private String email;
 	private String password;
-	private String screenName;
 	private String lastName;
 	private String firstName;
 	private String gender;
@@ -68,12 +67,6 @@ public class AccountModel {
 	}
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	public String getScreenName() {
-		return screenName;
-	}
-	public void setScreenName(String screenName) {
-		this.screenName = screenName;
 	}
 	public String getLastName() {
 		return lastName;

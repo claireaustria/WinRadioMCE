@@ -20,8 +20,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.win.radio.manila.utilities.AccountOperations;
 import com.win.radio.manila.utilities.CodeUtil;
+import com.win.radio.manila.utilities.DJListOperations;
 import com.win.radio.manila.utilities.SQLOperations;
+import com.win.radio.manila.utilities.TransactionLogOperations;
 import com.win.radio.manila.models.AccountModel;
+import com.win.radio.manila.models.DJListModel;
 
 @WebServlet("/createUserController")
 public class CreateUserController extends HttpServlet {
@@ -39,9 +42,9 @@ public class CreateUserController extends HttpServlet {
 		AccountModel account = new AccountModel();
 		account.setCreateDate(currentDateTime);
 		account.setUpdateDate(currentDateTime);
+		account.setUpdateUser("0");
 		account.setCodType(request.getParameter("codType"));
 		account.setEmail(request.getParameter("email"));
-		account.setScreenName(request.getParameter("screenName"));
 		account.setLastName(request.getParameter("lastName"));
 		account.setFirstName(request.getParameter("firstName"));
 		account.setGender(request.getParameter("gender"));
@@ -49,11 +52,25 @@ public class CreateUserController extends HttpServlet {
 		account.setUsername(request.getParameter("username"));
 		account.setPassword(String.valueOf(saltString.hashCode()));
 		account.setCodStatus(CodeUtil.COD_STATUS_ACTIVE);
+		account.setCodRegion(CodeUtil.COD_REGION_MNL);
 		
 		try{
 			new AccountOperations();
-			
 			if(AccountOperations.addUser(account)) {
+				
+				if (account.getCodType().equals(CodeUtil.COD_TYPE_DJ)) {
+					DJListModel dj = new DJListModel();
+					dj.setCreateDate(currentDateTime);
+					dj.setUpdateDate(currentDateTime);
+					dj.setUpdateUser("0");
+					dj.setDjName(request.getParameter("screenName"));
+					dj.setDescription("-");
+					dj.setCodRegion(CodeUtil.COD_REGION_MNL);
+					
+					new DJListOperations();
+					DJListOperations.addNewDJ(dj);
+				}
+				
 				sendInitialEmail(account, saltString);
 			
 				/*
@@ -70,6 +87,9 @@ public class CreateUserController extends HttpServlet {
 				 * */
 				
 				response.sendRedirect("manila/adminUserMaintenance.jsp");
+				
+				new TransactionLogOperations();
+				TransactionLogOperations.addTransactionLog(0, "addUser", "added a new user.", CodeUtil.COD_REGION_MNL);
 			}
 		}
 		catch(Exception e)

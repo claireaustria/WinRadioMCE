@@ -99,10 +99,10 @@
 									</div>
 									
 									<div class="form-group row">
-										<label class="col-3 col-form-label" for="message">Content</label>
+										<label class="col-3 col-form-label" for="question">Content</label>
 										
 										<div class="col-9">
-											<textarea class="form-control" id="message" name="message" 
+											<textarea class="form-control" id="message" name="question" 
 											placeholder="" required="required" rows="5"></textarea>
 										</div>
 									</div>

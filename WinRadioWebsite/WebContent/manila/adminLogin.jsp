@@ -10,6 +10,7 @@
   	<link rel="stylesheet" href="../fonts/fonts.css">
   	<link rel="stylesheet" href="custom-css/login-style.css">
   	
+  	
 </head>
 
 <body>
@@ -95,6 +96,13 @@
 	 	$('#alertPassword').fadeIn(500);  
     }
 
+    </script>
+    
+    <!-- Back Button browser will refresh the page -->
+  	<script>
+    
+  		history.forward();
+	
     </script>
 
 </body>

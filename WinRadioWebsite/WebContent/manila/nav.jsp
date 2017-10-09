@@ -5,12 +5,12 @@
 				
 	<ul class="nav nav-pills flex-column sidebar-nav">
 		<li class="nav-item"><a class="nav-link active" href="admin.jsp"><em class="fa fa-dashboard"></em> Dashboard <span class="sr-only">(current)</span></a></li>
-		<li class="nav-item"><a class="nav-link" href="admin.jsp"><em class="fa fa-home"></em> Home Page</a></li>
-		<li class="nav-item"><a class="nav-link" href="admin.jsp"><em class="fa fa-film"></em> Program Sched</a></li>
-		<li class="nav-item"><a class="nav-link" href="admin.jsp"><em class="fa fa-exclamation"></em> Promotions </a></li>
-		<li class="nav-item"><a class="nav-link" href="admin.jsp"><em class="fa fa-file-audio-o"></em> Episodes </a></li>
+		<li class="nav-item"><a class="nav-link" href="#"><em class="fa fa-home"></em> Home Page</a></li>
+		<li class="nav-item"><a class="nav-link" href="#"><em class="fa fa-film"></em> Program Sched</a></li>
+		<li class="nav-item"><a class="nav-link" href="#"><em class="fa fa-exclamation"></em> Promotions </a></li>
+		<li class="nav-item"><a class="nav-link" href="#"><em class="fa fa-file-audio-o"></em> Episodes </a></li>
 		<li class="nav-item"><a class="nav-link" href="adminQOTD.jsp"><em class="fa fa-quote-left"></em> QOTD </a></li>
-		<li class="nav-item"><a class="nav-link" href="admin.jsp"><em class="fa fa-pencil"></em> DJ Blogs </a> </li>
+		<li class="nav-item"><a class="nav-link" href="#"><em class="fa fa-pencil"></em> DJ Blogs </a> </li>
 		<li class="nav-item"><a class="nav-link" href="adminAboutUs.jsp"><em class="fa fa-question"></em> About Us </a></li>
         <li class="nav-item"><a class="nav-link" href="adminUserMaintenance.jsp"><em class="fa fa-wrench"></em> User Maintenance</a></li>	
 	</ul>

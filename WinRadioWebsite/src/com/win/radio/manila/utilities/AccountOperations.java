@@ -121,7 +121,7 @@ public class AccountOperations implements AccountCommands  {
 			PreparedStatement pstmt = getConnection().prepareStatement(ADD_ACCOUNT);
 			pstmt.setDate(1, account.getCreateDate());
 			pstmt.setDate(2, account.getUpdateDate());
-			pstmt.setString(3, account.getUpdateUser());
+			pstmt.setInt(3, account.getUpdateUser());
 			pstmt.setString(4, account.getCodType());
 			pstmt.setString(5, account.getUsername());
 			pstmt.setString(6, account.getPassword());
@@ -135,6 +135,22 @@ public class AccountOperations implements AccountCommands  {
 			pstmt.executeUpdate(); 
 		}	catch (SQLException sqle){
 			System.out.println("SQLException - addUser: " +sqle.getMessage());
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean changePassword(AccountModel account) {
+		try {
+			PreparedStatement pstmt = getConnection().prepareStatement(CHANGE_PASSWORD);
+			pstmt.setDate(1, account.getUpdateDate());
+			pstmt.setInt(2, account.getUpdateUser());
+			pstmt.setString(3, account.getPassword());
+			pstmt.setInt(4, account.getIndChangePwd());
+			pstmt.setInt(5, account.getIdAccount());	
+			pstmt.executeUpdate(); 
+		}	catch (SQLException sqle){
+			System.out.println("SQLException - changePassword: " +sqle.getMessage());
 			return false;
 		}
 		return true;

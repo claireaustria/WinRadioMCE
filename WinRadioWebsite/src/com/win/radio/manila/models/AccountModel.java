@@ -6,7 +6,7 @@ public class AccountModel {
 	
 	private Date createDate;
 	private Date updateDate;
-	private String updateUser;
+	private int updateUser;
 	private int idAccount;
 	private String codType;
 	private String username;
@@ -44,10 +44,10 @@ public class AccountModel {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-	public String getUpdateUser() {
+	public int getUpdateUser() {
 		return updateUser;
 	}
-	public void setUpdateUser(String updateUser) {
+	public void setUpdateUser(int updateUser) {
 		this.updateUser = updateUser;
 	}
 	public int getIdAccount() {
@@ -110,7 +110,7 @@ public class AccountModel {
 	public void setIndChangePwd(int indChangePwd) {
 		this.indChangePwd = indChangePwd;
 	}
-	
+
 	
 	
 	

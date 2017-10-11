@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.win.radio.manila.utilities.AccountOperations;
 import com.win.radio.manila.utilities.CodeUtil;
@@ -36,13 +37,17 @@ public class CreateUserController extends HttpServlet {
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		PrintWriter rspns = response.getWriter();
 		String saltString = getSaltString(8);
+		
+		HttpSession session = request.getSession();
+		int idAccount = (int) session.getAttribute("idAccount");
 				
 		Date currentDateTime = new java.sql.Date(new java.util.Date().getTime());
 		AccountModel account = new AccountModel();
 		account.setCreateDate(currentDateTime);
 		account.setUpdateDate(currentDateTime);
-		account.setUpdateUser("0");
+		account.setUpdateUser(idAccount);
 		account.setCodType(request.getParameter("codType"));
 		account.setEmail(request.getParameter("email"));
 		account.setLastName(request.getParameter("lastName"));
@@ -62,7 +67,7 @@ public class CreateUserController extends HttpServlet {
 					DJListModel dj = new DJListModel();
 					dj.setCreateDate(currentDateTime);
 					dj.setUpdateDate(currentDateTime);
-					dj.setUpdateUser("0");
+					dj.setUpdateUser(idAccount);
 					dj.setDjName(request.getParameter("screenName"));
 					dj.setDescription("-");
 					dj.setCodRegion(CodeUtil.COD_REGION_MNL);
@@ -72,24 +77,12 @@ public class CreateUserController extends HttpServlet {
 				}
 				
 				sendInitialEmail(account, saltString);
+
+				rspns.println("success");
+				rspns.close();
 			
-				/*
-				 * Use for alert display for successful transaction
-				 * 
-				//PrintWriter rspns = response.getWriter();
-				RequestDispatcher rd = null;
-				//rspns.println("<div class=\"alert bg-success\" role=\"alert\"><em class=\"fa fa-check-circle mr-2\"></em> Account successfully created. <a href=\"#\" class=\"float-right\"><em class=\"fa fa-remove\"></em></a></div>");
-				rd = request.getRequestDispatcher("manila/adminUserMaintenance.jsp");
-				request.setAttribute("isSuccess", "success");
-				rd.include(request, response);
-				//rspns.close();
-				 * 
-				 * */
-				
-				response.sendRedirect("manila/adminUserMaintenance.jsp");
-				
 				new TransactionLogOperations();
-				TransactionLogOperations.addTransactionLog(0, "addUser", "added a new user.", CodeUtil.COD_REGION_MNL);
+				TransactionLogOperations.addTransactionLog(idAccount, "addUser", "added a new user.", CodeUtil.COD_REGION_MNL);
 			}
 		}
 		catch(Exception e)
@@ -114,7 +107,7 @@ public class CreateUserController extends HttpServlet {
         return saltStr;
     }
 	
-	protected void sendInitialEmail(AccountModel account, String saltString) {
+	protected boolean sendInitialEmail(AccountModel account, String saltString) {
 
 		// Sender's email ID needs to be mentioned
 		String from = CodeUtil.DEFAULT_FROM_EMAIL;
@@ -165,8 +158,11 @@ public class CreateUserController extends HttpServlet {
 			transport.connect(host, from, pass);
 			transport.sendMessage(message, message.getAllRecipients());
 			transport.close();
+			
+			return true;
 	   }catch (MessagingException mex) {
 	      mex.printStackTrace();
+	      return false;
 	   }
        
 	}

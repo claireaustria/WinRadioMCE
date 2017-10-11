@@ -73,7 +73,7 @@
 					    <div class="modal-content">
 					      <div class="modal-header">
 					        <h5 class="modal-title" id="exampleModalLabel">Change password:</h5>
-					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					        <button type="button" id="btnModalClose" class="close" style="display:none;" data-dismiss="modal" aria-label="Close">
 					          <span aria-hidden="true">&times;</span>
 					        </button>
 					      </div>
@@ -81,16 +81,25 @@
 					        <form>
 					          <div class="form-group">
 					            <label for="recipient-name" class="form-control-label">New password:</label>
-					            <input type="text" class="form-control" id="newPassword1" name="newPassword1" required="required">
+					            <input type="password" class="form-control" id="password1" name="password1" required="required">
 					          </div>
 					          <div class="form-group">
 					            <label for="message-text" class="form-control-label">Enter new password again:</label>
-					            <input type="text" class="form-control" id="newPassword2" name="newPassword2" required="required">
+					            <input type="password" class="form-control" id="password2" name="password2" required="required">
+					          </div>
+					          <div class="form-group">
+					            <label for="message-text" id="diffPwdLabel" class="form-control-label" style="display: none; color:red;">Both passwords should be the same.</label>
+					          </div>
+					          <div class="form-group">
+					            <label for="message-text" id="lblChangePwdSuccess" class="form-control-label" style="display: none; color:green;">Password changed successfully.</label>
+					          </div>
+					          <div class="form-group">
+					            <label for="message-text" id="lblError" class="form-control-label" style="display: none; color:red;">Something went wrong, please try again.</label>
 					          </div>
 					        </form>
 					      </div>
 					      <div class="modal-footer">
-					        <button type="button" class="btn btn-primary">Submit</button>
+					        <button type="button" class="btn btn-primary" onclick="changePassword()">Submit</button>
 					      </div>
 					    </div>
 					 </div>
@@ -236,9 +245,40 @@
     <script src="custom-js/custom.js"></script>
     <script>
 	window.onload = function () {
-		$('#modalChangePassword').modal({backdrop: 'static', keyboard: false})  
+		$('#modalChangePassword').modal({backdrop: 'static', keyboard: false});
 		$('#modalChangePassword').modal('show');
 	};
+	
+	function changePassword() {
+		var password1=$("#password1").val();
+		var password2=$("#password2").val();
+		var diffPwdLabel = document.getElementById('diffPwdLabel');
+		
+		if (password1 != password2) {
+			diffPwdLabel.style.display = "block";
+		} else {
+			diffPwdLabel.style.display = "none";
+			
+			$.ajax({
+	            url:'${pageContext.request.contextPath}/changePasswordController',
+	            data:{password1: password1, password2: password2},
+	            type:'post',
+	            cache:false,
+	            success:function(data){
+	            	if ($.trim(data) == 'success') {
+	            		document.getElementById('lblChangePwdSuccess').style.display = "block";
+	            		document.getElementById('btnModalClose').style.display = "block";
+	            	} else if ($.trim(data) == 'fail') {
+	            		var diffPwdLabel = document.getElementById('lblError');
+	            		diffPwdLabel.style.display = "block";
+	            	}
+	            },
+	            error:function(){
+	              alert('error');
+	            }
+			});
+		}
+	}
 	</script>
     
 	  </body>

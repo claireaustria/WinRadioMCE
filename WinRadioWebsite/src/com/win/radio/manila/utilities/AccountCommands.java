@@ -30,4 +30,7 @@ public interface AccountCommands {
 			"	USERNAME, PASSWORD, LAST_NAME, FIRST_NAME, GENDER, " + 
 			"	MOBILE_NO, EMAIL, COD_STATUS, COD_REGION, IND_CHANGE_PWD) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)";
 	
+	public String CHANGE_PASSWORD = "UPDATE ACCOUNT " + 
+			"SET UPDATE_DATE = ?, UPDATE_USER = ?, PASSWORD = ?, IND_CHANGE_PWD = ? " + 
+			"WHERE ID_ACCOUNT = ?";
 }

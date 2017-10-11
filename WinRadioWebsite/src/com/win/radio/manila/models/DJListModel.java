@@ -6,7 +6,7 @@ public class DJListModel {
 	
 	private Date 		createDate;
 	private Date 		updateDate;
-	private String 		updateUser;
+	private int 		updateUser;
 	private int			idDJ;
 	private String		djName;
 	private String		description;
@@ -24,13 +24,6 @@ public class DJListModel {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-	public String getUpdateUser() {
-		return updateUser;
-	}
-	public void setUpdateUser(String updateUser) {
-		this.updateUser = updateUser;
-	}
-	
 	public int getIdDJ() {
 		return idDJ;
 	}
@@ -54,6 +47,12 @@ public class DJListModel {
 	}
 	public void setCodRegion(String codRegion) {
 		this.codRegion = codRegion;
+	}
+	public int getUpdateUser() {
+		return updateUser;
+	}
+	public void setUpdateUser(int updateUser) {
+		this.updateUser = updateUser;
 	}	
 	
 }

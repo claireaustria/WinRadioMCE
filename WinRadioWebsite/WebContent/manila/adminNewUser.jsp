@@ -56,31 +56,51 @@
 					</div>
 				</div>
 				
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="alert bg-success" id="alertAcctCreationSuccess" style="display:none;" role="alert">
+							<em class="fa fa-check-circle mr-2"></em> Account creation successful!
+							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertAcctCreationSuccess')"></em></a>
+						</div>
+						<div class="alert bg-danger" id="alertAcctCreationFail" style="display:none;" role="alert">
+							<em class="fa fa-minus-circle mr-2"></em> Something went wrong, please try again. 
+							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertAcctCreationFail')"></em></a>
+						</div>
+					</div>
+				</div>
 				
-				<!-- Row start: table -->
+				
+				<!-- Row start: create new user form -->
 				<div class="row justify-content-md-center">
 					<div class="col-lg-8">
 						<div class="card">
 							<div class="card-block">
 								<h3 class="card-title">Create a new user</h3>
 								
-								<form id="formNewUser" class="form" method="post" action="${pageContext.request.contextPath}/createUserController">
+								<form id="formNewUser" class="form">
+				      				<center><div class="form-group row">
+									  <label id="lblMissingField" class="col-12 col-form-label" style="color:red; display:none;">Please fill out all fields.</label>
+									  <label id="lblTakenEmail" class="col-12 col-form-label" style="color:red; display:none;">Email is already taken.</label>
+									  <label id="lblTakenUsername" class="col-12 col-form-label" style="color:red; display:none;">Username is already taken.</label>
+									  <label id="lblInvalidMobileNo" class="col-12 col-form-label" style="color:red;display:none;">Please enter an 11-digit mobile no.</label>
+									</div>
+									</center>
 				      				<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">First Name</label>
 									  <div class="col-9">
-									    <input class="form-control" name="firstName" type="text" placeholder="Jane" required="required">
+									    <input class="form-control" id="firstName" name="firstName" type="text" placeholder="Jane" required="required">
 									  </div>
 									</div>
 									<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">Last Name</label>
 									  <div class="col-9">
-									    <input class="form-control" name="lastName" type="text" placeholder="Doe" required="required">
+									    <input class="form-control" id="lastName" name="lastName" type="text" placeholder="Doe" required="required">
 									  </div>
 									</div>
 									<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">Gender</label>
 									  <div class="col-9">
-									  	<select class="form-control" name="gender">
+									  	<select class="form-control" id="gender" name="gender">
 									  		<option value="Female">Female</option>
 									  		<option value="Male">Male</option>
 									    </select>
@@ -89,7 +109,7 @@
 		    						<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">Account Type</label>
 									  <div class="col-9">
-									  	<select class="form-control" id="dropdownUserProfiles" name="codType">
+									  	<select class="form-control" id="dropdownUserProfiles" name="codType" onblur="toggleScreenNameDiv()">
 									  		<%
 											try{	
 											ResultSet rs = new AccountOperations().getAccountTypes();
@@ -109,33 +129,32 @@
 									<div class="form-group row" style="display:none;" id="divScreenName">
 									  <label for="example-text-input" class="col-3 col-form-label">Screen Name</label>
 									  <div class="col-9">
-									    <input class="form-control" name="screenName" type="text" placeholder="DJ Name">
+									    <input class="form-control" id="screenName" name="screenName" type="text" placeholder="DJ Name">
 									  </div>
 									</div>
 									<div class="form-group row">
 									  <label for="example-email-input" class="col-3 col-form-label">Email</label>
 									  <div class="col-9">
-									    <input class="form-control" name="email" type="email" required="required" placeholder="winradio@example.com" id="email" onchange="checkIfEmailExists()">
+									    <input class="form-control" id="email" name="email" type="email" required="required" placeholder="winradio@example.com" id="email">
 									  </div>
 									</div>
 									<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">Username</label>
 									  <div class="col-9">
-									    <input class="form-control" id="username" name="username" type="text" placeholder="janedoe" required="required" onchange="checkIfUsernameExists()">
+									    <input class="form-control" id="username" name="username" type="text" placeholder="janedoe" required="required">
 									  </div>
 									</div>
 									<div class="form-group row">
 									  <label for="example-tel-input" class="col-3 col-form-label">Mobile No.</label>
 									  <div class="col-9">
-									    <input class="form-control" name="mobileNo" type="number" required="required" placeholder="(09xx)xxxxxx" pattern="[0-9]{}" title="11-digit mobile no" maxlength = "11"
-									    oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" id="example-tel-input">
+									    <input class="form-control" id="mobileNo" name="mobileNo" type="number" required="required" placeholder="(09xx)xxxxxx">
 									  </div>
 									</div>
 									
 									<!-- Form actions -->
 									<div class="form-group">
 										<div class="col-12 widget-right no-padding">
-											<button type="submit" class="btn btn-primary btn-md float-right">Submit</button>
+											<button type="button" class="btn btn-primary btn-md float-right" onclick="addNewAccount()">Submit</button>
 										</div>
 									</div>
 								</form>
@@ -143,7 +162,7 @@
 						</div>
 					</div>
 				</div>
-				<!-- Row end: table -->
+				<!-- Row end: create new user form -->
 				
 				<br />
 					
@@ -173,11 +192,9 @@
 	            cache:false,
 	            success:function(data){
 	            	if ($.trim(data)) {
-	            		var usernameField =  $('#username').get(0);    
-	            		usernameField.setCustomValidity(data);
-	            	} else {
-	            		var usernameField =  $('#username').get(0);   
-	            		usernameField.setCustomValidity('');
+	            		return 'error';
+	            	} else {  
+	            		return 'true';
 	            	}
 	            },
 	            error:function(){
@@ -195,17 +212,139 @@
 	            cache:false,
 	            success:function(data){
 	            	if ($.trim(data)) {
-	            		var emailField =  $('#email').get(0);    
-	            		emailField.setCustomValidity(data);
+	            		return 'error';
 	            	} else {
-	            		var emailField =  $('#email').get(0);   
-	            		emailField.setCustomValidity('');
+	            		return 'true';
 	            	}
 	            },
 	            error:function(){
 	              alert('error');
 	            }
 			});
+		}
+		
+		function checkIfValidMobileNo() {
+			var mobileNo=$("#mobileNo").val();
+			if (mobileNo.length != 11) {
+				   return 'error';
+			}
+		}
+		
+	    function validateForm()
+	    {
+	    	var firstName=$("#firstName").val();
+	    	var lastName=$("#lastName").val();
+	    	var screenName=$("#screenName").val();
+	    	var email=$("#email").val();
+	    	var username=$("#username").val();
+	    	var mobileNo=$("#mobileNo").val();
+	    	var acctType=$("#dropdownUserProfiles").val();
+	    	
+	    	if (acctType == 'PROFILE003') {
+	    		if ($.trim(firstName) == '' || $.trim(lastName) == '' || $.trim(screenName) == '' || $.trim(email) == '' || $.trim(username) == '' || $.trim(mobileNo) == '') {
+	    			return false;
+	    		}
+	    	} else {
+	    		if ($.trim(firstName) == '' || $.trim(lastName) == '' || $.trim(email) == '' || $.trim(username) == '' || $.trim(mobileNo) == '') {
+	    			return false;
+	    		}
+	    	}
+	    	
+	    	return true;
+	    }
+		
+		function addNewAccount() {
+			document.getElementById('lblTakenEmail').style.display = "none";
+			document.getElementById('lblTakenUsername').style.display = "none";
+			document.getElementById('lblInvalidMobileNo').style.display = "none";
+			document.getElementById('lblMissingField').style.display = "none";
+			
+			if (!validateForm()) {
+				document.getElementById('lblTakenEmail').style.display = "none";
+				document.getElementById('lblTakenUsername').style.display = "none";
+				document.getElementById('lblInvalidMobileNo').style.display = "none";
+				document.getElementById('lblMissingField').style.display = "block";
+				return false;
+			}
+			
+			var email=$("#email").val();// value in field email
+			$.ajax({
+	            url:'${pageContext.request.contextPath}/checkIfValueExists',
+	            data:{username: '0', email: email},
+	            type:'get',
+	            cache:false,
+	            success:function(data){
+	            	if ($.trim(data)) {
+	            		document.getElementById('lblTakenEmail').style.display = "block";
+	            		return;
+	            	} 
+	            },
+	            error:function(){
+	              alert('error');
+	            }
+			});
+			
+			var username=$("#username").val();// value in field username
+			$.ajax({
+	            url:'${pageContext.request.contextPath}/checkIfValueExists',
+	            data:{username: username, email: '0'},
+	            type:'get',
+	            cache:false,
+	            success:function(data){
+	            	if ($.trim(data)) {
+	            		document.getElementById('lblTakenUsername').style.display = "block";
+	            	}
+	            },
+	            error:function(){
+	              alert('error');
+	            }
+			});
+			if(checkIfValidMobileNo() == 'error') {
+				document.getElementById('lblMissingField').style.display = "none";
+				document.getElementById('lblTakenEmail').style.display = "none";
+				document.getElementById('lblTakenUsername').style.display = "none";
+				document.getElementById('lblInvalidMobileNo').style.display = "block";
+				return false;
+			}
+			
+			var firstName=$("#firstName").val();
+	    	var lastName=$("#lastName").val();
+	    	var gender=$("#gender").val();
+	    	var acctType=$("#dropdownUserProfiles").val();
+	    	var screenName=$("#screenName").val();
+	    	var email=$("#email").val();
+	    	var username=$("#username").val();
+	    	var mobileNo=$("#mobileNo").val();
+			
+			$.ajax({
+	            url:'${pageContext.request.contextPath}/createUserController',
+	            data:{firstName: firstName, lastName: lastName, gender: gender, codType: acctType, screenName: screenName, email: email, username: username, mobileNo: mobileNo},
+	            type:'post',
+	            cache:false,
+	            success:function(data){
+	            	if ($.trim(data) == 'success') {
+	            		document.getElementById('alertAcctCreationSuccess').style.display = "block";
+	            	} else {
+	            		document.getElementById('alertAcctCreationFail').style.display = "block";
+	            	}
+	            },
+	            error:function(){
+	              alert('error');
+	            }
+			});
+		}
+		
+		$('#dropdownUserProfiles').on('change',function(){
+			   var selection = $(this).val();
+			   if (selection == 'PROFILE003') {
+			       $('#divScreenName').show();
+			   } else {
+				   $('#divScreenName').hide();
+			   }
+		});
+		
+		function closeAlert(idAlert) {
+			document.getElementById(idAlert).style.display = "none";
 		}
 	</script>
    

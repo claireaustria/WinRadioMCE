@@ -5,12 +5,12 @@
 	<div class="username mt-1">
 		<h4 class="mb-1"><%=session.getAttribute("userName")%></h4>
 		
-		<h6 class="text-muted">Super Admin</h6>
+		<h6 class="text-muted"><%=session.getAttribute("codType")%></h6>
 	</div>
 	</a>
 	
 	<div class="dropdown-menu dropdown-menu-right" style="margin-right: 1.5rem;" aria-labelledby="dropdownMenuLink"><a class="dropdown-item" href="#"><em class="fa fa-user-circle mr-1"></em> View Profile</a>
-		<a class="dropdown-item" href="#"><em class="fa fa-power-off mr-1"></em> Logout</a>
+		<a class="dropdown-item" href="logout.html"><em class="fa fa-power-off mr-1"></em> Logout</a>
 	</div>
 </div>
 						

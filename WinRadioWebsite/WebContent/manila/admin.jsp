@@ -45,6 +45,23 @@
     </style>
 </head>
 <body>
+
+	<!-- Prevent Access to the page without Logging in -->
+	<%
+		try{
+			String userName = (String) session.getAttribute("userName");
+			if (null == userName) {
+			   request.setAttribute("Error", "Session has ended.  Please login.");
+			   RequestDispatcher rd = request.getRequestDispatcher("adminLogin.jsp");
+			   rd.forward(request, response);
+			}
+		}catch(Exception e){
+			System.out.print(e.getMessage());
+			e.printStackTrace();
+		}
+	%>
+	<!-- End of Access Restriction -->
+	
 	<div class="container-fluid" id="wrapper">
 		<div class="row">
 			
@@ -63,6 +80,7 @@
 				 
 				 <!-- Check of IndexChangePWD start-->
 				 <%
+				 try{
 				 	int indChangePwd = (Integer)session.getAttribute("indChangePwd");
 				 	if(indChangePwd == 1){
 				 %>
@@ -106,7 +124,13 @@
 				</div>
 				<!-- Modal end -->
 				
-				<% } %>
+				<%	}
+				 }
+				 catch(Exception e){
+					 System.out.print(e.getMessage());
+					 e.printStackTrace();
+				 }
+				%>
 				<!--Check of IndexChangePWD end-->
 		
 				

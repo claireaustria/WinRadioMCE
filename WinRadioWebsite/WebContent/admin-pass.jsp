@@ -16,9 +16,6 @@
 	<!-- Custom fonts for this template -->
 	<link href="core-css/font-awesome.min.css" rel="stylesheet" type="text/css">
 	  
-    <!-- google font -->
-    <link href='http://fonts.googleapis.com/css?family=Cabin:400,700' rel='stylesheet' type='text/css'>
-
     <!-- custom css -->
     <link href="manila/custom-css/loading-page.css" rel="stylesheet"/>
     

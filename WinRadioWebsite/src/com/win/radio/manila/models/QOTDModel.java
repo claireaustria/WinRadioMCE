@@ -6,7 +6,7 @@ public class QOTDModel {
 	
 	private Date 		createDate;
 	private Date 		updateDate;
-	private String 		updateUser;
+	private int 		updateUser;
 	private int 		idQuestion;
 	private String 		question;
 	private int			postOwner;
@@ -24,10 +24,10 @@ public class QOTDModel {
 	public void setUpdateDate(Date updateDate) {
 		this.updateDate = updateDate;
 	}
-	public String getUpdateUser() {
+	public int getUpdateUser() {
 		return updateUser;
 	}
-	public void setUpdateUser(String updateUser) {
+	public void setUpdateUser(int updateUser) {
 		this.updateUser = updateUser;
 	}
 	public int getIdQuestion() {

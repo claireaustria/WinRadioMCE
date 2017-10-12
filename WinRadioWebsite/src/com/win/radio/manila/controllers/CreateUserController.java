@@ -77,12 +77,12 @@ public class CreateUserController extends HttpServlet {
 				}
 				
 				sendInitialEmail(account, saltString);
-
-				rspns.println("success");
-				rspns.close();
 			
 				new LogHelper();
 				LogHelper.insertTransactionLogs(idAccount, "addUser", "added a new user.", CodeUtil.COD_REGION_MNL);
+
+				rspns.println("success");
+				rspns.close();
 			}
 		}
 		catch(Exception e)

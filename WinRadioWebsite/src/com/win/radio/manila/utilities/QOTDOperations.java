@@ -122,7 +122,7 @@ public class QOTDOperations implements QOTDCommands  {
 			PreparedStatement pstmt = getConnection().prepareStatement(ADD_QUESTION);
 			pstmt.setDate(1, question.getCreateDate());
 			pstmt.setDate(2, question.getUpdateDate());
-			pstmt.setString(3, question.getUpdateUser());
+			pstmt.setInt(3, question.getUpdateUser());
 			pstmt.setString(4, question.getQuestion());
 			pstmt.setInt(5, question.getPostOwner());
 			pstmt.setString(6, question.getCodRegion());

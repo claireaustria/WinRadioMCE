@@ -13,7 +13,7 @@ public class LogHelper {
 	 * Eg: account creation/modification, blog posting
 	 * 
 	 * */
-	public static void insertTransactionLogs(int idAccount, String strTransactionName, String strDescription) {
+	public static void insertTransactionLogs(int idAccount, String strTransactionName, String strDescription, String codRegion) {
 				
 		TransactionLogModel transactionLog = new TransactionLogModel();
 		transactionLog.setCreateDate(currentDateTime);
@@ -21,7 +21,7 @@ public class LogHelper {
 		transactionLog.setUpdateUser(Integer.toString(idAccount));
 		transactionLog.setTransactionName(strTransactionName);
 		transactionLog.setDescription(strDescription);
-		transactionLog.setCodRegion(CodeUtil.COD_REGION_MNL);
+		transactionLog.setCodRegion(codRegion);
 		
 		try{
 			new LogOperations();

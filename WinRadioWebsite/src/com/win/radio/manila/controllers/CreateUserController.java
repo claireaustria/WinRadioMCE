@@ -22,8 +22,7 @@ import javax.servlet.http.HttpSession;
 import com.win.radio.manila.utilities.AccountOperations;
 import com.win.radio.manila.utilities.CodeUtil;
 import com.win.radio.manila.utilities.DJListOperations;
-import com.win.radio.manila.utilities.SQLOperations;
-import com.win.radio.manila.utilities.TransactionLogOperations;
+import com.win.radio.manila.utilities.LogHelper;
 import com.win.radio.manila.models.AccountModel;
 import com.win.radio.manila.models.DJListModel;
 
@@ -44,6 +43,7 @@ public class CreateUserController extends HttpServlet {
 		int idAccount = (int) session.getAttribute("idAccount");
 				
 		Date currentDateTime = new java.sql.Date(new java.util.Date().getTime());
+		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		AccountModel account = new AccountModel();
 		account.setCreateDate(currentDateTime);
 		account.setUpdateDate(currentDateTime);
@@ -81,8 +81,8 @@ public class CreateUserController extends HttpServlet {
 				rspns.println("success");
 				rspns.close();
 			
-				new TransactionLogOperations();
-				TransactionLogOperations.addTransactionLog(idAccount, "addUser", "added a new user.", CodeUtil.COD_REGION_MNL);
+				new LogHelper();
+				LogHelper.insertTransactionLogs(idAccount, "addUser", "added a new user.", CodeUtil.COD_REGION_MNL);
 			}
 		}
 		catch(Exception e)

@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.ResultSet"%>
-<%@page import="com.win.radio.manila.utilities.AccountOperations"%>
+<%@page import="com.win.radio.manila.utilities.QOTDOperations"%>
 <%@include file="nav.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -65,18 +65,19 @@
 								<h3 class="card-title">Post new question</h3>
 								
 								<form id="formNewUser" class="form" method="post" 
-										action="${pageContext.request.contextPath}/postDJQOTD">
+										action="${pageContext.request.contextPath}/qotdController">
 										
 									<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">DJ Owner</label>
 									  <div class="col-9">
-									  	<select class="form-control" id="dropdownUserProfiles" name="codType">
+									  	<select class="form-control" id="dropdownDJ" name="djName">
 									  		<%
 											try{	
-											ResultSet rs = new AccountOperations().getAccountTypes();
+											ResultSet rs = new QOTDOperations().getAllDJ();
 											while(rs.next()){
+												String x = rs.getString("DJ_NAME");
 											%>
-									      	<option value="<%=rs.getString("COD_TYPE") %>"><%=rs.getString("NAME") %></option>
+									      	<option value="<%=rs.getString("ID_DJ") %>"><%=rs.getString("DJ_NAME") %></option>
 									      	<%}
 											rs.close();  
 											} catch (Exception e) {

@@ -20,7 +20,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.win.radio.manila.utilities.AccountOperations;
 import com.win.radio.manila.utilities.CodeUtil;
+import com.win.radio.manila.utilities.QOTDOperations;
 import com.win.radio.manila.utilities.SQLOperations;
+import com.win.radio.manila.utilities.TransactionLogOperations;
 import com.win.radio.manila.models.AccountModel;
 import com.win.radio.manila.models.QOTDModel;
 
@@ -41,8 +43,25 @@ public class QOTDController extends HttpServlet {
 		qotd.setUpdateDate(currentDateTime);
 		qotd.setUpdateUser("0");
 		qotd.setQuestion(request.getParameter("question"));
-		qotd.setPostOwner(Integer.valueOf(request.getParameter("codType")));
+		qotd.setPostOwner(Integer.valueOf(request.getParameter("djName")));
 		qotd.setCodRegion(CodeUtil.COD_REGION_MNL);
+		
+		new QOTDOperations();
+		
+		try {
+			
+			QOTDOperations.addQOTD(qotd);
+			
+			response.sendRedirect("manila/admin.jsp");
+			
+			new TransactionLogOperations();
+			TransactionLogOperations.addTransactionLog(0, "postQOTD", "posted a new question of the day.", CodeUtil.COD_REGION_MNL);
+			
+		} catch (Exception e) {
+			
+			e.printStackTrace();
+		}
+		
 		
 	}
 	

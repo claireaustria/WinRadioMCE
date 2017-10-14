@@ -10,6 +10,7 @@ public class DJListModel {
 	private int			idDJ;
 	private String		djName;
 	private String		description;
+	private int			idAccount;
 	private String 		codRegion;
 	
 	public Date getCreateDate() {
@@ -53,6 +54,12 @@ public class DJListModel {
 	}
 	public void setUpdateUser(int updateUser) {
 		this.updateUser = updateUser;
+	}
+	public int getIdAccount() {
+		return idAccount;
+	}
+	public void setIdAccount(int idAccount) {
+		this.idAccount = idAccount;
 	}	
 	
 }

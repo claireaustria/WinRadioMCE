@@ -61,7 +61,8 @@ public class CreateUserController extends HttpServlet {
 		
 		try{
 			new AccountOperations();
-			if(AccountOperations.addUser(account)) {
+			int newId = AccountOperations.addUser(account);
+			if(newId != 0) {
 				
 				if (account.getCodType().equals(CodeUtil.COD_TYPE_DJ)) {
 					DJListModel dj = new DJListModel();
@@ -70,13 +71,14 @@ public class CreateUserController extends HttpServlet {
 					dj.setUpdateUser(idAccount);
 					dj.setDjName(request.getParameter("screenName"));
 					dj.setDescription("-");
+					dj.setIdAccount(newId);
 					dj.setCodRegion(CodeUtil.COD_REGION_MNL);
 					
 					new DJListOperations();
 					DJListOperations.addNewDJ(dj);
 				}
 				
-				//sendInitialEmail(account, saltString);
+				sendInitialEmail(account, saltString);
 			
 				new LogHelper();
 				LogHelper.insertTransactionLogs(idAccount, "addUser", "added a new user.", CodeUtil.COD_REGION_MNL);

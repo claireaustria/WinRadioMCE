@@ -32,7 +32,7 @@ public class QOTDOperations implements QOTDCommands  {
 	
 	/* JSP FUNCTIONS */
 	
-	/* Marvin - Codes Start */
+	/* Marvin - Codes Start 
 	
 	public static ResultSet getAllDJ() {
 		ResultSet rs = null;
@@ -45,77 +45,24 @@ public class QOTDOperations implements QOTDCommands  {
 		return rs;
 	}
 	
+	*/
+	
+	public static ResultSet getAllQuestions() {
+		ResultSet rs = null;
+		
+		try {
+			Statement select = getConnection().createStatement();
+			rs = select.executeQuery(GET_ALL_QUESTION);
+		} catch (Exception ex) {
+			ex.printStackTrace();
+		}
+		
+		return rs;
+	}
+	
 	/* Marvin - Codes End */
 	
 	/* CONTROLLER FUNCTIONS */
-	
-	public static ResultSet getCredentials(String username) {
-		ResultSet rs = null;
-		try{
-			PreparedStatement pstmt = getConnection().prepareStatement(GET_CREDENTIALS);
-			pstmt.setString(1, username);
-			rs = pstmt.executeQuery();
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return rs;
-	}
-	
-	public static ResultSet getUsernameIfExisting(String username) {
-		ResultSet rs = null;
-		try{
-	
-			PreparedStatement pstmt = getConnection().prepareStatement(GET_USERNAME);
-			pstmt.setString(1, username);
-			rs = pstmt.executeQuery();
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return rs;
-	}
-	
-	public static ResultSet getEmailIfExisting(String email) {
-		ResultSet rs = null;
-		try{
-	
-			PreparedStatement pstmt = getConnection().prepareStatement(GET_EMAIL);
-			pstmt.setString(1, email);
-			rs = pstmt.executeQuery();
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return rs;
-	}
-	
-	public static boolean addUser(AccountModel account){
-		try {
-			PreparedStatement pstmt = getConnection().prepareStatement(ADD_ACCOUNT);
-			pstmt.setDate(1, account.getCreateDate());
-			pstmt.setDate(2, account.getUpdateDate());
-			pstmt.setInt(3, account.getUpdateUser());
-			pstmt.setString(4, account.getCodType());
-			pstmt.setString(5, account.getUsername());
-			pstmt.setString(6, account.getPassword());
-			pstmt.setString(7, account.getLastName());
-			pstmt.setString(8, account.getFirstName());
-			pstmt.setString(9, account.getGender());
-			pstmt.setString(10, account.getMobileNo());
-			pstmt.setString(11, account.getEmail());
-			pstmt.setString(12, account.getCodStatus());
-			pstmt.setString(13, account.getCodRegion());
-			pstmt.executeUpdate(); 
-		}	catch (SQLException sqle){
-			System.out.println("SQLException - addUser: " +sqle.getMessage());
-			return false;
-		}
-		return true;
-	}
 	
 	public static boolean addQOTD(QOTDModel question) {
 		try {
@@ -129,6 +76,17 @@ public class QOTDOperations implements QOTDCommands  {
 			pstmt.executeUpdate(); 
 		} catch (SQLException sqle) {
 			System.out.println("SQLException - addQOTD: " +sqle.getMessage());
+			return false;
+		}
+		return true;
+	}
+	
+	public static boolean updateNewInd(QOTDModel question) {
+		try {
+			PreparedStatement pstmt = getConnection().prepareStatement(UPDATE_INDICATOR);
+			pstmt.executeUpdate();
+		} catch (SQLException sqle) {
+			System.out.println("");
 			return false;
 		}
 		return true;

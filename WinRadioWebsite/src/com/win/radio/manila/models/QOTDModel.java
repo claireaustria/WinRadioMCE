@@ -10,6 +10,7 @@ public class QOTDModel {
 	private int 		idQuestion;
 	private String 		question;
 	private int			postOwner;
+	private int			indPost;
 	private String 		codRegion;
 	
 	public Date getCreateDate() {
@@ -47,6 +48,12 @@ public class QOTDModel {
 	}
 	public void setPostOwner(int postOwner) {
 		this.postOwner = postOwner;
+	}
+	public int getIndPost() {
+		return indPost;
+	}
+	public void setIndPost(int indPost) {
+		this.indPost = indPost;
 	}
 	public String getCodRegion() {
 		return codRegion;

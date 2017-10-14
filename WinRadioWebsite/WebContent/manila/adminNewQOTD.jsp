@@ -1,6 +1,13 @@
+<%@page import="com.win.radio.manila.utilities.ConnectionUtil"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.ResultSet"%>
+
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.SQLException"%>
+
 <%@page import="com.win.radio.manila.utilities.QOTDOperations"%>
 <%@include file="nav.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -72,18 +79,48 @@
 									  <div class="col-9">
 									  	<select class="form-control" id="dropdownDJ" name="djName">
 									  		<%
-											try{	
-											ResultSet rs = new QOTDOperations().getAllDJ();
-											while(rs.next()){
-												String x = rs.getString("DJ_NAME");
-											%>
-									      	<option value="<%=rs.getString("ID_DJ") %>"><%=rs.getString("DJ_NAME") %></option>
-									      	<%}
-											rs.close();  
-											} catch (Exception e) {
-												System.out.print(e.getMessage());
-											e.printStackTrace();
-											}
+									  		
+								  			ResultSet rs = null;
+											Statement select = null;
+											Connection conn = null;
+									  		
+									  		try {
+									  			conn = ConnectionUtil.getConnection();
+									  			select = conn.createStatement();
+									  			rs = select.executeQuery(QOTDOperations.GET_ALL_DJ);
+									  			
+									  			while (rs.next()) {
+									  				%>
+									  					<option value="<%=rs.getString("ID_DJ") %>"><%=rs.getString("DJ_NAME") %></option>
+									  				<% 
+									  			}
+									  			
+									  		} catch (Exception ex) {
+									  			ex.printStackTrace();
+									  		} finally {
+									  			if (rs != null) {
+									  				try {
+									  					rs.close();
+									  				} catch (SQLException e) {
+									  					e.printStackTrace();
+									  				}
+									  			}
+									  			if (select != null) {
+									  				try {
+									  					select.close();
+									  				} catch (SQLException e) {
+									  					e.printStackTrace();
+									  				}
+									  			}
+									  			if (conn != null) {
+									  				try {
+									  					conn.close();
+									  				} catch (SQLException e) {
+									  					e.printStackTrace();
+									  				}
+									  			}
+									  		}
+									  		
 											%>
 									    </select>
 									  </div>

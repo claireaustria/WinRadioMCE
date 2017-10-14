@@ -55,6 +55,8 @@ public class QOTDController extends HttpServlet {
 		
 		try {
 			
+			QOTDOperations.updateNewInd(qotd);
+			
 			QOTDOperations.addQOTD(qotd);
 			
 			response.sendRedirect("manila/admin.jsp");

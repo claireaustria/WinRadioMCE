@@ -95,6 +95,12 @@
 		$('#logStatPwd').addClass('wrong-entry');
 	 	$('#alertPassword').fadeIn(500);  
     }
+    
+    document.getElementById('password').onkeydown = function(event) {
+        if (event.keyCode == 13) {
+        	login();
+        }
+    }
 
     </script>
     

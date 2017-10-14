@@ -18,12 +18,14 @@ public class AccountOperations implements AccountCommands  {
 
 	/* CONTROLLER FUNCTIONS */
 	
-	public static boolean addUser(AccountModel account){
+	public static Integer addUser(AccountModel account){
 		PreparedStatement pstmt = null;
 		Connection conn = null;
+		ResultSet rs = null;
+		Integer newId = 0;
 		try {
 			conn = ConnectionUtil.getConnection();
-			pstmt = conn.prepareStatement(ADD_ACCOUNT);
+			pstmt = conn.prepareStatement(ADD_ACCOUNT, Statement.RETURN_GENERATED_KEYS);
 			pstmt.setDate(1, account.getCreateDate());
 			pstmt.setDate(2, account.getUpdateDate());
 			pstmt.setInt(3, account.getUpdateUser());
@@ -38,8 +40,60 @@ public class AccountOperations implements AccountCommands  {
 			pstmt.setString(12, account.getCodStatus());
 			pstmt.setString(13, account.getCodRegion());
 			pstmt.executeUpdate(); 
+			
+			rs = pstmt.getGeneratedKeys();
+			if (rs.next()) {
+			  newId = rs.getInt(1);
+			}
 		} catch (SQLException sqle){
 			System.out.println("SQLException - addUser: " +sqle.getMessage());
+			return newId;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return newId;
+	}
+	
+	public static boolean updateUser(AccountModel account) {
+		
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		try {
+			conn = ConnectionUtil.getConnection();
+			pstmt = conn.prepareStatement(UPDATE_ACCOUNT);
+			pstmt.setDate(1, account.getUpdateDate());
+			pstmt.setInt(2, account.getUpdateUser());	
+			pstmt.setString(3, account.getCodType());	
+			pstmt.setString(4, account.getUsername());	
+			pstmt.setString(5, account.getEmail());	
+			pstmt.setString(6, account.getLastName());	
+			pstmt.setString(7, account.getFirstName());	
+			pstmt.setString(8, account.getGender());	
+			pstmt.setString(9, account.getMobileNo());	
+			pstmt.setInt(10, account.getIdAccount());
+			pstmt.executeUpdate(); 
+		}	catch (SQLException sqle){
+			System.out.println("SQLException - updateUser: " +sqle.getMessage());
 			return false;
 		} finally {
 			if (pstmt != null) {

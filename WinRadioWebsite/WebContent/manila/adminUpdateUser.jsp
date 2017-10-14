@@ -90,6 +90,12 @@
 									  <label id="lblInvalidMobileNo" class="col-12 col-form-label" style="color:red;display:none;">Please enter an 11-digit mobile no.</label>
 									</div>
 									</center>
+				      				<div class="form-group row" style="display:none;">
+									  <label for="example-text-input" class="col-3 col-form-label">ID Account</label>
+									  <div class="col-9">
+									    <input class="form-control" id="idAccount" name="firstName" type="text" placeholder="Jane" required="required">
+									  </div>
+									</div>
 				      				<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">First Name</label>
 									  <div class="col-9">
@@ -301,7 +307,7 @@
 			var email=$("#email").val();// value in field email
 			$.ajax({
 	            url:'${pageContext.request.contextPath}/checkIfValueExists',
-	            data:{username: '0', email: email},
+	            data:{idAccount: '0', username: '0', email: email},
 	            type:'get',
 	            cache:false,
 	            success:function(data){
@@ -315,10 +321,11 @@
 	            }
 			});
 			
+			var idAccount=$("#idAccount").val();
 			var username=$("#username").val();// value in field username
 			$.ajax({
 	            url:'${pageContext.request.contextPath}/checkIfValueExists',
-	            data:{username: username, email: '0'},
+	            data:{idAccount: '0', username: username, email: '0'},
 	            type:'get',
 	            cache:false,
 	            success:function(data){

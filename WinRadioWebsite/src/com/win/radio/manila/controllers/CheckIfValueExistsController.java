@@ -35,14 +35,29 @@ public class CheckIfValueExistsController extends HttpServlet {
 		String responseMessage = "";
 		String username = request.getParameter("username");
 		String email = request.getParameter("email");
+		Integer idAccount = Integer.valueOf(request.getParameter("idAccount"));
+		String acctEmail = "";
+		String acctUsername = "";
 	    
 		ResultSet resultSet = null;
+		ResultSet rsExistingAccount = null;
 		PreparedStatement pstmt = null;
+		PreparedStatement pstmtExistingAccount = null;
 		Connection conn = null;
 		
 		try {
 			conn = ConnectionUtil.getConnection();
-			if (!username.equals("0")) {
+			
+			pstmtExistingAccount = conn.prepareStatement(AccountCommands.GET_CONTACT_DETAILS);
+			pstmtExistingAccount.setInt(1, idAccount);
+			rsExistingAccount = pstmtExistingAccount.executeQuery();
+			
+			while (rsExistingAccount.next()) {
+				acctEmail = rsExistingAccount.getString("EMAIL");
+				acctUsername = rsExistingAccount.getString("USERNAME");
+			}
+			
+			if ((!username.equals(acctUsername))&&(!username.equals("0"))) {
 				pstmt = conn.prepareStatement(AccountCommands.GET_USERNAME);
 				pstmt.setString(1, username);
 				resultSet = pstmt.executeQuery();
@@ -50,7 +65,7 @@ public class CheckIfValueExistsController extends HttpServlet {
 				while (resultSet.next()) {
 					responseMessage = "Username already taken.";
 				}
-			} else if (!email.equals("0")) {
+			} else if ((!email.equals(acctEmail))&&!email.equals("0")) {
 				pstmt = conn.prepareStatement(AccountCommands.GET_EMAIL);
 				pstmt.setString(1, email);
 				resultSet = pstmt.executeQuery();
@@ -75,6 +90,12 @@ public class CheckIfValueExistsController extends HttpServlet {
 				}
 				if(pstmt != null) {
 					pstmt.close();
+				}
+				if(rsExistingAccount != null) {
+					rsExistingAccount.close();
+				}
+				if(pstmtExistingAccount != null) {
+					pstmtExistingAccount.close();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

@@ -114,7 +114,7 @@
 		    						<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">Account Type</label>
 									  <div class="col-9">
-									  	<select class="form-control" id="dropdownUserProfiles" name="codType" onblur="toggleScreenNameDiv()">
+									  	<select class="form-control" id="dropdownUserProfiles" name="codType">
 									  		<%ResultSet rs = null;
 						            		Statement select = null;
 						            		Connection conn = null;
@@ -301,7 +301,7 @@
 			var email=$("#email").val();// value in field email
 			$.ajax({
 	            url:'${pageContext.request.contextPath}/checkIfValueExists',
-	            data:{username: '0', email: email},
+	            data:{idAccount: '0', username: '0', email: email},
 	            type:'get',
 	            cache:false,
 	            success:function(data){
@@ -318,7 +318,7 @@
 			var username=$("#username").val();// value in field username
 			$.ajax({
 	            url:'${pageContext.request.contextPath}/checkIfValueExists',
-	            data:{username: username, email: '0'},
+	            data:{idAccount: '0', username: username, email: '0'},
 	            type:'get',
 	            cache:false,
 	            success:function(data){

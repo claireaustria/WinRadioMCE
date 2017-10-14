@@ -1,5 +1,6 @@
 package com.win.radio.manila.controllers;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.SecureRandom;
@@ -23,6 +24,7 @@ import com.win.radio.manila.utilities.AccountOperations;
 import com.win.radio.manila.utilities.CodeUtil;
 import com.win.radio.manila.utilities.DJListOperations;
 import com.win.radio.manila.utilities.LogHelper;
+import com.google.gson.Gson;
 import com.win.radio.manila.models.AccountModel;
 import com.win.radio.manila.models.DJListModel;
 
@@ -35,31 +37,53 @@ public class UpdateUserController extends HttpServlet {
     }
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		StringBuilder sbAccount = new StringBuilder();
+	    BufferedReader reader = request.getReader();
+	    try {
+	        String line;
+	        while ((line = reader.readLine()) != null) {
+	        	sbAccount.append(line).append('\n');
+	        }
+	    } finally {
+	        reader.close();
+	    }
+	    
+	    Gson gson = new Gson();
+	    AccountModel accountJson = (AccountModel) gson.fromJson(sbAccount.toString(), AccountModel.class);
+		
 		PrintWriter rspns = response.getWriter();
 		
 		HttpSession session = request.getSession();
 		int updateUserIdAccount = (int) session.getAttribute("idAccount");
 				
-		Date currentDateTime = new java.sql.Date(new java.util.Date().getTime());
-		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		Calendar cal = Calendar.getInstance();  
+		java.sql.Timestamp timestamp = new java.sql.Timestamp(cal.getTimeInMillis());
+		
 		AccountModel account = new AccountModel();
-		account.setIdAccount(Integer.valueOf(request.getParameter("idAccount")));
-		account.setUpdateDate(currentDateTime);
+		account.setIdAccount(accountJson.getIdAccount());
+		account.setUpdateDate(timestamp);
 		account.setUpdateUser(updateUserIdAccount);
-		account.setCodType(request.getParameter("codType"));
-		account.setUsername(request.getParameter("username"));
-		account.setEmail(request.getParameter("email"));
-		account.setLastName(request.getParameter("lastName"));
-		account.setFirstName(request.getParameter("firstName"));
-		account.setGender(request.getParameter("gender"));
-		account.setMobileNo(request.getParameter("mobileNo"));
+		account.setCodType(accountJson.getCodType());
+		account.setUsername(accountJson.getUsername());
+		account.setEmail(accountJson.getEmail());
+		account.setLastName(accountJson.getLastName());
+		account.setFirstName(accountJson.getFirstName());
+		account.setGender(accountJson.getGender());
+		account.setMobileNo(accountJson.getMobileNo());
 		
 		try{
 			new AccountOperations();
 			if(AccountOperations.updateUser(account)) {
+				String strLogDesc = "";
+				
+				if (account.getIdAccount() == updateUserIdAccount) {
+					strLogDesc = "updated his/her account.";
+				} else {
+					strLogDesc = "updated a user's account.";
+				}
+				
 				new LogHelper();
-				LogHelper.insertTransactionLogs(updateUserIdAccount, "addUser", "added a new user.", CodeUtil.COD_REGION_MNL);
+				LogHelper.insertTransactionLogs(updateUserIdAccount, "updateUser", strLogDesc, CodeUtil.COD_REGION_MNL);
 	
 				rspns.println("success");
 				rspns.close();

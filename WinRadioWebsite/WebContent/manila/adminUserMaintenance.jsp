@@ -87,11 +87,23 @@
 					
 					<div class="clear"></div>
 				</header>
-								
+				
+				<!-- Alert confirmation start -->			
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="alert bg-warning" id="alertNoAcctSelected" style="display:none;" role="alert">
+							<em class="fa fa-minus-circle mr-2"></em> Please choose an account to modify
+							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertNoAcctSelected')"></em></a>
+						</div>
+					</div>
+				</div>
+				<!-- Alert confirmation end -->		
+					
 				
 				<!-- Buttons -->
 				<div class="row">
 					<div class="col-lg-12">
+						<span id="currentRow" style="display: none;"></span>
 						<button type="submit" class="btn btn-primary btn-md float-right btn-options" id="btnNewUser">Create New User</button>
 						<button type="submit" class="btn btn-primary btn-md float-right btn-options" id="btnModifyUser">Modify Details</button>
 					</div>
@@ -107,6 +119,7 @@
 			              <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
 			                <thead>
 			                  <tr>
+			                  	<th style="display:none;">ID Account</th>
 			                  	<th>Create Date</th>
 			                    <th>Last Name</th>
 			                    <th>First Name</th>
@@ -127,7 +140,8 @@
 			        			rs = select.executeQuery(AccountOperations.GET_ALL_USERS);
 			        			while(rs.next()) {
 								%>
-								<tr class="clickableRow">
+								<tr class="clickableRow">								
+									<td style="display:none;"><%=rs.getString("ID_ACCOUNT")%></td>
 									<td><%=rs.getString("CREATE_DATE")%></td>
 									<td><%=rs.getString("LAST_NAME")%></td>
 									<td><%=rs.getString("FIRST_NAME") %></td>
@@ -191,41 +205,50 @@
     <script type="text/javascript">
     $(function() {
         
-        /* Get all rows from your 'table' but not the first one 
-         * that includes headers. */
+        //Get all data rows from the table 
         var rows = $('tr').not(':first');
         
-        /* Create 'click' event handler for rows */
         rows.on('click', function(e) {
-            
-            /* Get current row */
+            //Get current row
             var row = $(this);
-            
-            /* Check if 'Ctrl', 'cmd' or 'Shift' keyboard key was pressed
-             * 'Ctrl' => is represented by 'e.ctrlKey' or 'e.metaKey'
-             * 'Shift' => is represented by 'e.shiftKey' */
+            //Highlight row
             if ((e.ctrlKey || e.metaKey) || e.shiftKey) {
-                /* If pressed highlight the other row that was clicked */
                 row.addClass('highlight');
             } else {
-                /* Otherwise just highlight one row and clean others */
                 rows.removeClass('highlight');
                 row.addClass('highlight');
+                //Get the first column - hidden ID account
+                var idAccount = row.find('td:eq(0)').text();
+                var span = document.getElementById("currentRow");
+                span.textContent = idAccount;
             }
-	            
-	        });
-	        
-	        /* This 'event' is used just to avoid that the table text 
-	         * gets selected (just for styling). 
-	         * For example, when pressing 'Shift' keyboard key and clicking 
-	         * (without this 'event') the text of the 'table' will be selected.
-	         * You can remove it if you want, I just tested this in 
-	         * Chrome v30.0.1599.69 */
-	        $(document).bind('selectstart dragstart', function(e) { 
-	            e.preventDefault(); return false; 
-	        });
-	        
 	    });
+	        
+        //Prevents the table texts from being modified
+        $(document).bind('selectstart dragstart', function(e) { 
+            e.preventDefault(); return false; 
+        });
+	 });
+    
+    /*Page redirect*/
+    $('#btnNewUser').click(function(){
+       window.location.href='adminNewUser.jsp';
+    })
+    
+    /*Page redirect*/
+    $('#btnModifyUser').click(function(){
+    	var span = document.getElementById("currentRow");
+    	var spanText = span.textContent;
+    	if ($.trim(spanText) != "") {
+       		window.location.href='adminUpdateUser.jsp?idAccountToModify='+spanText;
+    	} else {
+    		document.getElementById('alertNoAcctSelected').style.display = "block";
+    	}
+    })
+    
+    function closeAlert(idAlert) {
+		document.getElementById(idAlert).style.display = "none";
+	}
     </script>
     
     

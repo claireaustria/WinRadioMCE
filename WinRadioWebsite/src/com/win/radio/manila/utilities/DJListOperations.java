@@ -22,8 +22,8 @@ public class DJListOperations implements DJListCommands {
 		try {
 			conn = ConnectionUtil.getConnection();
 			pstmt= conn.prepareStatement(ADD_NEW_DJ);
-			pstmt.setDate(1, djItem.getCreateDate());
-			pstmt.setDate(2, djItem.getUpdateDate());
+			pstmt.setTimestamp(1, djItem.getCreateDate());
+			pstmt.setTimestamp(2, djItem.getUpdateDate());
 			pstmt.setInt(3, djItem.getUpdateUser());
 			pstmt.setString(4, djItem.getDjName());
 			pstmt.setString(5, djItem.getDescription());

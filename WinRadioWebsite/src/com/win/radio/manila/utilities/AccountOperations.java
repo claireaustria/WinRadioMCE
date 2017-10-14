@@ -26,8 +26,8 @@ public class AccountOperations implements AccountCommands  {
 		try {
 			conn = ConnectionUtil.getConnection();
 			pstmt = conn.prepareStatement(ADD_ACCOUNT, Statement.RETURN_GENERATED_KEYS);
-			pstmt.setDate(1, account.getCreateDate());
-			pstmt.setDate(2, account.getUpdateDate());
+			pstmt.setTimestamp(1, account.getCreateDate());
+			pstmt.setTimestamp(2, account.getUpdateDate());
 			pstmt.setInt(3, account.getUpdateUser());
 			pstmt.setString(4, account.getCodType());
 			pstmt.setString(5, account.getUsername());
@@ -81,7 +81,7 @@ public class AccountOperations implements AccountCommands  {
 		try {
 			conn = ConnectionUtil.getConnection();
 			pstmt = conn.prepareStatement(UPDATE_ACCOUNT);
-			pstmt.setDate(1, account.getUpdateDate());
+			pstmt.setTimestamp(1, account.getUpdateDate());
 			pstmt.setInt(2, account.getUpdateUser());	
 			pstmt.setString(3, account.getCodType());	
 			pstmt.setString(4, account.getUsername());	
@@ -120,7 +120,7 @@ public class AccountOperations implements AccountCommands  {
 		try {
 			conn = ConnectionUtil.getConnection();
 			pstmt = conn.prepareStatement(CHANGE_PASSWORD);
-			pstmt.setDate(1, account.getUpdateDate());
+			pstmt.setTimestamp(1, account.getUpdateDate());
 			pstmt.setInt(2, account.getUpdateUser());
 			pstmt.setString(3, account.getPassword());
 			pstmt.setInt(4, account.getIndChangePwd());

@@ -16,25 +16,10 @@ import com.win.radio.manila.models.TransactionLogModel;
 
 public class LogOperations implements LogCommands {
 
-	private static Connection getConnection(){
-		Connection connection = null;
-		
-		try{
-			DataSource dataSource = 
-			(DataSource) InitialContext.doLookup(DS_SOURCE);
-			connection = dataSource.getConnection();
-		}catch (NamingException e){
-			e.printStackTrace();
-		}catch (SQLException e){
-			e.printStackTrace();
-		}
-		return connection;
-	}
-	
 	/* CONTROLLER FUNCTIONS */
 	public static boolean addTransactionLog(TransactionLogModel transactionLog){
 		try {
-			PreparedStatement pstmt = getConnection().prepareStatement(ADD_TRANSACTION_LOG);
+			PreparedStatement pstmt = ConnectionUtil.getConnection().prepareStatement(ADD_TRANSACTION_LOG);
 			pstmt.setDate(1, transactionLog.getCreateDate());
 			pstmt.setDate(2, transactionLog.getUpdateDate());
 			pstmt.setString(3, transactionLog.getUpdateUser());
@@ -54,7 +39,7 @@ public class LogOperations implements LogCommands {
 	
 	public static boolean addEventLog(EventLogModel eventLog){
 		try {
-			PreparedStatement pstmt = getConnection().prepareStatement(ADD_EVENT_LOG);
+			PreparedStatement pstmt = ConnectionUtil.getConnection().prepareStatement(ADD_EVENT_LOG);
 			pstmt.setDate(1, eventLog.getCreateDate());
 			pstmt.setDate(2, eventLog.getUpdateDate());
 			pstmt.setString(3, eventLog.getUpdateUser());

@@ -1,11 +1,11 @@
 package com.win.radio.manila.models;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class AccountModel {
 	
-	private Date createDate;
-	private Date updateDate;
+	private Timestamp createDate;
+	private Timestamp updateDate;
 	private int updateUser;
 	private int idAccount;
 	private String codType;
@@ -31,18 +31,6 @@ public class AccountModel {
 	}
 	public void setCodRegion(String codRegion) {
 		this.codRegion = codRegion;
-	}
-	public Date getCreateDate() {
-		return createDate;
-	}
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
 	}
 	public int getUpdateUser() {
 		return updateUser;
@@ -109,6 +97,18 @@ public class AccountModel {
 	}
 	public void setIndChangePwd(int indChangePwd) {
 		this.indChangePwd = indChangePwd;
+	}
+	public Timestamp getUpdateDate() {
+		return updateDate;
+	}
+	public void setUpdateDate(Timestamp updateDate) {
+		this.updateDate = updateDate;
+	}
+	public Timestamp getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Timestamp createDate) {
+		this.createDate = createDate;
 	}
 
 	

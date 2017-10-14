@@ -15,21 +15,6 @@ import com.win.radio.manila.models.QOTDModel;
 
 public class QOTDOperations implements QOTDCommands  {
 
-	private static Connection getConnection(){
-		Connection connection = null;
-		
-		try{
-			DataSource dataSource = 
-			(DataSource) InitialContext.doLookup(CodeUtil.DS_SOURCE);
-			connection = dataSource.getConnection();
-		}catch (NamingException e){
-			e.printStackTrace();
-		}catch (SQLException e){
-			e.printStackTrace();
-		}
-		return connection;
-	}
-	
 	/* JSP FUNCTIONS */
 	
 	/* Marvin - Codes Start 
@@ -51,7 +36,7 @@ public class QOTDOperations implements QOTDCommands  {
 		ResultSet rs = null;
 		
 		try {
-			Statement select = getConnection().createStatement();
+			Statement select = ConnectionUtil.getConnection().createStatement();
 			rs = select.executeQuery(GET_ALL_QUESTION);
 		} catch (Exception ex) {
 			ex.printStackTrace();
@@ -66,7 +51,7 @@ public class QOTDOperations implements QOTDCommands  {
 	
 	public static boolean addQOTD(QOTDModel question) {
 		try {
-			PreparedStatement pstmt = getConnection().prepareStatement(ADD_QUESTION);
+			PreparedStatement pstmt = ConnectionUtil.getConnection().prepareStatement(ADD_QUESTION);
 			pstmt.setDate(1, question.getCreateDate());
 			pstmt.setDate(2, question.getUpdateDate());
 			pstmt.setInt(3, question.getUpdateUser());
@@ -83,7 +68,7 @@ public class QOTDOperations implements QOTDCommands  {
 	
 	public static boolean updateNewInd(QOTDModel question) {
 		try {
-			PreparedStatement pstmt = getConnection().prepareStatement(UPDATE_INDICATOR);
+			PreparedStatement pstmt = ConnectionUtil.getConnection().prepareStatement(UPDATE_INDICATOR);
 			pstmt.executeUpdate();
 		} catch (SQLException sqle) {
 			System.out.println("");

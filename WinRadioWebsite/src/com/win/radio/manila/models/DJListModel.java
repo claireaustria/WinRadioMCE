@@ -1,11 +1,12 @@
 package com.win.radio.manila.models;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class DJListModel {
 	
-	private Date 		createDate;
-	private Date 		updateDate;
+	private Timestamp 	createDate;
+	private Timestamp 	updateDate;
 	private int 		updateUser;
 	private int			idDJ;
 	private String		djName;
@@ -13,18 +14,7 @@ public class DJListModel {
 	private int			idAccount;
 	private String 		codRegion;
 	
-	public Date getCreateDate() {
-		return createDate;
-	}
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
+	
 	public int getIdDJ() {
 		return idDJ;
 	}
@@ -60,6 +50,18 @@ public class DJListModel {
 	}
 	public void setIdAccount(int idAccount) {
 		this.idAccount = idAccount;
+	}
+	public Timestamp getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Timestamp createDate) {
+		this.createDate = createDate;
+	}
+	public Timestamp getUpdateDate() {
+		return updateDate;
+	}
+	public void setUpdateDate(Timestamp updateDate) {
+		this.updateDate = updateDate;
 	}	
 	
 }

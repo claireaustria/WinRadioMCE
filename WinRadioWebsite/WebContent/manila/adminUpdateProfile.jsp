@@ -58,7 +58,7 @@
 			<main class="col-xs-12 col-sm-8 offset-sm-4 col-lg-9 offset-lg-3 col-xl-10 offset-xl-2 pt-3 pl-4">
 				<header class="page-header row justify-center">
 					<div class="col-md-6 col-lg-8" >
-						<h1 class="float-left text-center text-md-left">User Maintenance</h1>
+						<h1 class="float-left text-center text-md-left">User Profile</h1>
 					</div>
 					
 					<!-- include headerSection Start-->
@@ -67,41 +67,53 @@
 					
 					<div class="clear"></div>
 				</header>
-				
+								
 				<div class="row">
 					<div class="col-lg-12">
-						<!-- Breadcrumbs -->
-				        <ol class="breadcrumb">
-				          <li class="breadcrumb-item">
-				            <a href="adminUserMaintenance.jsp">User List</a>
-				          </li>
-				          <li class="breadcrumb-item active">Create New User</li>
-				        </ol>
-					</div>
-				</div>
-				
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="alert bg-success" id="alertAcctCreationSuccess" style="display:none;" role="alert">
-							<em class="fa fa-check-circle mr-2"></em> Account creation successful!
-							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertAcctCreationSuccess')"></em></a>
+						<div class="alert bg-success" id="alertAcctUpdateSuccess" style="display:none;" role="alert">
+							<em class="fa fa-check-circle mr-2"></em> Account updated successfully!
+							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertAcctUpdateSuccess')"></em></a>
 						</div>
-						<div class="alert bg-danger" id="alertAcctCreationFail" style="display:none;" role="alert">
-							<em class="fa fa-minus-circle mr-2"></em> Something went wrong, please try again. 
-							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertAcctCreationFail')"></em></a>
+						<div class="alert bg-danger" id="alertAcctUpdateFail" style="display:none;" role="alert">
+							<em class="fa fa-minus-circle mr-2"></em> Something went wrong. Your account details were not updated, please try again. 
+							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertAcctUpdateFail')"></em></a>
+						</div>
+						<div class="alert bg-success" id="alertPwChangeSuccess" style="display:none;" role="alert">
+							<em class="fa fa-check-circle mr-2"></em> Password changed successfully!
+							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertPwChangeSuccess')"></em></a>
+						</div>
+						<div class="alert bg-danger" id="alertPwChangeFail" style="display:none;" role="alert">
+							<em class="fa fa-minus-circle mr-2"></em> Something went wrong. Your password was not updated, please try again. 
+							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertPwChangeFail')"></em></a>
 						</div>
 					</div>
 				</div>
 				
 				
 				<!-- Row start: create new user form -->
-				<div class="row justify-content-md-center">
-					<div class="col-lg-8">
+				<div class="row">
+					<!-- Update account form start -->
+					<div class="col-lg-7">
 						<div class="card">
 							<div class="card-block">
-								<h3 class="card-title">Create a new user</h3>
+								<h3 class="card-title">Update Profile</h3>
 								
 								<form id="formNewUser" class="form">
+									<%ResultSet rs = null;
+				            		PreparedStatement pstmt = null;
+				            		Connection conn = null;
+									
+									HttpSession currentSession = request.getSession();
+									int idAccount = (Integer) currentSession.getAttribute("idAccount");
+				            		
+				            		try{	 
+				                 	conn = ConnectionUtil.getConnection();
+				    				pstmt = conn.prepareStatement(AccountOperations.GET_ACCOUNT_DETAILS);
+				                 	pstmt.setInt(1, idAccount);
+				                 	rs = pstmt.executeQuery();
+				    				
+				    				while (rs.next()) {
+									%>
 				      				<center><div class="form-group row">
 									  <label id="lblMissingField" class="col-12 col-form-label" style="color:red; display:none;">Please fill out all fields.</label>
 									  <label id="lblTakenEmail" class="col-12 col-form-label" style="color:red; display:none;">Email is already taken.</label>
@@ -109,108 +121,136 @@
 									  <label id="lblInvalidMobileNo" class="col-12 col-form-label" style="color:red;display:none;">Please enter an 11-digit mobile no.</label>
 									</div>
 									</center>
+									<div class="form-group row" style="display:none;">
+									  <label for="example-text-input" class="col-3 col-form-label">Account ID</label>
+									  <div class="col-9">
+									    <input class="form-control" id="idAccount" name="idAccount" type="text" value="<%=rs.getString("ID_ACCOUNT") %>" readonly>
+									  </div>
+									</div>
 				      				<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">First Name</label>
 									  <div class="col-9">
-									    <input class="form-control" id="firstName" name="firstName" type="text" placeholder="Jane" required="required">
+									    <input class="form-control" id="firstName" name="firstName" type="text" value="<%=rs.getString("FIRST_NAME") %>" readonly>
 									  </div>
 									</div>
 									<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">Last Name</label>
 									  <div class="col-9">
-									    <input class="form-control" id="lastName" name="lastName" type="text" placeholder="Doe" required="required">
+									    <input class="form-control" id="lastName" name="lastName" type="text" value="<%=rs.getString("LAST_NAME") %>" readonly>
 									  </div>
 									</div>
 									<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">Gender</label>
 									  <div class="col-9">
-									  	<select class="form-control" id="gender" name="gender">
-									  		<option value="Female">Female</option>
-									  		<option value="Male">Male</option>
-									    </select>
+									    <input class="form-control" id="gender" name="gender" type="text" value="<%=rs.getString("GENDER") %>" readonly>
 									  </div>
 									</div>
 		    						<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">Account Type</label>
 									  <div class="col-9">
-									  	<select class="form-control" id="dropdownUserProfiles" name="codType" onblur="toggleScreenNameDiv()">
-									  		<%ResultSet rs = null;
-						            		Statement select = null;
-						            		Connection conn = null;
-						            		
-						            		try{	 
-						                 	conn = ConnectionUtil.getConnection();
-						        			select = conn.createStatement();
-						        			rs = select.executeQuery(AccountOperations.GET_ACCOUNT_TYPES);
-						        				while(rs.next()) {
-											%>
-									      	<option value="<%=rs.getString("COD_TYPE") %>"><%=rs.getString("NAME") %></option>
-									      	<%	}
-						            		} catch(Exception ex)
-						            		{
-						            			ex.printStackTrace();
-						            		} finally {
-						            			if (rs != null) {
-						            				try {
-						            					rs.close();
-						            				} catch (SQLException e) {
-						            					e.printStackTrace();
-						            				}
-						            			}
-						            			if (select != null) {
-						            				try {
-						            					select.close();
-						            				} catch (SQLException e) {
-						            					e.printStackTrace();
-						            				}
-						            			}
-						            			if (conn != null) {
-						            				try {
-						            					conn.close();
-						            				} catch (SQLException e) {
-						            					e.printStackTrace();
-						            				}
-						            			}
-						            		}
-											%>
-									    </select>
+									  	 <select class="form-control" id="codType" name="codType" disabled>
+								  			<option value="<%=rs.getString("COD_TYPE") %>"><%=rs.getString("ACCOUNT_TYPE") %></option>
+								      	 </select>
 									  </div>
 									</div>
 									<div class="form-group row" style="display:none;" id="divScreenName">
 									  <label for="example-text-input" class="col-3 col-form-label">Screen Name</label>
 									  <div class="col-9">
-									    <input class="form-control" id="screenName" name="screenName" type="text" placeholder="DJ Name">
+									    <input class="form-control" id="screenName" name="screenName" type="text" value="<%=rs.getString("DJ_NAME") %>">
 									  </div>
 									</div>
 									<div class="form-group row">
 									  <label for="example-email-input" class="col-3 col-form-label">Email</label>
 									  <div class="col-9">
-									    <input class="form-control" id="email" name="email" type="email" required="required" placeholder="winradio@example.com" id="email">
+									    <input class="form-control" id="email" name="email" type="email" required="required" value="<%=rs.getString("EMAIL") %>" id="email">
 									  </div>
 									</div>
 									<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">Username</label>
 									  <div class="col-9">
-									    <input class="form-control" id="username" name="username" type="text" placeholder="janedoe" required="required">
+									    <input class="form-control" id="username" name="username" type="text" value="<%=rs.getString("USERNAME") %>" required="required">
 									  </div>
 									</div>
 									<div class="form-group row">
 									  <label for="example-tel-input" class="col-3 col-form-label">Mobile No.</label>
 									  <div class="col-9">
-									    <input class="form-control" id="mobileNo" name="mobileNo" type="number" required="required" placeholder="(09xx)xxxxxx">
+									    <input class="form-control" id="mobileNo" name="mobileNo" type="number" required="required" value="<%=rs.getString("MOBILE_NO") %>">
 									  </div>
 									</div>
 									
 									<!-- Form actions -->
 									<div class="form-group">
 										<div class="col-12 widget-right no-padding">
-											<button type="button" class="btn btn-primary btn-md float-right" onclick="addNewAccount()">Submit</button>
+											<button type="button" class="btn btn-primary btn-md float-right" onclick="updateAccount()">Save</button>
+										</div>
+									</div>
+									<%	}
+				            		} catch(Exception ex)
+				            		{
+				            			ex.printStackTrace();
+				            		} finally {
+				            			if (rs != null) {
+				            				try {
+				            					rs.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+				            			if (pstmt != null) {
+				            				try {
+				            					pstmt.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+				            			if (conn != null) {
+				            				try {
+				            					conn.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+				            		}
+									%>
+								</form>
+							</div>
+						</div>
+					</div>
+					<!-- Update account form end -->
+					
+					
+					<!-- Update password form start -->
+					<div class="col-lg-5">
+						<div class="card">
+							<div class="card-block">
+								<h3 class="card-title">Change Password</h3>
+								<form id="formUpdatePassword" class="form">
+								    <div class="form-group">
+								    	<label for="recipient-name" class="form-control-label">New password:</label>
+								        <input type="password" class="form-control" id="password1" name="password1" required="required">
+								    </div>
+							    	<div class="form-group">
+							            <label for="message-text" class="form-control-label">Re-enter new password:</label>
+							            <input type="password" class="form-control" id="password2" name="password2" required="required">
+							        </div>
+							        <div class="form-group">
+							        	<label for="message-text" id="diffPwdLabel" class="form-control-label" style="display: none; color:red;">Both passwords should be the same.</label>
+							        </div>
+							        <div class="form-group">
+							            <label for="message-text" id="lblChangePwdSuccess" class="form-control-label" style="display: none; color:green;">Password changed successfully.</label>
+							        </div>
+							        
+							        <!-- Form actions -->
+									<div class="form-group">
+										<div class="col-12 widget-right no-padding">
+											<button type="button" class="btn btn-primary btn-md float-right" onclick="changePassword()">Save</button>
 										</div>
 									</div>
 								</form>
 							</div>
 						</div>
 					</div>
+					<!-- Update password form end -->
 				</div>
 				<!-- Row end: create new user form -->
 				
@@ -303,7 +343,7 @@
 	    	return true;
 	    }
 		
-		function addNewAccount() {
+		function updateAccount() {
 			document.getElementById('lblTakenEmail').style.display = "none";
 			document.getElementById('lblTakenUsername').style.display = "none";
 			document.getElementById('lblInvalidMobileNo').style.display = "none";
@@ -316,11 +356,12 @@
 				document.getElementById('lblMissingField').style.display = "block";
 				return false;
 			}
-			
+
+			var idAccount=$("#idAccount").val();// 
 			var email=$("#email").val();// value in field email
 			$.ajax({
 	            url:'${pageContext.request.contextPath}/checkIfValueExists',
-	            data:{username: '0', email: email},
+	            data:{idAccount: idAccount, username: '0', email: email},
 	            type:'get',
 	            cache:false,
 	            success:function(data){
@@ -330,14 +371,14 @@
 	            	} 
 	            },
 	            error:function(){
-	              alert('error');
+	            	document.getElementById('alertAcctUpdateFail').style.display = "block";
 	            }
 			});
 			
 			var username=$("#username").val();// value in field username
 			$.ajax({
 	            url:'${pageContext.request.contextPath}/checkIfValueExists',
-	            data:{username: username, email: '0'},
+	            data:{idAccount: idAccount, username: username, email: '0'},
 	            type:'get',
 	            cache:false,
 	            success:function(data){
@@ -346,7 +387,7 @@
 	            	}
 	            },
 	            error:function(){
-	              alert('error');
+	            	document.getElementById('alertAcctUpdateFail').style.display = "block";
 	            }
 			});
 			if(checkIfValidMobileNo() == 'error') {
@@ -362,39 +403,61 @@
 	    	var gender=$("#gender").val();
 	    	var acctType=$("#dropdownUserProfiles").val();
 	    	var screenName=$("#screenName").val();
-	    	var email=$("#email").val();
-	    	var username=$("#username").val();
 	    	var mobileNo=$("#mobileNo").val();
-			
+	    	var codType=$("#codType").val();
+	    	
+	    	var account = {idAccount: idAccount, firstName: firstName, lastName: lastName, gender: gender, codType: codType, email: email, username: username, mobileNo: mobileNo};
+	    	var accountJSON = JSON.stringify(account);
+	    	
 			$.ajax({
-	            url:'${pageContext.request.contextPath}/createUserController',
-	            data:{firstName: firstName, lastName: lastName, gender: gender, codType: acctType, screenName: screenName, email: email, username: username, mobileNo: mobileNo},
+	            url:'${pageContext.request.contextPath}/updateUserController',
+	            data: accountJSON,
 	            type:'post',
 	            cache:false,
 	            success:function(data){
 	            	if ($.trim(data) == 'success') {
-	            		document.getElementById('alertAcctCreationSuccess').style.display = "block";
+	            		document.getElementById('alertAcctUpdateSuccess').style.display = "block";
 	            	} else {
-	            		document.getElementById('alertAcctCreationFail').style.display = "block";
+	            		document.getElementById('alertAcctUpdateFail').style.display = "block";
 	            	}
 	            },
 	            error:function(){
-	              alert('error');
+	            	document.getElementById('alertAcctUpdateFail').style.display = "block";
 	            }
 			});
 		}
 		
-		$('#dropdownUserProfiles').on('change',function(){
-			   var selection = $(this).val();
-			   if (selection == 'PROFILE003') {
-			       $('#divScreenName').show();
-			   } else {
-				   $('#divScreenName').hide();
-			   }
-		});
-		
 		function closeAlert(idAlert) {
 			document.getElementById(idAlert).style.display = "none";
+		}
+		
+		function changePassword() {
+			var password1=$("#password1").val();
+			var password2=$("#password2").val();
+			var diffPwdLabel = document.getElementById('diffPwdLabel');
+			
+			if (password1 != password2) {
+				diffPwdLabel.style.display = "block";
+			} else {
+				diffPwdLabel.style.display = "none";
+				
+				$.ajax({
+		            url:'${pageContext.request.contextPath}/changePasswordController',
+		            data:{password1: password1, password2: password2},
+		            type:'post',
+		            cache:false,
+		            success:function(data){
+		            	if ($.trim(data) == 'success') {
+		            		document.getElementById('alertPwChangeSuccess').style.display = "block";
+		            	} else if ($.trim(data) == 'fail') {
+		            		document.getElementById('alertPwChangeFail').style.display = "block";
+		            	}
+		            },
+		            error:function(){
+		              alert('error');
+		            }
+				});
+			}
 		}
 	</script>
    

@@ -3,6 +3,7 @@ package com.win.radio.manila.controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Date;
+import java.util.Calendar;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -26,14 +27,16 @@ public class ChangePasswordController extends HttpServlet {
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		Date currentDateTime = new java.sql.Date(new java.util.Date().getTime());
 		PrintWriter rspns = response.getWriter();
 		
 		HttpSession session = request.getSession();
 		int idAccount = (int) session.getAttribute("idAccount");
 		
+		Calendar cal = Calendar.getInstance();  
+		java.sql.Timestamp timestamp = new java.sql.Timestamp(cal.getTimeInMillis());
+		
 		AccountModel account = new AccountModel();
-		account.setUpdateDate(currentDateTime);
+		account.setUpdateDate(timestamp);
 		account.setUpdateUser(idAccount);
 		account.setPassword(String.valueOf(request.getParameter("password1").hashCode()));
 		account.setIndChangePwd(0);

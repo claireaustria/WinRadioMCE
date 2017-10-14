@@ -13,28 +13,12 @@ import javax.sql.DataSource;
 
 
 public class TransactionLogOperations implements TransactionLogCommands {
-
-	private static Connection getConnection(){
-		Connection connection = null;
-		
-		try{
-			DataSource dataSource = 
-			(DataSource) InitialContext.doLookup(DS_SOURCE);
-			connection = dataSource.getConnection();
-		}catch (NamingException e){
-			e.printStackTrace();
-		}catch (SQLException e){
-			e.printStackTrace();
-		}
-		return connection;
-	}
-	
 	
 	/*CONTROLLER FUNCTIONS*/
 	public static boolean addTransactionLog(int intIdAccount, String transactionName, String description, String codRegion){
 		try {
 			Date currentDateTime = new java.sql.Date(new java.util.Date().getTime());
-			PreparedStatement pstmt = getConnection().prepareStatement(ADD_TRANSACTION_LOG);
+			PreparedStatement pstmt = ConnectionUtil.getConnection().prepareStatement(ADD_TRANSACTION_LOG);
 			pstmt.setDate(1, currentDateTime);
 			pstmt.setDate(2, currentDateTime);
 			pstmt.setInt(3, intIdAccount);

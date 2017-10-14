@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.SecureRandom;
 import java.sql.Date;
-import java.util.Locale;
-import java.util.Random;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -41,12 +39,13 @@ public class CreateUserController extends HttpServlet {
 		
 		HttpSession session = request.getSession();
 		int idAccount = (int) session.getAttribute("idAccount");
-				
-		Date currentDateTime = new java.sql.Date(new java.util.Date().getTime());
-		java.text.SimpleDateFormat sdf = new java.text.SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+		Calendar cal = Calendar.getInstance();  
+		java.sql.Timestamp timestamp = new java.sql.Timestamp(cal.getTimeInMillis());
+		
 		AccountModel account = new AccountModel();
-		account.setCreateDate(currentDateTime);
-		account.setUpdateDate(currentDateTime);
+		account.setCreateDate(timestamp);
+		account.setUpdateDate(timestamp);
 		account.setUpdateUser(idAccount);
 		account.setCodType(request.getParameter("codType"));
 		account.setEmail(request.getParameter("email"));
@@ -66,8 +65,8 @@ public class CreateUserController extends HttpServlet {
 				
 				if (account.getCodType().equals(CodeUtil.COD_TYPE_DJ)) {
 					DJListModel dj = new DJListModel();
-					dj.setCreateDate(currentDateTime);
-					dj.setUpdateDate(currentDateTime);
+					dj.setCreateDate(timestamp);
+					dj.setUpdateDate(timestamp);
 					dj.setUpdateUser(idAccount);
 					dj.setDjName(request.getParameter("screenName"));
 					dj.setDescription("-");

@@ -37,9 +37,9 @@
 						<h1 class="float-left text-center text-md-left">About Us</h1>
 					</div>
 					
-					<!-- include usernameSection Start-->
-					<%@include file="usernameSection.jsp" %>
-					<!-- include sernameSection End -->	
+					<!-- include headerSection Start-->
+					<%@include file="headerSection.jsp" %>
+					<!-- include headerSection End -->	
 					
 					<div class="clear"></div>
 				</header>

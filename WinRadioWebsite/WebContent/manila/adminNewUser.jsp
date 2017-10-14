@@ -1,3 +1,22 @@
+<!-- Prevent Access to the page without logging in -->
+	<%
+		try{
+			String userName = (String) session.getAttribute("userName");
+			if (null == userName) {
+			   request.setAttribute("Error", "Session has ended.  Please login.");
+			   response.sendRedirect("adminLogin.jsp");
+			}
+		}catch(Exception e){
+			System.out.print(e.getMessage());
+			e.printStackTrace();
+		}
+	
+		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");//HTTP 1.1
+	    response.setHeader("Pragma","no-cache"); //HTTP 1.0
+	    response.setDateHeader ("Expires", 0); //prevents caching at the proxy server
+	%>
+<!-- End of Access Restriction -->
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.ResultSet"%>
@@ -114,7 +133,7 @@
 		    						<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">Account Type</label>
 									  <div class="col-9">
-									  	<select class="form-control" id="dropdownUserProfiles" name="codType">
+									  	<select class="form-control" id="dropdownUserProfiles" name="codType" onblur="toggleScreenNameDiv()">
 									  		<%ResultSet rs = null;
 						            		Statement select = null;
 						            		Connection conn = null;
@@ -301,7 +320,7 @@
 			var email=$("#email").val();// value in field email
 			$.ajax({
 	            url:'${pageContext.request.contextPath}/checkIfValueExists',
-	            data:{idAccount: '0', username: '0', email: email},
+	            data:{username: '0', email: email},
 	            type:'get',
 	            cache:false,
 	            success:function(data){
@@ -318,7 +337,7 @@
 			var username=$("#username").val();// value in field username
 			$.ajax({
 	            url:'${pageContext.request.contextPath}/checkIfValueExists',
-	            data:{idAccount: '0', username: username, email: '0'},
+	            data:{username: username, email: '0'},
 	            type:'get',
 	            cache:false,
 	            success:function(data){

@@ -10,6 +10,7 @@ public class CodeUtil {
 	public final static String COD_TYPE_DJ 				= "PROFILE003";
 
 	public final static String COD_STATUS_ACTIVE 		= "STATUS001";
+	public final static String COD_STATUS_INACTIVE		= "STATUS002";
 	
 	public final static String COD_REGION_MNL 			= "MNL";
 		

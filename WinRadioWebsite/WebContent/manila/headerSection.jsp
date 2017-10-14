@@ -5,7 +5,7 @@
 	<div class="username mt-1">
 		<h4 class="mb-1"><%=session.getAttribute("userName")%></h4>
 		
-		<h6 class="text-muted"><%=session.getAttribute("codType")%></h6>
+		<h6 class="text-muted"><%=session.getAttribute("codName")%></h6>
 	</div>
 	</a>
 	

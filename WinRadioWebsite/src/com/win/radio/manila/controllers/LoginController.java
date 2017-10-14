@@ -52,6 +52,7 @@ public class LoginController extends HttpServlet {
 				String rsPassword = rs.getString("PASSWORD");
 				int rsIdAccount = rs.getInt("ID_ACCOUNT");
 				String rsCodAcctType = rs.getString("COD_TYPE");
+				String rsCodName = rs.getString("NAME");
 				int rsIndChangePwd = rs.getInt("IND_CHANGE_PWD");
 				
 				if ((username.equals(rsUsername)) && (encryptedcode(password).equals(rsPassword))) {
@@ -62,6 +63,7 @@ public class LoginController extends HttpServlet {
 					session.setAttribute("userName", rsUsername);
 					session.setAttribute("codType", rsCodAcctType);
 					session.setAttribute("indChangePwd", rsIndChangePwd);
+					session.setAttribute("codName", rsCodName);
 					
 				} else if (!encryptedcode(password).equals(rsPassword)) {
 					incorrect = "password";

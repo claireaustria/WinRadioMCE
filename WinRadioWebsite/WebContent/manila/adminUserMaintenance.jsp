@@ -1,3 +1,22 @@
+<!-- Prevent Access to the page without logging in -->
+	<%
+		try{
+			String userName = (String) session.getAttribute("userName");
+			if (null == userName) {
+			   request.setAttribute("Error", "Session has ended.  Please login.");
+			   response.sendRedirect("adminLogin.jsp");
+			}
+		}catch(Exception e){
+			System.out.print(e.getMessage());
+			e.printStackTrace();
+		}
+	
+		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");//HTTP 1.1
+	    response.setHeader("Pragma","no-cache"); //HTTP 1.0
+	    response.setDateHeader ("Expires", 0); //prevents caching at the proxy server
+	%>
+<!-- End of Access Restriction -->
+
 <%@page import="java.util.List"%>
 <%@page import="com.win.radio.manila.models.AccountModel"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
@@ -172,31 +191,41 @@
     <script type="text/javascript">
     $(function() {
         
-        //Get all data rows from the table 
+        /* Get all rows from your 'table' but not the first one 
+         * that includes headers. */
         var rows = $('tr').not(':first');
         
+        /* Create 'click' event handler for rows */
         rows.on('click', function(e) {
-            //Get current row
+            
+            /* Get current row */
             var row = $(this);
-            //Highlight row
+            
+            /* Check if 'Ctrl', 'cmd' or 'Shift' keyboard key was pressed
+             * 'Ctrl' => is represented by 'e.ctrlKey' or 'e.metaKey'
+             * 'Shift' => is represented by 'e.shiftKey' */
             if ((e.ctrlKey || e.metaKey) || e.shiftKey) {
+                /* If pressed highlight the other row that was clicked */
                 row.addClass('highlight');
             } else {
+                /* Otherwise just highlight one row and clean others */
                 rows.removeClass('highlight');
                 row.addClass('highlight');
             }
-	    });
+	            
+	        });
 	        
-        //Prevents the table texts from being modified
-        $(document).bind('selectstart dragstart', function(e) { 
-            e.preventDefault(); return false; 
-        });
-	 });
-    
-    /*Page redirect*/
-    $('#btnNewUser').click(function(){
-       window.location.href='adminNewUser.jsp';
-    })
+	        /* This 'event' is used just to avoid that the table text 
+	         * gets selected (just for styling). 
+	         * For example, when pressing 'Shift' keyboard key and clicking 
+	         * (without this 'event') the text of the 'table' will be selected.
+	         * You can remove it if you want, I just tested this in 
+	         * Chrome v30.0.1599.69 */
+	        $(document).bind('selectstart dragstart', function(e) { 
+	            e.preventDefault(); return false; 
+	        });
+	        
+	    });
     </script>
     
     

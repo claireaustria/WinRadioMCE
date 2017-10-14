@@ -1,3 +1,22 @@
+<!-- Prevent Access to the page without logging in -->
+	<%
+		try{
+			String userName = (String) session.getAttribute("userName");
+			if (null == userName) {
+			   request.setAttribute("Error", "Session has ended.  Please login.");
+			   response.sendRedirect("adminLogin.jsp");
+			}
+		}catch(Exception e){
+			System.out.print(e.getMessage());
+			e.printStackTrace();
+		}
+	
+		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");//HTTP 1.1
+	    response.setHeader("Pragma","no-cache"); //HTTP 1.0
+	    response.setDateHeader ("Expires", 0); //prevents caching at the proxy server
+	%>
+<!-- End of Access Restriction -->
+
 <%@page import="com.win.radio.manila.utilities.TransactionLogOperations"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
@@ -50,22 +69,6 @@
     </style>
 </head>
 <body>
-
-	<!-- Prevent Access to the page without logging in -->
-	<%
-		try{
-			String userName = (String) session.getAttribute("userName");
-			if (null == userName) {
-			   request.setAttribute("Error", "Session has ended.  Please login.");
-			   RequestDispatcher rd = request.getRequestDispatcher("adminLogin.jsp");
-			   rd.forward(request, response);
-			}
-		}catch(Exception e){
-			System.out.print(e.getMessage());
-			e.printStackTrace();
-		}
-	%>
-	<!-- End of Access Restriction -->
 	
 	<div class="container-fluid" id="wrapper">
 		<div class="row">
@@ -86,8 +89,7 @@
 				<!-- Check of IndexChangePWD start-->
 				<%
 				try{
-					int indChangePwd = (Integer)session.getAttribute("indChangePwd");
-				 	if(indChangePwd == 1){
+				 	if((Integer)session.getAttribute("indChangePwd") == 1){
 				%>
 				 
 			    <!-- Modal start -->
@@ -222,6 +224,7 @@
 				                 	conn = ConnectionUtil.getConnection();
 				        			select = conn.createStatement();
 				        			rs = select.executeQuery(TransactionLogOperations.GET_TRANSACTION_LOGS);
+				        			
 				        				while(rs.next()) {
 									%>
 					                <a href="#" class="list-group-item list-group-item-action">

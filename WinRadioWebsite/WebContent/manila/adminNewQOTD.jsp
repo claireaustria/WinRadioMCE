@@ -1,3 +1,22 @@
+<!-- Prevent Access to the page without logging in -->
+<%
+		try{
+			String userName = (String) session.getAttribute("userName");
+			if (null == userName) {
+			   request.setAttribute("Error", "Session has ended.  Please login.");
+			   response.sendRedirect("adminLogin.jsp");
+			}
+		}catch(Exception e){
+			System.out.print(e.getMessage());
+			e.printStackTrace();
+		}
+	
+		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");//HTTP 1.1
+	    response.setHeader("Pragma","no-cache"); //HTTP 1.0
+	    response.setDateHeader ("Expires", 0); //prevents caching at the proxy server
+%>
+<!-- End of Access Restriction -->
+
 <%@page import="com.win.radio.manila.utilities.ConnectionUtil"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>

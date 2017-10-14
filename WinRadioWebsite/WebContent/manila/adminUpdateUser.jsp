@@ -1,3 +1,22 @@
+<!-- Prevent Access to the page without logging in -->
+	<%
+		try{
+			String userName = (String) session.getAttribute("userName");
+			if (null == userName) {
+			   request.setAttribute("Error", "Session has ended.  Please login.");
+			   response.sendRedirect("adminLogin.jsp");
+			}
+		}catch(Exception e){
+			System.out.print(e.getMessage());
+			e.printStackTrace();
+		}
+	
+		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");//HTTP 1.1
+	    response.setHeader("Pragma","no-cache"); //HTTP 1.0
+	    response.setDateHeader ("Expires", 0); //prevents caching at the proxy server
+	%>
+<!-- End of Access Restriction -->
+
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.ResultSet"%>
@@ -90,12 +109,6 @@
 									  <label id="lblInvalidMobileNo" class="col-12 col-form-label" style="color:red;display:none;">Please enter an 11-digit mobile no.</label>
 									</div>
 									</center>
-				      				<div class="form-group row" style="display:none;">
-									  <label for="example-text-input" class="col-3 col-form-label">ID Account</label>
-									  <div class="col-9">
-									    <input class="form-control" id="idAccount" name="firstName" type="text" placeholder="Jane" required="required">
-									  </div>
-									</div>
 				      				<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">First Name</label>
 									  <div class="col-9">
@@ -307,7 +320,7 @@
 			var email=$("#email").val();// value in field email
 			$.ajax({
 	            url:'${pageContext.request.contextPath}/checkIfValueExists',
-	            data:{idAccount: '0', username: '0', email: email},
+	            data:{username: '0', email: email},
 	            type:'get',
 	            cache:false,
 	            success:function(data){
@@ -321,11 +334,10 @@
 	            }
 			});
 			
-			var idAccount=$("#idAccount").val();
 			var username=$("#username").val();// value in field username
 			$.ajax({
 	            url:'${pageContext.request.contextPath}/checkIfValueExists',
-	            data:{idAccount: '0', username: username, email: '0'},
+	            data:{username: username, email: '0'},
 	            type:'get',
 	            cache:false,
 	            success:function(data){

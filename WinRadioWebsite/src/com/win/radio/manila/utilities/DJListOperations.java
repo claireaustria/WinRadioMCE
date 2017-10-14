@@ -27,7 +27,8 @@ public class DJListOperations implements DJListCommands {
 			pstmt.setInt(3, djItem.getUpdateUser());
 			pstmt.setString(4, djItem.getDjName());
 			pstmt.setString(5, djItem.getDescription());
-			pstmt.setString(6, djItem.getCodRegion());
+			pstmt.setInt(6, djItem.getIdAccount());
+			pstmt.setString(7, djItem.getCodRegion());
 			
 			pstmt.executeUpdate(); 
 		}	catch (SQLException sqle){

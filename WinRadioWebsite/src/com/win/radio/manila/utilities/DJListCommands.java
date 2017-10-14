@@ -7,5 +7,5 @@ public interface DJListCommands {
 	
 	/* CONTROLLER SCRIPTS */
 	public String ADD_NEW_DJ = "INSERT INTO DJLIST (CREATE_DATE, UPDATE_DATE, UPDATE_USER, DJ_NAME, "
-			+ "DESCRIPTION, COD_REGION) VALUES (?, ?, ?, ?, ?, ?)";
+			+ "DESCRIPTION, ID_ACCOUNT, COD_REGION) VALUES (?, ?, ?, ?, ?, ?, ?)";
 }

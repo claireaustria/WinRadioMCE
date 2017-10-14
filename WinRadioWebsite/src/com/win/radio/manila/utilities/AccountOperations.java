@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -14,111 +16,14 @@ import com.win.radio.manila.models.AccountModel;
 
 public class AccountOperations implements AccountCommands  {
 
-	private static Connection getConnection(){
-		Connection connection = null;
-		
-		try{
-			DataSource dataSource = 
-			(DataSource) InitialContext.doLookup(CodeUtil.DS_SOURCE);
-			connection = dataSource.getConnection();
-		}catch (NamingException e){
-			e.printStackTrace();
-		}catch (SQLException e){
-			e.printStackTrace();
-		}
-		return connection;
-	}
-	
-	/* JSP FUNCTIONS */
-	
-	public static ResultSet getAllUsers() {
-		ResultSet rs = null;
-		try{
-			Statement select = getConnection().createStatement();
-				rs = select.executeQuery(GET_ALL_USERS);
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return rs;
-	}
-	
-	public static ResultSet getAccountTypes() {
-		ResultSet rs = null;
-		try{
-			Statement select = getConnection().createStatement();
-				rs = select.executeQuery(GET_ACCOUNT_TYPES);
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return rs;
-	}
-	
-	public static ResultSet getIndChangePwd() {
-		ResultSet rs = null;
-		try{
-			Statement select = getConnection().createStatement();
-				rs = select.executeQuery(GET_IND_CHANGE_PWD);
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return rs;
-	}
-	
 	/* CONTROLLER FUNCTIONS */
 	
-	public static ResultSet getCredentials(String username) {
-		ResultSet rs = null;
-		try{
-			PreparedStatement pstmt = getConnection().prepareStatement(GET_CREDENTIALS);
-			pstmt.setString(1, username);
-			rs = pstmt.executeQuery();
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return rs;
-	}
-	
-	public static ResultSet getUsernameIfExisting(String username) {
-		ResultSet rs = null;
-		try{
-	
-			PreparedStatement pstmt = getConnection().prepareStatement(GET_USERNAME);
-			pstmt.setString(1, username);
-			rs = pstmt.executeQuery();
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return rs;
-	}
-	
-	public static ResultSet getEmailIfExisting(String email) {
-		ResultSet rs = null;
-		try{
-	
-			PreparedStatement pstmt = getConnection().prepareStatement(GET_EMAIL);
-			pstmt.setString(1, email);
-			rs = pstmt.executeQuery();
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return rs;
-	}
-	
 	public static boolean addUser(AccountModel account){
+		PreparedStatement pstmt = null;
+		Connection conn = null;
 		try {
-			PreparedStatement pstmt = getConnection().prepareStatement(ADD_ACCOUNT);
+			conn = ConnectionUtil.getConnection();
+			pstmt = conn.prepareStatement(ADD_ACCOUNT);
 			pstmt.setDate(1, account.getCreateDate());
 			pstmt.setDate(2, account.getUpdateDate());
 			pstmt.setInt(3, account.getUpdateUser());
@@ -133,16 +38,34 @@ public class AccountOperations implements AccountCommands  {
 			pstmt.setString(12, account.getCodStatus());
 			pstmt.setString(13, account.getCodRegion());
 			pstmt.executeUpdate(); 
-		}	catch (SQLException sqle){
+		} catch (SQLException sqle){
 			System.out.println("SQLException - addUser: " +sqle.getMessage());
 			return false;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return true;
 	}
 	
 	public static boolean changePassword(AccountModel account) {
+		PreparedStatement pstmt = null;
+		Connection conn = null;
 		try {
-			PreparedStatement pstmt = getConnection().prepareStatement(CHANGE_PASSWORD);
+			conn = ConnectionUtil.getConnection();
+			pstmt = conn.prepareStatement(CHANGE_PASSWORD);
 			pstmt.setDate(1, account.getUpdateDate());
 			pstmt.setInt(2, account.getUpdateUser());
 			pstmt.setString(3, account.getPassword());
@@ -152,6 +75,21 @@ public class AccountOperations implements AccountCommands  {
 		}	catch (SQLException sqle){
 			System.out.println("SQLException - changePassword: " +sqle.getMessage());
 			return false;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return true;
 	}

@@ -76,7 +76,7 @@ public class CreateUserController extends HttpServlet {
 					DJListOperations.addNewDJ(dj);
 				}
 				
-				sendInitialEmail(account, saltString);
+				//sendInitialEmail(account, saltString);
 			
 				new LogHelper();
 				LogHelper.insertTransactionLogs(idAccount, "addUser", "added a new user.", CodeUtil.COD_REGION_MNL);

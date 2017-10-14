@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.win.radio.manila.utilities.AccountCommands;
 import com.win.radio.manila.utilities.AccountOperations;
 import com.win.radio.manila.utilities.ConnectionUtil;
 
@@ -36,18 +37,23 @@ public class CheckIfValueExistsController extends HttpServlet {
 		String email = request.getParameter("email");
 	    
 		ResultSet resultSet = null;
+		PreparedStatement pstmt = null;
+		Connection conn = null;
 		
 		try {
+			conn = ConnectionUtil.getConnection();
 			if (!username.equals("0")) {
-				new AccountOperations();
-				resultSet = AccountOperations.getUsernameIfExisting(username);
+				pstmt = conn.prepareStatement(AccountCommands.GET_USERNAME);
+				pstmt.setString(1, username);
+				resultSet = pstmt.executeQuery();
 				
 				while (resultSet.next()) {
 					responseMessage = "Username already taken.";
 				}
 			} else if (!email.equals("0")) {
-				new AccountOperations();
-				resultSet = AccountOperations.getEmailIfExisting(email);
+				pstmt = conn.prepareStatement(AccountCommands.GET_EMAIL);
+				pstmt.setString(1, email);
+				resultSet = pstmt.executeQuery();
 				
 				while (resultSet.next()) {
 					responseMessage = "Email already taken.";
@@ -63,6 +69,12 @@ public class CheckIfValueExistsController extends HttpServlet {
 			try {
 				if(resultSet!=null) {
 					resultSet.close();
+				}
+				if(conn!=null) {
+					conn.close();
+				}
+				if(pstmt != null) {
+					pstmt.close();
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

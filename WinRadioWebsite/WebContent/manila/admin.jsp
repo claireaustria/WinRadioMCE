@@ -1,7 +1,12 @@
+<%@page import="com.win.radio.manila.utilities.TransactionLogOperations"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.ResultSet"%>
-<%@page import="com.win.radio.manila.utilities.TransactionLogOperations"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="com.win.radio.manila.utilities.ConnectionUtil"%>
 <%@include file="nav.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -46,7 +51,7 @@
 </head>
 <body>
 
-	<!-- Prevent Access to the page without Logging in -->
+	<!-- Prevent Access to the page without logging in -->
 	<%
 		try{
 			String userName = (String) session.getAttribute("userName");
@@ -78,15 +83,15 @@
 					<div class="clear"></div>
 				</header>
 				 
-				 <!-- Check of IndexChangePWD start-->
-				 <%
-				 try{
-				 	int indChangePwd = (Integer)session.getAttribute("indChangePwd");
+				<!-- Check of IndexChangePWD start-->
+				<%
+				try{
+					int indChangePwd = (Integer)session.getAttribute("indChangePwd");
 				 	if(indChangePwd == 1){
-				 %>
+				%>
 				 
-			     <!-- Modal start -->
-				 <div id="modalChangePassword" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+			    <!-- Modal start -->
+				<div id="modalChangePassword" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					 <div class="modal-dialog" role="document">
 					    <div class="modal-content">
 					      <div class="modal-header">
@@ -125,11 +130,11 @@
 				<!-- Modal end -->
 				
 				<%	}
-				 }
+				}
 				 catch(Exception e){
 					 System.out.print(e.getMessage());
 					 e.printStackTrace();
-				 }
+				}
 				%>
 				<!--Check of IndexChangePWD end-->
 		
@@ -209,11 +214,15 @@
 							<div class="card-block">
 								<h3 class="card-title">Recent Activities</h3>
 									<div class="list-group list-group-flush small">
-					              	<%
-									try{	
-									ResultSet rs = new TransactionLogOperations().getTransactionLogs();
-									while(rs.next()){
-									
+					              	<%ResultSet rs = null;
+				            		Statement select = null;
+				            		Connection conn = null;
+				            		
+				            		try{	 
+				                 	conn = ConnectionUtil.getConnection();
+				        			select = conn.createStatement();
+				        			rs = select.executeQuery(TransactionLogOperations.GET_TRANSACTION_LOGS);
+				        				while(rs.next()) {
 									%>
 					                <a href="#" class="list-group-item list-group-item-action">
 					                  <div class="media">
@@ -228,12 +237,33 @@
 					                    </div>
 					                  </div>
 					                </a>
-					                <%}
-									rs.close();  
-									} catch (Exception e) {
-										System.out.print(e.getMessage());
-									e.printStackTrace();
-									}
+					                <%	}
+				            		} catch(Exception ex)
+				            		{
+				            			ex.printStackTrace();
+				            		} finally {
+				            			if (rs != null) {
+				            				try {
+				            					rs.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+				            			if (select != null) {
+				            				try {
+				            					select.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+				            			if (conn != null) {
+				            				try {
+				            					conn.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+				            		}
 									%>
 					                <a href="#" class="list-group-item list-group-item-action">
 					                  View all activity...

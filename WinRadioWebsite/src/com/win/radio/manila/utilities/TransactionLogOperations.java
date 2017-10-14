@@ -29,19 +29,6 @@ public class TransactionLogOperations implements TransactionLogCommands {
 		return connection;
 	}
 	
-	/* JSP FUNCTIONS */
-	public static ResultSet getTransactionLogs() {
-		ResultSet rs = null;
-		try{
-			Statement select = getConnection().createStatement();
-				rs = select.executeQuery(GET_TRANSACTION_LOGS);
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return rs;
-	}
 	
 	/*CONTROLLER FUNCTIONS*/
 	public static boolean addTransactionLog(int intIdAccount, String transactionName, String description, String codRegion){

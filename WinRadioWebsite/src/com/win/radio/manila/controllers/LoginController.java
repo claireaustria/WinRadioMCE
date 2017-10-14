@@ -36,18 +36,23 @@ public class LoginController extends HttpServlet {
 		String password = request.getParameter("password");
 		String incorrect = "username";
 				
-		ResultSet resultSet = null;	
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		
 		try {
 			
-			new AccountOperations();
-			resultSet = AccountOperations.getCredentials(username);
+			conn = ConnectionUtil.getConnection();
+			pstmt = conn.prepareStatement(AccountOperations.GET_CREDENTIALS);
+			pstmt.setString(1, username);
+			rs = pstmt.executeQuery();
 			
-			while (resultSet.next()) {
-				String rsUsername = resultSet.getString("USERNAME");
-				String rsPassword = resultSet.getString("PASSWORD");
-				int rsIdAccount = resultSet.getInt("ID_ACCOUNT");
-				String rsCodAcctType = resultSet.getString("COD_TYPE");
-				int rsIndChangePwd = resultSet.getInt("IND_CHANGE_PWD");
+			while (rs.next()) {
+				String rsUsername = rs.getString("USERNAME");
+				String rsPassword = rs.getString("PASSWORD");
+				int rsIdAccount = rs.getInt("ID_ACCOUNT");
+				String rsCodAcctType = rs.getString("COD_TYPE");
+				int rsIndChangePwd = rs.getInt("IND_CHANGE_PWD");
 				
 				if ((username.equals(rsUsername)) && (encryptedcode(password).equals(rsPassword))) {
 					incorrect = "";
@@ -70,12 +75,26 @@ public class LoginController extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if(resultSet!=null) {
-					resultSet.close();
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

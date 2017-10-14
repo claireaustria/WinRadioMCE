@@ -13,26 +13,15 @@ import javax.sql.DataSource;
 import com.win.radio.manila.models.DJListModel;
 
 public class DJListOperations implements DJListCommands {
-
-	private static Connection getConnection(){
-		Connection connection = null;
-		
-		try{
-			DataSource dataSource = 
-			(DataSource) InitialContext.doLookup(DS_SOURCE);
-			connection = dataSource.getConnection();
-		}catch (NamingException e){
-			e.printStackTrace();
-		}catch (SQLException e){
-			e.printStackTrace();
-		}
-		return connection;
-	}
 	
 	/* CONTROLLER FUNCTIONS */
 	public static boolean addNewDJ(DJListModel djItem) {
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		
 		try {
-			PreparedStatement pstmt = getConnection().prepareStatement(ADD_NEW_DJ);
+			conn = ConnectionUtil.getConnection();
+			pstmt= conn.prepareStatement(ADD_NEW_DJ);
 			pstmt.setDate(1, djItem.getCreateDate());
 			pstmt.setDate(2, djItem.getUpdateDate());
 			pstmt.setInt(3, djItem.getUpdateUser());
@@ -44,6 +33,21 @@ public class DJListOperations implements DJListCommands {
 		}	catch (SQLException sqle){
 			System.out.println("SQLException - addNewDJ: " +sqle.getMessage());
 			return false;
+		} 	finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return true;
 	}

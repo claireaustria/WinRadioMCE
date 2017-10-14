@@ -1,12 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.ResultSet"%>
-<%@page import="java.sql.Statement"%>
-<%@page import="java.sql.PreparedStatement"%>
-<%@page import="java.sql.Connection"%>
-<%@page import="java.sql.SQLException"%>
 <%@page import="com.win.radio.manila.utilities.AccountOperations"%>
-<%@page import="com.win.radio.manila.utilities.ConnectionUtil"%>
 <%@include file="nav.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -115,44 +110,18 @@
 									  <label for="example-text-input" class="col-3 col-form-label">Account Type</label>
 									  <div class="col-9">
 									  	<select class="form-control" id="dropdownUserProfiles" name="codType" onblur="toggleScreenNameDiv()">
-									  		<%ResultSet rs = null;
-						            		Statement select = null;
-						            		Connection conn = null;
-						            		
-						            		try{	 
-						                 	conn = ConnectionUtil.getConnection();
-						        			select = conn.createStatement();
-						        			rs = select.executeQuery(AccountOperations.GET_ACCOUNT_TYPES);
-						        				while(rs.next()) {
+									  		<%
+											try{	
+											ResultSet rs = new AccountOperations().getAccountTypes();
+											while(rs.next()){
 											%>
 									      	<option value="<%=rs.getString("COD_TYPE") %>"><%=rs.getString("NAME") %></option>
-									      	<%	}
-						            		} catch(Exception ex)
-						            		{
-						            			ex.printStackTrace();
-						            		} finally {
-						            			if (rs != null) {
-						            				try {
-						            					rs.close();
-						            				} catch (SQLException e) {
-						            					e.printStackTrace();
-						            				}
-						            			}
-						            			if (select != null) {
-						            				try {
-						            					select.close();
-						            				} catch (SQLException e) {
-						            					e.printStackTrace();
-						            				}
-						            			}
-						            			if (conn != null) {
-						            				try {
-						            					conn.close();
-						            				} catch (SQLException e) {
-						            					e.printStackTrace();
-						            				}
-						            			}
-						            		}
+									      	<%}
+											rs.close();  
+											} catch (Exception e) {
+												System.out.print(e.getMessage());
+											e.printStackTrace();
+											}
 											%>
 									    </select>
 									  </div>

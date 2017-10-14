@@ -120,7 +120,10 @@
 									<td><%=rs.getString("CREATE_DATE") %></td>
 									<td><%=rs.getString("USERNAME") %></td>	
 									<td><%=rs.getString("DJ_NAME") %></td>
-									<td></td>
+									<td><a href="adminViewQOTD.jsp?idQuestion=<%=rs.getInt("ID_QUESTION")%>">
+										<button type="submit" class="btn btn-primary btn-option" id="">View</button>
+									</a></td>
+									<td><%=rs.getString("IND_POST") %></td>
 									<td><%=rs.getString("UPDATE_DATE") %></td>
 								</tr>
 								<% } } catch (Exception ex) {

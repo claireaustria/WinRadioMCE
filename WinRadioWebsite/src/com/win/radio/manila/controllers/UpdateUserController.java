@@ -24,6 +24,7 @@ import com.win.radio.manila.utilities.AccountOperations;
 import com.win.radio.manila.utilities.CodeUtil;
 import com.win.radio.manila.utilities.DJListOperations;
 import com.win.radio.manila.utilities.LogHelper;
+import com.win.radio.manila.utilities.TransactionLogOperations;
 import com.google.gson.Gson;
 import com.win.radio.manila.models.AccountModel;
 import com.win.radio.manila.models.DJListModel;
@@ -82,8 +83,8 @@ public class UpdateUserController extends HttpServlet {
 					strLogDesc = "updated a user's account.";
 				}
 				
-				new LogHelper();
-				LogHelper.insertTransactionLogs(updateUserIdAccount, "updateUser", strLogDesc, CodeUtil.COD_REGION_MNL);
+				new TransactionLogOperations();
+				TransactionLogOperations.addTransactionLog(updateUserIdAccount, "updateUser", strLogDesc, CodeUtil.COD_REGION_MNL);
 	
 				rspns.println("success");
 				rspns.close();

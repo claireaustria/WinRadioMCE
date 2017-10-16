@@ -61,8 +61,8 @@ public class QOTDController extends HttpServlet {
 			
 			response.sendRedirect("manila/admin.jsp");
 			
-			new LogHelper();
-			LogHelper.insertTransactionLogs(idAccount, "postQOTD", "posted a new question of the day.", CodeUtil.COD_REGION_MNL);
+			new TransactionLogOperations();
+			TransactionLogOperations.addTransactionLog(idAccount, "postQOTD", "posted a new question of the day.", CodeUtil.COD_REGION_MNL);
 			
 		} catch (Exception e) {
 			

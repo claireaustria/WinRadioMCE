@@ -21,6 +21,7 @@ import com.win.radio.manila.utilities.AccountOperations;
 import com.win.radio.manila.utilities.CodeUtil;
 import com.win.radio.manila.utilities.DJListOperations;
 import com.win.radio.manila.utilities.LogHelper;
+import com.win.radio.manila.utilities.TransactionLogOperations;
 import com.win.radio.manila.models.AccountModel;
 import com.win.radio.manila.models.DJListModel;
 
@@ -79,8 +80,8 @@ public class CreateUserController extends HttpServlet {
 				
 				sendInitialEmail(account, saltString);
 			
-				new LogHelper();
-				LogHelper.insertTransactionLogs(idAccount, "addUser", "added a new user.", CodeUtil.COD_REGION_MNL);
+				new TransactionLogOperations();
+				TransactionLogOperations.addTransactionLog(idAccount, "addUser", "added a new user.", CodeUtil.COD_REGION_MNL);
 
 				rspns.println("success");
 				rspns.close();

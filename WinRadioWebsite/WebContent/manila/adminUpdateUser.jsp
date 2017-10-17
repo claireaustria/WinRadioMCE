@@ -1,3 +1,4 @@
+<%@page import="com.win.radio.manila.utilities.CodeUtil"%>
 <%@page import="com.win.radio.manila.utilities.AccountCommands"%>
 <!-- Prevent Access to the page without logging in -->
 	<%
@@ -83,6 +84,21 @@
 				</div>
 				<!-- Breadcrumbs end -->
 				
+				
+				<%ResultSet rs = null;
+           		PreparedStatement pstmt = null;
+           		Connection conn = null;
+				
+				int idAccountToModify = Integer.valueOf(request.getParameter("idAccountToModify"));
+           		
+           		try{	 
+                	conn = ConnectionUtil.getConnection();
+   					pstmt = conn.prepareStatement(AccountCommands.GET_ACCOUNT_DETAILS);
+                	pstmt.setInt(1, idAccountToModify);
+                	rs = pstmt.executeQuery();
+   				
+   				while (rs.next()) {
+				%>
 				<!-- Alert confirmation start -->				
 				<div class="row">
 					<div class="col-lg-12">
@@ -106,8 +122,26 @@
 				</div>
 				<!-- Alert confirmation end -->
 				
+				<!-- Buttons start -->
+				<div class="row">
+					<div class="col-lg-12">
+						<span id="currentRow" style="display: none;"></span>
+						<%String strCodStatus = rs.getString("COD_STATUS");
+						if (strCodStatus.equals(CodeUtil.COD_STATUS_ACTIVE)) 
+						{%>
+						<button type="button" class="btn btn-secondary btn-md float-right btn-options" onclick="updateAccountStatus('deactivate')">Deactivate</button>
+						<button type="button" class="btn btn-primary btn-md float-right btn-options" id="btnCancel">Cancel</button>
+						<button type="button" class="btn btn-primary btn-md float-right btn-options" onclick="updateAccount()">Save</button>
+						<%} else if (strCodStatus.equals(CodeUtil.COD_STATUS_INACTIVE)) {%>
+						<button type="button" class="btn btn-secondary btn-md float-right btn-options" onclick="updateAccountStatus('activate')">Activate</button>
+						<%} %>
+					</div>
+				</div>
+				<!-- Buttons end -->
 				
-				<!-- Row start: create new user form -->
+				<br />
+				
+				<!-- Row start: update user form -->
 				<div class="row justify-content-md-center">
 					<!-- Update account form start -->
 					<div class="col-lg-7">
@@ -116,20 +150,7 @@
 								<h3 class="card-title">Update Profile</h3>
 								
 								<form id="formNewUser" class="form">
-									<%ResultSet rs = null;
-				            		PreparedStatement pstmt = null;
-				            		Connection conn = null;
 									
-									int idAccountToModify = Integer.valueOf(request.getParameter("idAccountToModify"));
-				            		
-				            		try{	 
-				                 	conn = ConnectionUtil.getConnection();
-				    				pstmt = conn.prepareStatement(AccountCommands.GET_ACCOUNT_DETAILS);
-				                 	pstmt.setInt(1, idAccountToModify);
-				                 	rs = pstmt.executeQuery();
-				    				
-				    				while (rs.next()) {
-									%>
 				      				<center><div class="form-group row">
 									  <label id="lblMissingField" class="col-12 col-form-label" style="color:red; display:none;">Please fill out all fields.</label>
 									  <label id="lblTakenEmail" class="col-12 col-form-label" style="color:red; display:none;">Email is already taken.</label>
@@ -192,42 +213,7 @@
 									  <div class="col-9">
 									    <input class="form-control" id="mobileNo" name="mobileNo" type="number" required="required" value="<%=rs.getString("MOBILE_NO") %>">
 									  </div>
-									</div>
-									
-									<!-- Form actions -->
-									<div class="form-group">
-										<div class="col-12 widget-right no-padding">
-											<button type="button" class="btn btn-primary btn-md float-right" onclick="updateAccount()">Save</button>
-										</div>
-									</div>
-									<%	}
-				            		} catch(Exception ex)
-				            		{
-				            			ex.printStackTrace();
-				            		} finally {
-				            			if (rs != null) {
-				            				try {
-				            					rs.close();
-				            				} catch (SQLException e) {
-				            					e.printStackTrace();
-				            				}
-				            			}
-				            			if (pstmt != null) {
-				            				try {
-				            					pstmt.close();
-				            				} catch (SQLException e) {
-				            					e.printStackTrace();
-				            				}
-				            			}
-				            			if (conn != null) {
-				            				try {
-				            					conn.close();
-				            				} catch (SQLException e) {
-				            					e.printStackTrace();
-				            				}
-				            			}
-				            		}
-									%>
+									</div>									
 								</form>
 							</div>
 						</div>
@@ -235,8 +221,37 @@
 					<!-- Update account form end -->
 					
 				</div>
-				<!-- Row end: create new user form -->
+				<!-- Row end: update user form -->
 				
+				<%	}
+           		} catch(Exception ex)
+           		{
+           			ex.printStackTrace();
+           		} finally {
+           			if (rs != null) {
+           				try {
+           					rs.close();
+           				} catch (SQLException e) {
+           					e.printStackTrace();
+           				}
+           			}
+           			if (pstmt != null) {
+           				try {
+           					pstmt.close();
+           				} catch (SQLException e) {
+           					e.printStackTrace();
+           				}
+           			}
+           			if (conn != null) {
+           				try {
+           					conn.close();
+           				} catch (SQLException e) {
+           					e.printStackTrace();
+           				}
+           			}
+           		}
+				%>
+									
 				<br />
 					
 			</main>
@@ -341,6 +356,17 @@
 				return false;
 			}
 			
+
+	    	var active=$("#radioActive").val();
+	    	var inactive=$("#radioInactive").val();
+	    	var acctStatus = "";
+	    	
+	    	if (active==1) {
+	    		acctStatus = "STATUS001";
+	    	} else if (inactive==1) {
+	    		acctStatus = "STATUS002";
+	    	}
+			
 			var firstName=$("#firstName").val();
 	    	var lastName=$("#lastName").val();
 	    	var gender=$("#gender").val();
@@ -348,8 +374,9 @@
 	    	var screenName=$("#screenName").val();
 	    	var mobileNo=$("#mobileNo").val();
 	    	var codType=$("#codType").val();
+	    		    	
 	    	
-	    	var account = {idAccount: idAccount, firstName: firstName, lastName: lastName, gender: gender, codType: codType, email: email, username: username, mobileNo: mobileNo};
+	    	var account = {idAccount: idAccount, firstName: firstName, lastName: lastName, gender: gender, codType: codType, email: email, username: username, mobileNo: mobileNo, codStatus: acctStatus};
 	    	var accountJSON = JSON.stringify(account);
 	    	
 			$.ajax({
@@ -374,6 +401,38 @@
 			document.getElementById(idAlert).style.display = "none";
 		}
 		
+		$('#btnCancel').click(function(){
+			window.location.href='adminUserMaintenance.jsp';
+		})
+		
+		
+		function updateAccountStatus(strStatus) {
+			var idAccount=$("#idAccount").val()
+			var codStatus = "";
+			if (strStatus == 'activate') {
+				codStatus = "STATUS001";
+			} else if (strStatus == 'deactivate') {
+				codStatus = "STATUS002";				
+			}
+							
+			$.ajax({
+	            url:'${pageContext.request.contextPath}/updateAccountStatus',
+	            data:{idAccount: idAccount, codStatus: codStatus},
+	            type:'post',
+	            cache:false,
+	            success:function(data){
+	            	if ($.trim(data) == 'success') {
+	            		document.getElementById('alertAcctUpdateSuccess').style.display = "block";
+	            	} else if ($.trim(data) == 'fail') {
+	            		document.getElementById('alertAcctUpdateFail').style.display = "block";
+	            	}
+	            },
+	            error:function(){
+	              alert('error');
+	            }
+			});
+		}
+		    
 	</script>
    
 </body>

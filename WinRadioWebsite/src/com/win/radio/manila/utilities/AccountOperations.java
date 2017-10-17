@@ -47,7 +47,7 @@ public class AccountOperations implements AccountCommands  {
 			}
 		} catch (SQLException sqle){
 			System.out.println("SQLException - addUser: " +sqle.getMessage());
-			return newId;
+			return 0;
 		} finally {
 			if (pstmt != null) {
 				try {
@@ -128,6 +128,39 @@ public class AccountOperations implements AccountCommands  {
 			pstmt.executeUpdate(); 
 		}	catch (SQLException sqle){
 			System.out.println("SQLException - changePassword: " +sqle.getMessage());
+			return false;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+	
+	public static boolean updateAccountStatus(AccountModel account) {
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		try {
+			conn = ConnectionUtil.getConnection();
+			pstmt = conn.prepareStatement(UPDATE_ACCOUNT_STATUS);
+			pstmt.setTimestamp(1, account.getUpdateDate());
+			pstmt.setInt(2, account.getUpdateUser());
+			pstmt.setString(3, account.getCodStatus());	
+			pstmt.setInt(4, account.getIdAccount());	
+			pstmt.executeUpdate(); 
+		}	catch (SQLException sqle){
+			System.out.println("SQLException - updateAccountStatus: " +sqle.getMessage());
 			return false;
 		} finally {
 			if (pstmt != null) {

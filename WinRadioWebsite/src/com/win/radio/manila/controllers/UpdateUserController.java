@@ -70,7 +70,7 @@ public class UpdateUserController extends HttpServlet {
 		account.setLastName(accountJson.getLastName());
 		account.setFirstName(accountJson.getFirstName());
 		account.setGender(accountJson.getGender());
-		account.setMobileNo(accountJson.getMobileNo());
+		account.setMobileNo(accountJson.getMobileNo());		
 		
 		try{
 			new AccountOperations();

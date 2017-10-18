@@ -1,11 +1,11 @@
 package com.win.radio.manila.models;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class QOTDModel {
 	
-	private Date 		createDate;
-	private Date 		updateDate;
+	private Timestamp	createDate;
+	private Timestamp	updateDate;
 	private int 		updateUser;
 	private int 		idQuestion;
 	private String 		question;
@@ -13,18 +13,7 @@ public class QOTDModel {
 	private int			indPost;
 	private String 		codRegion;
 	
-	public Date getCreateDate() {
-		return createDate;
-	}
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
+	
 	public int getUpdateUser() {
 		return updateUser;
 	}
@@ -60,6 +49,18 @@ public class QOTDModel {
 	}
 	public void setCodRegion(String codRegion) {
 		this.codRegion = codRegion;
+	}
+	public Timestamp getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Timestamp createDate) {
+		this.createDate = createDate;
+	}
+	public Timestamp getUpdateDate() {
+		return updateDate;
+	}
+	public void setUpdateDate(Timestamp updateDate) {
+		this.updateDate = updateDate;
 	}
 	
 }

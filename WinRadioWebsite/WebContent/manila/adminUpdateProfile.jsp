@@ -68,6 +68,7 @@
 					<div class="clear"></div>
 				</header>
 								
+				<!-- Alert confirmation start -->
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="alert bg-success" id="alertAcctUpdateSuccess" style="display:none;" role="alert">
@@ -88,6 +89,7 @@
 						</div>
 					</div>
 				</div>
+				<!-- Alert confirmation end -->
 				
 				
 				<!-- Row start: create new user form -->
@@ -189,27 +191,19 @@
 				            		{
 				            			ex.printStackTrace();
 				            		} finally {
-				            			if (rs != null) {
-				            				try {
-				            					rs.close();
-				            				} catch (SQLException e) {
-				            					e.printStackTrace();
-				            				}
-				            			}
-				            			if (pstmt != null) {
-				            				try {
-				            					pstmt.close();
-				            				} catch (SQLException e) {
-				            					e.printStackTrace();
-				            				}
-				            			}
-				            			if (conn != null) {
-				            				try {
-				            					conn.close();
-				            				} catch (SQLException e) {
-				            					e.printStackTrace();
-				            				}
-				            			}
+			            				try {
+			            					if (rs != null) {
+			            						rs.close();
+			            					}
+			            					if (pstmt != null) {
+			            						pstmt.close();
+			            					}
+			            					if (conn != null) {
+			            						conn.close();
+			            					}
+			            				} catch (SQLException e) {
+			            					e.printStackTrace();
+			            				}
 				            		}
 									%>
 								</form>

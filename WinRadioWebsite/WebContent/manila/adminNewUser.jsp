@@ -233,45 +233,6 @@
     <script src="custom-js/admin.js"></script>
     
     <script type="text/javascript">
-		function checkIfUsernameExists(){
-			var username=$("#username").val();// value in field username
-			$.ajax({
-	            url:'${pageContext.request.contextPath}/checkIfValueExists',
-	            data:{username: username, email: '0'},
-	            type:'get',
-	            cache:false,
-	            success:function(data){
-	            	if ($.trim(data)) {
-	            		return 'error';
-	            	} else {  
-	            		return 'true';
-	            	}
-	            },
-	            error:function(){
-	              alert('error');
-	            }
-			});
-		}
-		
-		function checkIfEmailExists(){
-			var email=$("#email").val();// value in field email
-			$.ajax({
-	            url:'${pageContext.request.contextPath}/checkIfValueExists',
-	            data:{username: '0', email: email},
-	            type:'get',
-	            cache:false,
-	            success:function(data){
-	            	if ($.trim(data)) {
-	            		return 'error';
-	            	} else {
-	            		return 'true';
-	            	}
-	            },
-	            error:function(){
-	              alert('error');
-	            }
-			});
-		}
 		
 		function checkIfValidMobileNo() {
 			var mobileNo=$("#mobileNo").val();
@@ -320,7 +281,7 @@
 			var email=$("#email").val();// value in field email
 			$.ajax({
 	            url:'${pageContext.request.contextPath}/checkIfValueExists',
-	            data:{username: '0', email: email},
+	            data:{username: '0', email: email, idAccount: '0'},
 	            type:'get',
 	            cache:false,
 	            success:function(data){
@@ -337,7 +298,7 @@
 			var username=$("#username").val();// value in field username
 			$.ajax({
 	            url:'${pageContext.request.contextPath}/checkIfValueExists',
-	            data:{username: username, email: '0'},
+	            data:{username: username, email: '0', idAccount: '0'},
 	            type:'get',
 	            cache:false,
 	            success:function(data){

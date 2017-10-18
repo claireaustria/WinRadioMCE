@@ -1,34 +1,31 @@
 package com.win.radio.manila.models;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class CompanyDescriptionModel {
 
-	private Date createDate;
-	private Date updateDate;
-	private String updateUser;
+	private Timestamp createDate;
+	private Timestamp updateDate;
+	private int updateUser;
 	private int idDescription;
 	private String description;
 	private String contactPhone;
 	private String contactMobile;
 	private String contactEmail;
-	public Date getCreateDate() {
+	private String codRegion;
+
+
+	public Timestamp getCreateDate() {
 		return createDate;
 	}
-	public void setCreateDate(Date createDate) {
+	public void setCreateDate(Timestamp createDate) {
 		this.createDate = createDate;
 	}
-	public Date getUpdateDate() {
+	public Timestamp getUpdateDate() {
 		return updateDate;
 	}
-	public void setUpdateDate(Date updateDate) {
+	public void setUpdateDate(Timestamp updateDate) {
 		this.updateDate = updateDate;
-	}
-	public String getUpdateUser() {
-		return updateUser;
-	}
-	public void setUpdateUser(String updateUser) {
-		this.updateUser = updateUser;
 	}
 	public int getIdDescription() {
 		return idDescription;
@@ -59,6 +56,18 @@ public class CompanyDescriptionModel {
 	}
 	public void setContactEmail(String contactEmail) {
 		this.contactEmail = contactEmail;
+	}
+	public int getUpdateUser() {
+		return updateUser;
+	}
+	public void setUpdateUser(int updateUser) {
+		this.updateUser = updateUser;
+	}
+	public String getCodRegion() {
+		return codRegion;
+	}
+	public void setCodRegion(String codRegion) {
+		this.codRegion = codRegion;
 	}
 	
 }

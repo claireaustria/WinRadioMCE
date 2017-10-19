@@ -1,35 +1,19 @@
 package com.win.radio.manila.models;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 public class SocialMediaModel {
 
-	private Date createDate;
-	private Date updateDate;
-	private String updateUser;
+	private Timestamp createDate;
+	private Timestamp updateDate;
+	private int updateUser;
 	private int idMedia;
 	private String name;
 	private String url;
 	private String codRegion;
+
 	
-	public Date getCreateDate() {
-		return createDate;
-	}
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
-	public String getUpdateUser() {
-		return updateUser;
-	}
-	public void setUpdateUser(String updateUser) {
-		this.updateUser = updateUser;
-	}
 	public int getIdMedia() {
 		return idMedia;
 	}
@@ -53,6 +37,24 @@ public class SocialMediaModel {
 	}
 	public void setCodRegion(String codRegion) {
 		this.codRegion = codRegion;
+	}
+	public Timestamp getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Timestamp createDate) {
+		this.createDate = createDate;
+	}
+	public Timestamp getUpdateDate() {
+		return updateDate;
+	}
+	public void setUpdateDate(Timestamp updateDate) {
+		this.updateDate = updateDate;
+	}
+	public int getUpdateUser() {
+		return updateUser;
+	}
+	public void setUpdateUser(int updateUser) {
+		this.updateUser = updateUser;
 	}
 	
 }

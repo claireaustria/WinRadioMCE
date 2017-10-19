@@ -1,4 +1,5 @@
 <!-- Prevent Access to the page without logging in -->
+<%@page import="com.win.radio.manila.utilities.SocialMediaCommands"%>
 <%@page import="com.win.radio.manila.utilities.CodeUtil"%>
 <%@page import="com.win.radio.manila.utilities.ConnectionUtil"%>
 <%@page import="com.win.radio.manila.utilities.CompanyDescriptionCommands"%>
@@ -85,6 +86,11 @@
 							<em class="fa fa-minus-circle mr-2"></em> Something went wrong. Please contact your administrator. 
 							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertJSFail')"></em></a>
 						</div>
+						
+						<div class="alert bg-success" id="alertUpdateSocialSuccess" style="display:none;" role="alert">
+							<em class="fa fa-check-circle mr-2"></em> Social media links updated successfully!
+							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertUpdateSocialSuccess')"></em></a>
+						</div>
 					</div>
 				</div>
 				<!-- Alert confirmation end -->
@@ -92,7 +98,7 @@
 				
 				<div class="row">
 					<!-- About the company form start -->
-					<div class="col-lg-7">
+					<div class="col-lg-6">
 						<div class="card mb-4">
 							<div class="card-block">
 								<h3 class="card-title">About the company</h3>
@@ -111,6 +117,13 @@
 				    				
 				    				while (rs.next()) {
 									%>
+									<center>
+										<div class="form-group row">
+										  	<label id="lblInvalidMobileNo" class="col-12 col-form-label" style="color:red;display:none;">Please enter an 11-digit mobile no.</label>
+										  	<label id="lblInvalidPhoneNo" class="col-12 col-form-label" style="color:red;display:none;">Please enter a 7-digit phone no.</label>
+										  	<label id="lblInvalidEmail" class="col-12 col-form-label" style="color:red;display:none;">Please enter a valid email address.</label>
+										</div>
+									</center>
 									<fieldset>
 										<div class="form-group" style="display:none;">
 									    	<label for="recipient-name" class="form-control-label">ID Description</label>
@@ -170,36 +183,79 @@
 					<!-- About the company form end -->
 					
 					<!-- Social media form start -->
-					<div class="col-lg-5">
+					<div class="col-lg-6">
 						<div class="card">
 							<div class="card-block">
 								<h3 class="card-title">Social Media Links</h3>
 							
-								<form id="formSocialMedia" class="form" method="post" action="${pageContext.request.contextPath}/createUserController">
+								<form>
+									<%ResultSet rsSocial = null;
+				            		PreparedStatement pstmtSocial = null;
+				            		Connection connSocial = null;
+													            		
+				            		try{	 
+				            		connSocial = ConnectionUtil.getConnection();
+				            		pstmtSocial = connSocial.prepareStatement(SocialMediaCommands.GET_SOCIAL_MEDIA_ACCTS);
+				            		pstmtSocial.setString(1, CodeUtil.COD_REGION_MNL);
+				            		pstmtSocial.setString(2, CodeUtil.COD_REGION_MNL);
+				            		pstmtSocial.setString(3, CodeUtil.COD_REGION_MNL);
+				            		rsSocial = pstmtSocial.executeQuery();
+				    				
+				    				while (rsSocial.next()) {
+									%>
 				      				<div class="form-group row">
 									  	<label for="example-text-input" class="col-4 col-form-label">Facebook:</label>
+									  	<div style="display:none;">
+									    	<input class="form-control" id="facebookId" type="text" value="<%=rsSocial.getString("FACEBOOK_ID") %>" required="required">
+									  	</div>
 									  	<div class="col-8">
-									    	<input class="form-control" name="facebook" type="text" placeholder="" required="required">
+									    	<input class="form-control" id="facebookUrl" type="text" value="<%=rsSocial.getString("FACEBOOK_URL") %>" required="required">
 									  	</div>
 									</div>
 									<div class="form-group row">
 									  	<label for="example-text-input" class="col-4 col-form-label">Video Streaming:</label>
+										<div style="display:none;">
+									    	<input class="form-control" id="videoStreamId" type="text" value="<%=rsSocial.getString("VIDEO_STREAM_ID") %>" required="required">
+									  	</div>
 									  	<div class="col-8 align-middle">
-									    	<input class="form-control align-middle" name="videoStream" type="text" placeholder="" required="required">
+									    	<input class="form-control align-middle" id="videoStreamUrl" type="text" value="<%=rsSocial.getString("VIDEO_STREAM_URL") %>" required="required">
 									  	</div>
 									</div>
 									<div class="form-group row">
 									  	<label for="example-text-input" class="col-4 col-form-label">Audio Streaming:</label>
+									  	<div style="display:none;">
+									    	<input class="form-control" id="audioStreamId" type="text" value="<%=rsSocial.getString("AUDIO_STREAM_ID") %>" required="required">
+									  	</div>
 									  	<div class="col-8">
-									    	<input class="form-control" name="audioStream" type="text" placeholder="" required="required">
+									    	<input class="form-control" id="audioStreamUrl" type="text" value="<%=rsSocial.getString("AUDIO_STREAM_URL") %>" required="required">
 									  	</div>
 									</div>
 									<!-- Form actions -->
 									<div class="form-group">
 										<div class="col-12 widget-right no-padding">
-											<button type="button" class="btn btn-primary btn-md float-right">Submit</button>
+											<button type="button" class="btn btn-primary btn-md float-right" onclick="saveSocialLinks()">Submit</button>
 										</div>
 									</div>
+									<%	}
+				            		} catch(Exception ex)
+				            		{
+				            			ex.printStackTrace();
+				            		} finally {
+				            			try {
+			            					if (rsSocial != null) {
+			            						rsSocial.close();
+			            					}
+			            					if (pstmtSocial != null) {
+			            						pstmtSocial.close();
+			            					}
+			            					if (connSocial != null) {
+			            						connSocial.close();
+			            					}
+			            				} catch (SQLException e) {
+			            					e.printStackTrace();
+			            				}
+				            		}
+									%>
 								</form>
 							
 							</div>
@@ -223,11 +279,30 @@
     
     <script type="text/javascript">
     	function saveCompanyDetails() {
+    		document.getElementById('lblInvalidPhoneNo').style.display = "none";
+    		document.getElementById('lblInvalidMobileNo').style.display = "none";
+    		document.getElementById('lblInvalidEmail').style.display = "none";
+    		
 			var contactPhone=$("#contactPhone").val();
 			var contactMobile=$("#contactMobile").val();
 			var contactEmail=$("#contactEmail").val();
 			var description=$("#description").val();
 			var idDescription=$("#idDescription").val();
+			
+			if(checkIfValidPhoneNo(contactPhone) == 'error') {
+        		document.getElementById('lblInvalidPhoneNo').style.display = "block";
+        		return;
+			}
+			
+			if(checkIfValidMobileNo(contactMobile) == 'error') {
+        		document.getElementById('lblInvalidMobileNo').style.display = "block";
+        		return;
+			}
+			
+			if(!validateEmail(contactEmail)) {
+        		document.getElementById('lblInvalidEmail').style.display = "block";
+        		return;
+			}
 			
 			$.ajax({
 	            url:'${pageContext.request.contextPath}/updateCompanyDetails',
@@ -237,6 +312,50 @@
 	            success:function(data){
 	            	if ($.trim(data) == 'success') {
 	            		document.getElementById('alertUpdateSuccess').style.display = "block";
+	            	} else {
+	            		document.getElementById('alertUpdateFail').style.display = "block";
+	            	}
+	            },
+	            error:function(){
+	            	document.getElementById('alertJSFail').style.display = "block";
+	            }
+			});
+    	}
+    	
+    	function checkIfValidMobileNo(contactMobile) {
+			if (contactMobile.length != 11) {
+				   return 'error';
+			}
+		}
+    	
+    	function checkIfValidPhoneNo(contactPhone) {
+			if (contactPhone.length != 7) {
+				   return 'error';
+			}
+		}
+    	
+    	function validateEmail(email) {
+    	    var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    	    return re.test(email);
+    	}
+    	
+    	function saveSocialLinks() {
+
+    		var facebookId=$("#facebookId").val();
+			var audioStreamId=$("#audioStreamId").val();
+			var videoStreamId=$("#videoStreamId").val();
+    		var facebookUrl=$("#facebookUrl").val();
+			var audioStreamUrl=$("#audioStreamUrl").val();
+			var videoStreamUrl=$("#videoStreamUrl").val();
+			
+    		$.ajax({
+	            url:'${pageContext.request.contextPath}/updateCompanyDetails',
+	            data:{action: 'updateSocialLinks', facebookId:facebookId, facebookUrl:facebookUrl, audioStreamId:audioStreamId, audioStreamUrl:audioStreamUrl, videoStreamId:videoStreamId, videoStreamUrl:videoStreamUrl},
+	            type:'post',
+	            cache:false,
+	            success:function(data){
+	            	if ($.trim(data) == 'success') {
+	            		document.getElementById('alertUpdateSocialSuccess').style.display = "block";
 	            	} else {
 	            		document.getElementById('alertUpdateFail').style.display = "block";
 	            	}

@@ -11,6 +11,7 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 import com.win.radio.manila.models.AccountModel;
+import com.win.radio.manila.models.CompanyDescriptionModel;
 import com.win.radio.manila.models.EventLogModel;
 import com.win.radio.manila.models.SocialMediaModel;
 import com.win.radio.manila.models.TransactionLogModel;
@@ -18,23 +19,37 @@ import com.win.radio.manila.models.TransactionLogModel;
 public class SocialMediaOperations implements SocialMediaCommands {
 
 	/* CONTROLLER FUNCTIONS */
-	public static boolean addSocialMediaAcct(SocialMediaModel soocialMediaAcct){
-		try {
-			PreparedStatement pstmt = ConnectionUtil.getConnection().prepareStatement(ADD_NEW_SOCIAL_MEDIA);
-			pstmt.setDate(1, soocialMediaAcct.getCreateDate());
-			pstmt.setDate(2, soocialMediaAcct.getUpdateDate());
-			pstmt.setString(3, soocialMediaAcct.getUpdateUser());
-			pstmt.setString(4, soocialMediaAcct.getName());
-			pstmt.setString(5, soocialMediaAcct.getUrl());
-			pstmt.setString(6, soocialMediaAcct.getCodRegion());
-			
-			
-			pstmt.executeUpdate(); 
-		}		catch (SQLException sqle){
-			System.out.println("SQLException - addSocialMediaAcct: " +sqle.getMessage());
-			return false;
-		}
+public static boolean updateSocialLink(SocialMediaModel social) {
 		
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		try {
+			conn = ConnectionUtil.getConnection();
+			pstmt = conn.prepareStatement(UPDATE_SOCIAL_LINK);
+			pstmt.setTimestamp(1, social.getUpdateDate());
+			pstmt.setInt(2, social.getUpdateUser());	
+			pstmt.setString(3, social.getUrl());	
+			pstmt.setInt(4, social.getIdMedia());	
+			pstmt.executeUpdate(); 
+		}	catch (SQLException sqle){
+			System.out.println("SQLException - updateSocialLink: " +sqle.getMessage());
+			return false;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
 		return true;
 	}
 }

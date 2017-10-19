@@ -22,10 +22,12 @@ import com.win.radio.manila.utilities.CodeUtil;
 import com.win.radio.manila.utilities.CompanyDescriptionOperations;
 import com.win.radio.manila.utilities.DJListOperations;
 import com.win.radio.manila.utilities.LogHelper;
+import com.win.radio.manila.utilities.SocialMediaOperations;
 import com.win.radio.manila.utilities.TransactionLogOperations;
 import com.win.radio.manila.models.AccountModel;
 import com.win.radio.manila.models.CompanyDescriptionModel;
 import com.win.radio.manila.models.DJListModel;
+import com.win.radio.manila.models.SocialMediaModel;
 
 @WebServlet("/updateCompanyDetails")
 public class UpdateCompanyDetailsController extends HttpServlet {
@@ -72,8 +74,49 @@ public class UpdateCompanyDetailsController extends HttpServlet {
 			{
 				e.printStackTrace();
 			}
-		} else if (strAction.equals("")) {
+		} else if (strAction.equals("updateSocialLinks")) {
+			int facebookId = Integer.valueOf(request.getParameter("facebookId"));
+			int audioStreamId = Integer.valueOf(request.getParameter("audioStreamId"));
+			int videoStreamId = Integer.valueOf(request.getParameter("videoStreamId"));
 			
+			SocialMediaModel social = null;
+			new SocialMediaOperations();
+			
+			if (facebookId != 0) {
+				social = new SocialMediaModel();
+				social.setUpdateDate(timestamp);
+				social.setUpdateUser(idAccount);
+				social.setIdMedia(facebookId);
+				social.setUrl(request.getParameter("facebookUrl"));
+				
+				SocialMediaOperations.updateSocialLink(social);
+			}
+			
+			if (audioStreamId != 0) {
+				social = new SocialMediaModel();
+				social.setUpdateDate(timestamp);
+				social.setUpdateUser(idAccount);
+				social.setIdMedia(audioStreamId);
+				social.setUrl(request.getParameter("audioStreamUrl"));
+				
+				SocialMediaOperations.updateSocialLink(social);
+			}
+			
+			if (videoStreamId != 0) {
+				social = new SocialMediaModel();
+				social.setUpdateDate(timestamp);
+				social.setUpdateUser(idAccount);
+				social.setIdMedia(videoStreamId);
+				social.setUrl(request.getParameter("videoStreamUrl"));
+				
+				SocialMediaOperations.updateSocialLink(social);
+			}
+			
+			new TransactionLogOperations();
+			TransactionLogOperations.addTransactionLog(idAccount, "updateSocialLinks", "updated the social media links.", CodeUtil.COD_REGION_MNL);
+
+			rspns.println("success");
+			rspns.close();
 		}
 		
 		

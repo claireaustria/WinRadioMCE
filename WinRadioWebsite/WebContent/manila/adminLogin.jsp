@@ -10,6 +10,7 @@
   	<link rel="stylesheet" href="../fonts/fonts.css">
   	<link rel="stylesheet" href="custom-css/login-style.css">
   	
+  	
 </head>
 
 <body>
@@ -94,7 +95,20 @@
 		$('#logStatPwd').addClass('wrong-entry');
 	 	$('#alertPassword').fadeIn(500);  
     }
+    
+    document.getElementById('password').onkeydown = function(event) {
+        if (event.keyCode == 13) {
+        	login();
+        }
+    }
 
+    </script>
+    
+    <!-- Back Button browser will refresh the page -->
+  	<script>
+    
+  		history.forward();
+	
     </script>
 
 </body>

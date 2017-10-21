@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -14,124 +16,168 @@ import com.win.radio.manila.models.AccountModel;
 
 public class AccountOperations implements AccountCommands  {
 
-	private static Connection getConnection(){
-		Connection connection = null;
-		
-		try{
-			DataSource dataSource = 
-			(DataSource) InitialContext.doLookup(DS_SOURCE);
-			connection = dataSource.getConnection();
-		}catch (NamingException e){
-			e.printStackTrace();
-		}catch (SQLException e){
-			e.printStackTrace();
-		}
-		return connection;
-	}
-	
-	/* JSP FUNCTIONS */
-	
-	public static ResultSet getAllUsers() {
-		ResultSet rs = null;
-		try{
-			Statement select = getConnection().createStatement();
-				rs = select.executeQuery(GET_ALL_USERS);
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return rs;
-	}
-	
-	public static ResultSet getUserProfiles() {
-		ResultSet rs = null;
-		try{
-			Statement select = getConnection().createStatement();
-				rs = select.executeQuery(GET_USER_PROFILES);
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return rs;
-	}
-	
 	/* CONTROLLER FUNCTIONS */
 	
-	public static ResultSet getCredentials(String username) {
+	public static Integer addUser(AccountModel account){
+		PreparedStatement pstmt = null;
+		Connection conn = null;
 		ResultSet rs = null;
-		try{
-			PreparedStatement pstmt = getConnection().prepareStatement(GET_CREDENTIALS);
-			pstmt.setString(1, username);
-			rs = pstmt.executeQuery();
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return rs;
-	}
-	
-	public static ResultSet getUsernameIfExisting(String username) {
-		ResultSet rs = null;
-		try{
-	
-			PreparedStatement pstmt = getConnection().prepareStatement(GET_USERNAME);
-			pstmt.setString(1, username);
-			rs = pstmt.executeQuery();
-		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return rs;
-	}
-	
-	public static boolean addUser(AccountModel account){
+		Integer newId = 0;
 		try {
-			PreparedStatement pstmt = getConnection().prepareStatement(ADD_ACCOUNT);
-			pstmt.setDate(1, account.getCreateDate());
-			pstmt.setDate(2, account.getUpdateDate());
-			pstmt.setString(3, account.getCodProfile());
-			pstmt.setString(4, account.getUsername());
-			pstmt.setString(5, account.getPassword());
-			if (account.getCodProfile().equals(CodeUtil.COD_PROFILE_DJ))
-			{
-				pstmt.setString(6, account.getScreenName());
-			} else {
-				pstmt.setString(6, account.getScreenName());
-			}
+			conn = ConnectionUtil.getConnection();
+			pstmt = conn.prepareStatement(ADD_ACCOUNT, Statement.RETURN_GENERATED_KEYS);
+			pstmt.setTimestamp(1, account.getCreateDate());
+			pstmt.setTimestamp(2, account.getUpdateDate());
+			pstmt.setInt(3, account.getUpdateUser());
+			pstmt.setString(4, account.getCodType());
+			pstmt.setString(5, account.getUsername());
+			pstmt.setString(6, account.getPassword());
 			pstmt.setString(7, account.getLastName());
 			pstmt.setString(8, account.getFirstName());
 			pstmt.setString(9, account.getGender());
 			pstmt.setString(10, account.getMobileNo());
 			pstmt.setString(11, account.getEmail());
 			pstmt.setString(12, account.getCodStatus());
-			pstmt.setString(13, CodeUtil.COD_REGION_MNL);
-			
-			
-			
+			pstmt.setString(13, account.getCodRegion());
 			pstmt.executeUpdate(); 
-		}		catch (SQLException sqle){
+			
+			rs = pstmt.getGeneratedKeys();
+			if (rs.next()) {
+			  newId = rs.getInt(1);
+			}
+		} catch (SQLException sqle){
 			System.out.println("SQLException - addUser: " +sqle.getMessage());
+			return 0;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return newId;
+	}
+	
+	public static boolean updateUser(AccountModel account) {
+		
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		try {
+			conn = ConnectionUtil.getConnection();
+			pstmt = conn.prepareStatement(UPDATE_ACCOUNT);
+			pstmt.setTimestamp(1, account.getUpdateDate());
+			pstmt.setInt(2, account.getUpdateUser());	
+			pstmt.setString(3, account.getCodType());	
+			pstmt.setString(4, account.getUsername());	
+			pstmt.setString(5, account.getEmail());	
+			pstmt.setString(6, account.getLastName());	
+			pstmt.setString(7, account.getFirstName());	
+			pstmt.setString(8, account.getGender());	
+			pstmt.setString(9, account.getMobileNo());	
+			pstmt.setInt(10, account.getIdAccount());
+			pstmt.executeUpdate(); 
+		}	catch (SQLException sqle){
+			System.out.println("SQLException - updateUser: " +sqle.getMessage());
 			return false;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
 		return true;
 	}
 	
-	public static ResultSet getAccountProfile(int idAccount) {
-		ResultSet rs = null;
-		try{
+	public static boolean changePassword(AccountModel account) {
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		try {
+			conn = ConnectionUtil.getConnection();
+			pstmt = conn.prepareStatement(CHANGE_PASSWORD);
+			pstmt.setTimestamp(1, account.getUpdateDate());
+			pstmt.setInt(2, account.getUpdateUser());
+			pstmt.setString(3, account.getPassword());
+			pstmt.setInt(4, account.getIndChangePwd());
+			pstmt.setInt(5, account.getIdAccount());	
+			pstmt.executeUpdate(); 
+		}	catch (SQLException sqle){
+			System.out.println("SQLException - changePassword: " +sqle.getMessage());
+			return false;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
 	
-			PreparedStatement pstmt = getConnection().prepareStatement(GET_USER_PROFILE);
-			pstmt.setInt(1, idAccount);
-			rs = pstmt.executeQuery();
+	public static boolean updateAccountStatus(AccountModel account) {
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		try {
+			conn = ConnectionUtil.getConnection();
+			pstmt = conn.prepareStatement(UPDATE_ACCOUNT_STATUS);
+			pstmt.setTimestamp(1, account.getUpdateDate());
+			pstmt.setInt(2, account.getUpdateUser());
+			pstmt.setString(3, account.getCodStatus());	
+			pstmt.setInt(4, account.getIdAccount());	
+			pstmt.executeUpdate(); 
+		}	catch (SQLException sqle){
+			System.out.println("SQLException - updateAccountStatus: " +sqle.getMessage());
+			return false;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
 		}
-		catch(Exception ex)
-		{
-			ex.printStackTrace();
-		}
-		return rs;
+		return true;
 	}
 }

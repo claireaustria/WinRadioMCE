@@ -1,24 +1,24 @@
 package com.win.radio.manila.models;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class AccountModel {
 	
-	private Date createDate;
-	private Date updateDate;
-	private String updateUser;
+	private Timestamp createDate;
+	private Timestamp updateDate;
+	private int updateUser;
 	private int idAccount;
-	private String codProfile;
+	private String codType;
 	private String username;
 	private String email;
 	private String password;
-	private String screenName;
 	private String lastName;
 	private String firstName;
 	private String gender;
 	private String codStatus;
 	private String mobileNo;
 	private String codRegion;
+	private int indChangePwd;
 	
 	public String getMobileNo() {
 		return mobileNo;
@@ -32,22 +32,10 @@ public class AccountModel {
 	public void setCodRegion(String codRegion) {
 		this.codRegion = codRegion;
 	}
-	public Date getCreateDate() {
-		return createDate;
-	}
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-	public Date getUpdateDate() {
-		return updateDate;
-	}
-	public void setUpdateDate(Date updateDate) {
-		this.updateDate = updateDate;
-	}
-	public String getUpdateUser() {
+	public int getUpdateUser() {
 		return updateUser;
 	}
-	public void setUpdateUser(String updateUser) {
+	public void setUpdateUser(int updateUser) {
 		this.updateUser = updateUser;
 	}
 	public int getIdAccount() {
@@ -55,12 +43,6 @@ public class AccountModel {
 	}
 	public void setIdAccount(int idAccount) {
 		this.idAccount = idAccount;
-	}
-	public String getCodProfile() {
-		return codProfile;
-	}
-	public void setCodProfile(String codProfile) {
-		this.codProfile = codProfile;
 	}
 	public String getUsername() {
 		return username;
@@ -73,12 +55,6 @@ public class AccountModel {
 	}
 	public void setPassword(String password) {
 		this.password = password;
-	}
-	public String getScreenName() {
-		return screenName;
-	}
-	public void setScreenName(String screenName) {
-		this.screenName = screenName;
 	}
 	public String getLastName() {
 		return lastName;
@@ -110,7 +86,31 @@ public class AccountModel {
 	public void setCodStatus(String codStatus) {
 		this.codStatus = codStatus;
 	}
-	
+	public String getCodType() {
+		return codType;
+	}
+	public void setCodType(String codType) {
+		this.codType = codType;
+	}
+	public int getIndChangePwd() {
+		return indChangePwd;
+	}
+	public void setIndChangePwd(int indChangePwd) {
+		this.indChangePwd = indChangePwd;
+	}
+	public Timestamp getUpdateDate() {
+		return updateDate;
+	}
+	public void setUpdateDate(Timestamp updateDate) {
+		this.updateDate = updateDate;
+	}
+	public Timestamp getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Timestamp createDate) {
+		this.createDate = createDate;
+	}
+
 	
 	
 	

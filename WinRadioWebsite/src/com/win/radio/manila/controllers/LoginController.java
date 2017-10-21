@@ -36,30 +36,35 @@ public class LoginController extends HttpServlet {
 		String password = request.getParameter("password");
 		String incorrect = "username";
 				
-		ResultSet resultSet = null;	
-		ResultSet resultSet2 = null;
+		ResultSet rs = null;
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		
 		try {
 			
-			new AccountOperations();
-			resultSet = AccountOperations.getCredentials(username);
+			conn = ConnectionUtil.getConnection();
+			pstmt = conn.prepareStatement(AccountOperations.GET_CREDENTIALS);
+			pstmt.setString(1, username);
+			rs = pstmt.executeQuery();
 			
-			while (resultSet.next()) {
-				String rsUsername = resultSet.getString("USERNAME");
-				String rsPassword = resultSet.getString("PASSWORD");
-				int rIdAccount = resultSet.getInt("ID_ACCOUNT");
+			while (rs.next()) {
+				String rsUsername = rs.getString("USERNAME");
+				String rsPassword = rs.getString("PASSWORD");
+				int rsIdAccount = rs.getInt("ID_ACCOUNT");
+				String rsCodAcctType = rs.getString("COD_TYPE");
+				String rsCodName = rs.getString("NAME");
+				int rsIndChangePwd = rs.getInt("IND_CHANGE_PWD");
 				
 				if ((username.equals(rsUsername)) && (encryptedcode(password).equals(rsPassword))) {
 					incorrect = "";
-					// Session for Account ID
+					// Account session 
 					HttpSession session = request.getSession();
-					session.setAttribute("AccountID", resultSet.getInt("ID_ACCOUNT"));
+					session.setAttribute("idAccount", rsIdAccount);
+					session.setAttribute("userName", rsUsername);
+					session.setAttribute("codType", rsCodAcctType);
+					session.setAttribute("indChangePwd", rsIndChangePwd);
+					session.setAttribute("codName", rsCodName);
 					
-					// Get COD_PROFILE using Account ID
-					new AccountOperations();
-					resultSet2 = AccountOperations.getAccountProfile(rIdAccount);
-					
-					// Session for COD_PROFILE
-					session.setAttribute("CodProfile", resultSet2.getString("COD_PROFILE"));
 				} else if (!encryptedcode(password).equals(rsPassword)) {
 					incorrect = "password";
 				}
@@ -72,15 +77,26 @@ public class LoginController extends HttpServlet {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
-			try {
-				if(resultSet!=null) {
-					resultSet.close();
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
-				if(resultSet2!=null) {
-					resultSet2.close();
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
 				}
-			} catch (SQLException e) {
-				e.printStackTrace();
+			}
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
 			}
 		}
 	}

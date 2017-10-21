@@ -1,49 +1,48 @@
 package com.win.radio.manila.models;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
-public class BlogContentModel {
-
-	private Timestamp createDate;
-	private Timestamp updateDate;
-	private String updateUser;
-	private int idBlog;
-	private String title;
-	private String content;
-	private int postOwner;
-	private String codRegion;
-
+public class QOTDModel {
 	
-	public String getUpdateUser() {
+	private Timestamp	createDate;
+	private Timestamp	updateDate;
+	private int 		updateUser;
+	private int 		idQuestion;
+	private String 		question;
+	private int			postOwner;
+	private int			indPost;
+	private String 		codRegion;
+	
+	
+	public int getUpdateUser() {
 		return updateUser;
 	}
-	public void setUpdateUser(String updateUser) {
+	public void setUpdateUser(int updateUser) {
 		this.updateUser = updateUser;
 	}
-	public int getIdBlog() {
-		return idBlog;
+	public int getIdQuestion() {
+		return idQuestion;
 	}
-	public void setIdBlog(int idBlog) {
-		this.idBlog = idBlog;
+	public void setIdQuestion(int idQuestion) {
+		this.idQuestion = idQuestion;
 	}
-	public String getTitle() {
-		return title;
+	public String getQuestion() {
+		return question;
 	}
-	public void setTitle(String title) {
-		this.title = title;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
+	public void setQuestion(String question) {
+		this.question = question;
 	}
 	public int getPostOwner() {
 		return postOwner;
 	}
 	public void setPostOwner(int postOwner) {
 		this.postOwner = postOwner;
+	}
+	public int getIndPost() {
+		return indPost;
+	}
+	public void setIndPost(int indPost) {
+		this.indPost = indPost;
 	}
 	public String getCodRegion() {
 		return codRegion;

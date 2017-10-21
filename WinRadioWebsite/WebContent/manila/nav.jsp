@@ -4,38 +4,15 @@
 	<a href="#menu-toggle" class="btn btn-default" id="menu-toggle"><em class="fa fa-bars"></em></a>
 				
 	<ul class="nav nav-pills flex-column sidebar-nav">
-		<li class="nav-item"><a class="nav-link active" href="admin.jsp"><em class="fa fa-dashboard"></em> Dashboard <span class="sr-only">(current)</span></a></li>
-		<li class="nav-item" data-toggle="tooltip" data-placement="right" title="Pages">
-            <a class="nav-link nav-link-collapse collapsed" data-toggle="collapse" href="#collapseComponents" data-parent="#exampleAccordion">
-              <em class="fa fa-arrow-circle-right"></em>
-              <span class="nav-link-text">
-                Pages</span>
-            </a>
-            <ul class="sidenav-second-level collapse" id="collapseComponents"  style="list-style: none;">
-              <li>
-                <a href="#"><span class="nav-item nav-dropdown-item">Home</span></a>
-              </li>
-              <li>
-                <a href="#"><span class="nav-item nav-dropdown-item">Program Schedule</span></a>
-              </li>
-              <li>
-                <a href="#"><span class="nav-item nav-dropdown-item">Promotions</span></a>
-              </li>
-              <li>
-                <a href="#"><span class="nav-item nav-dropdown-item">Heart Stories Episodes</span></a>
-              </li>
-              <li>
-                <a href="#"><span class="nav-item nav-dropdown-item">QOTD</span></a>
-              </li>
-              <li>
-                <a href="#"><span class="nav-item nav-dropdown-item">DJ Blogs</span></a>
-              </li>
-              <li>
-                <a href="adminAbout.jsp"><span class="nav-item nav-dropdown-item">About Us</span></a>
-              </li>
-            </ul>
-         </li>
-		<li class="nav-item"><a class="nav-link" href="adminUserMaintenance.jsp"><em class="fa fa-wrench"></em> User Maintenance</a></li>	
+		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/admin.jsp' ? ' active' : ''}" href="admin.jsp"><em class="fa fa-dashboard"></em> Dashboard <span class="sr-only">(current)</span></a></li>
+		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/#.jsp' ? ' active' : ''}" href="#"><em class="fa fa-home"></em> Home Page</a></li>
+		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/adminProgramSchedule.jsp' ? ' active' : ''}" href="adminProgramSchedule.jsp"><em class="fa fa-film"></em> Program Sched</a></li>
+		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/#.jsp' ? ' active' : ''}" href="#"><em class="fa fa-exclamation"></em> Promotions </a></li>
+		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/#.jsp' ? ' active' : ''}" href="#"><em class="fa fa-file-audio-o"></em> Episodes </a></li>
+		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/adminQOTD.jsp.jsp' ? ' active' : ''}" href="adminQOTD.jsp"><em class="fa fa-quote-left"></em> QOTD </a></li>
+		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/adminDJBlog.jsp' ? ' active' : ''}" href="adminDJBlog.jsp"><em class="fa fa-pencil"></em> DJ Blogs </a> </li>
+		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/adminAboutUs.jsp' ? ' active' : ''}" href="adminAboutUs.jsp"><em class="fa fa-question"></em> About Us </a></li>
+        <li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/adminUserMaintenance.jsp' ? ' active' : ''}" href="adminUserMaintenance.jsp"><em class="fa fa-wrench"></em> User Maintenance</a></li>	
 	</ul>
 	
 </nav>

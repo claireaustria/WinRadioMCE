@@ -1,3 +1,5 @@
+<%@page import="com.win.radio.manila.utilities.CodeUtil"%>
+<%@page import="com.win.radio.manila.utilities.AccountCommands"%>
 <!-- Prevent Access to the page without logging in -->
 	<%
 		try{
@@ -68,6 +70,7 @@
 					<div class="clear"></div>
 				</header>
 				
+				<!-- Breadcrumbs start -->
 				<div class="row">
 					<div class="col-lg-12">
 						<!-- Breadcrumbs -->
@@ -75,33 +78,79 @@
 				          <li class="breadcrumb-item">
 				            <a href="adminUserMaintenance.jsp">User List</a>
 				          </li>
-				          <li class="breadcrumb-item active">Create New User</li>
+				          <li class="breadcrumb-item active">Update User</li>
 				        </ol>
 					</div>
 				</div>
+				<!-- Breadcrumbs end -->
 				
+				
+				<%ResultSet rs = null;
+           		PreparedStatement pstmt = null;
+           		Connection conn = null;
+				
+				int idAccountToModify = Integer.valueOf(request.getParameter("idAccountToModify"));
+           		
+           		try{	 
+                	conn = ConnectionUtil.getConnection();
+   					pstmt = conn.prepareStatement(AccountCommands.GET_ACCOUNT_DETAILS);
+                	pstmt.setInt(1, idAccountToModify);
+                	rs = pstmt.executeQuery();
+   				
+   				while (rs.next()) {
+				%>
+				<!-- Alert confirmation start -->				
 				<div class="row">
 					<div class="col-lg-12">
-						<div class="alert bg-success" id="alertAcctCreationSuccess" style="display:none;" role="alert">
-							<em class="fa fa-check-circle mr-2"></em> Account creation successful!
-							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertAcctCreationSuccess')"></em></a>
+						<div class="alert bg-success" id="alertAcctUpdateSuccess" style="display:none;" role="alert">
+							<em class="fa fa-check-circle mr-2"></em> Account updated successfully!
+							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertAcctUpdateSuccess')"></em></a>
 						</div>
-						<div class="alert bg-danger" id="alertAcctCreationFail" style="display:none;" role="alert">
-							<em class="fa fa-minus-circle mr-2"></em> Something went wrong, please try again. 
-							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertAcctCreationFail')"></em></a>
+						<div class="alert bg-danger" id="alertAcctUpdateFail" style="display:none;" role="alert">
+							<em class="fa fa-minus-circle mr-2"></em> Something went wrong. Your account details were not updated, please try again. 
+							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertAcctUpdateFail')"></em></a>
+						</div>
+						<div class="alert bg-success" id="alertPwChangeSuccess" style="display:none;" role="alert">
+							<em class="fa fa-check-circle mr-2"></em> Password changed successfully!
+							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertPwChangeSuccess')"></em></a>
+						</div>
+						<div class="alert bg-danger" id="alertPwChangeFail" style="display:none;" role="alert">
+							<em class="fa fa-minus-circle mr-2"></em> Something went wrong. Your password was not updated, please try again. 
+							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertPwChangeFail')"></em></a>
 						</div>
 					</div>
 				</div>
+				<!-- Alert confirmation end -->
 				
+				<!-- Buttons start -->
+				<div class="row">
+					<div class="col-lg-12">
+						<span id="currentRow" style="display: none;"></span>
+						<%String strCodStatus = rs.getString("COD_STATUS");
+						if (strCodStatus.equals(CodeUtil.COD_STATUS_ACTIVE)) 
+						{%>
+						<button type="button" class="btn btn-secondary btn-md float-right btn-options" onclick="updateAccountStatus('deactivate')">Deactivate</button>
+						<button type="button" class="btn btn-primary btn-md float-right btn-options" id="btnCancel">Cancel</button>
+						<button type="button" class="btn btn-primary btn-md float-right btn-options" onclick="updateAccount()">Save</button>
+						<%} else if (strCodStatus.equals(CodeUtil.COD_STATUS_INACTIVE)) {%>
+						<button type="button" class="btn btn-secondary btn-md float-right btn-options" onclick="updateAccountStatus('activate')">Activate</button>
+						<%} %>
+					</div>
+				</div>
+				<!-- Buttons end -->
 				
-				<!-- Row start: create new user form -->
+				<br />
+				
+				<!-- Row start: update user form -->
 				<div class="row justify-content-md-center">
-					<div class="col-lg-8">
+					<!-- Update account form start -->
+					<div class="col-lg-7">
 						<div class="card">
 							<div class="card-block">
-								<h3 class="card-title">Create a new user</h3>
+								<h3 class="card-title">Update Profile</h3>
 								
 								<form id="formNewUser" class="form">
+									
 				      				<center><div class="form-group row">
 									  <label id="lblMissingField" class="col-12 col-form-label" style="color:red; display:none;">Please fill out all fields.</label>
 									  <label id="lblTakenEmail" class="col-12 col-form-label" style="color:red; display:none;">Email is already taken.</label>
@@ -109,111 +158,100 @@
 									  <label id="lblInvalidMobileNo" class="col-12 col-form-label" style="color:red;display:none;">Please enter an 11-digit mobile no.</label>
 									</div>
 									</center>
+									<div class="form-group row" style="display:none;">
+									  <label for="example-text-input" class="col-3 col-form-label">Account ID</label>
+									  <div class="col-9">
+									    <input class="form-control" id="idAccount" name="idAccount" type="text" value="<%=rs.getString("ID_ACCOUNT") %>" readonly>
+									  </div>
+									</div>
 				      				<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">First Name</label>
 									  <div class="col-9">
-									    <input class="form-control" id="firstName" name="firstName" type="text" placeholder="Jane" required="required">
+									    <input class="form-control" id="firstName" name="firstName" type="text" value="<%=rs.getString("FIRST_NAME") %>">
 									  </div>
 									</div>
 									<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">Last Name</label>
 									  <div class="col-9">
-									    <input class="form-control" id="lastName" name="lastName" type="text" placeholder="Doe" required="required">
+									    <input class="form-control" id="lastName" name="lastName" type="text" value="<%=rs.getString("LAST_NAME") %>">
 									  </div>
 									</div>
 									<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">Gender</label>
 									  <div class="col-9">
-									  	<select class="form-control" id="gender" name="gender">
-									  		<option value="Female">Female</option>
-									  		<option value="Male">Male</option>
-									    </select>
+									    <input class="form-control" id="gender" name="gender" type="text" value="<%=rs.getString("GENDER") %>" readonly>
 									  </div>
 									</div>
 		    						<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">Account Type</label>
 									  <div class="col-9">
-									  	<select class="form-control" id="dropdownUserProfiles" name="codType" onblur="toggleScreenNameDiv()">
-									  		<%ResultSet rs = null;
-						            		Statement select = null;
-						            		Connection conn = null;
-						            		
-						            		try{	 
-						                 	conn = ConnectionUtil.getConnection();
-						        			select = conn.createStatement();
-						        			rs = select.executeQuery(AccountOperations.GET_ACCOUNT_TYPES);
-						        				while(rs.next()) {
-											%>
-									      	<option value="<%=rs.getString("COD_TYPE") %>"><%=rs.getString("NAME") %></option>
-									      	<%	}
-						            		} catch(Exception ex)
-						            		{
-						            			ex.printStackTrace();
-						            		} finally {
-						            			if (rs != null) {
-						            				try {
-						            					rs.close();
-						            				} catch (SQLException e) {
-						            					e.printStackTrace();
-						            				}
-						            			}
-						            			if (select != null) {
-						            				try {
-						            					select.close();
-						            				} catch (SQLException e) {
-						            					e.printStackTrace();
-						            				}
-						            			}
-						            			if (conn != null) {
-						            				try {
-						            					conn.close();
-						            				} catch (SQLException e) {
-						            					e.printStackTrace();
-						            				}
-						            			}
-						            		}
-											%>
-									    </select>
+									  	 <select class="form-control" id="codType" name="codType" disabled>
+								  			<option value="<%=rs.getString("COD_TYPE") %>"><%=rs.getString("ACCOUNT_TYPE") %></option>
+								      	 </select>
 									  </div>
 									</div>
 									<div class="form-group row" style="display:none;" id="divScreenName">
 									  <label for="example-text-input" class="col-3 col-form-label">Screen Name</label>
 									  <div class="col-9">
-									    <input class="form-control" id="screenName" name="screenName" type="text" placeholder="DJ Name">
+									    <input class="form-control" id="screenName" name="screenName" type="text" value="<%=rs.getString("DJ_NAME") %>">
 									  </div>
 									</div>
 									<div class="form-group row">
 									  <label for="example-email-input" class="col-3 col-form-label">Email</label>
 									  <div class="col-9">
-									    <input class="form-control" id="email" name="email" type="email" required="required" placeholder="winradio@example.com" id="email">
+									    <input class="form-control" id="email" name="email" type="email" required="required" value="<%=rs.getString("EMAIL") %>" id="email">
 									  </div>
 									</div>
 									<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">Username</label>
 									  <div class="col-9">
-									    <input class="form-control" id="username" name="username" type="text" placeholder="janedoe" required="required">
+									    <input class="form-control" id="username" name="username" type="text" value="<%=rs.getString("USERNAME") %>" required="required">
 									  </div>
 									</div>
 									<div class="form-group row">
 									  <label for="example-tel-input" class="col-3 col-form-label">Mobile No.</label>
 									  <div class="col-9">
-									    <input class="form-control" id="mobileNo" name="mobileNo" type="number" required="required" placeholder="(09xx)xxxxxx">
+									    <input class="form-control" id="mobileNo" name="mobileNo" type="number" required="required" value="<%=rs.getString("MOBILE_NO") %>">
 									  </div>
-									</div>
-									
-									<!-- Form actions -->
-									<div class="form-group">
-										<div class="col-12 widget-right no-padding">
-											<button type="button" class="btn btn-primary btn-md float-right" onclick="addNewAccount()">Submit</button>
-										</div>
-									</div>
+									</div>									
 								</form>
 							</div>
 						</div>
 					</div>
+					<!-- Update account form end -->
+					
 				</div>
-				<!-- Row end: create new user form -->
+				<!-- Row end: update user form -->
 				
+				<%	}
+           		} catch(Exception ex)
+           		{
+           			ex.printStackTrace();
+           		} finally {
+           			if (rs != null) {
+           				try {
+           					rs.close();
+           				} catch (SQLException e) {
+           					e.printStackTrace();
+           				}
+           			}
+           			if (pstmt != null) {
+           				try {
+           					pstmt.close();
+           				} catch (SQLException e) {
+           					e.printStackTrace();
+           				}
+           			}
+           			if (conn != null) {
+           				try {
+           					conn.close();
+           				} catch (SQLException e) {
+           					e.printStackTrace();
+           				}
+           			}
+           		}
+				%>
+									
 				<br />
 					
 			</main>
@@ -233,7 +271,6 @@
     <script src="custom-js/admin.js"></script>
     
     <script type="text/javascript">
-		
 		function checkIfValidMobileNo() {
 			var mobileNo=$("#mobileNo").val();
 			if (mobileNo.length != 11) {
@@ -264,7 +301,7 @@
 	    	return true;
 	    }
 		
-		function addNewAccount() {
+		function updateAccount() {
 			document.getElementById('lblTakenEmail').style.display = "none";
 			document.getElementById('lblTakenUsername').style.display = "none";
 			document.getElementById('lblInvalidMobileNo').style.display = "none";
@@ -277,11 +314,12 @@
 				document.getElementById('lblMissingField').style.display = "block";
 				return false;
 			}
-			
+
+			var idAccount=$("#idAccount").val();// 
 			var email=$("#email").val();// value in field email
 			$.ajax({
 	            url:'${pageContext.request.contextPath}/checkIfValueExists',
-	            data:{username: '0', email: email, idAccount: '0'},
+	            data:{idAccount: idAccount, username: '0', email: email},
 	            type:'get',
 	            cache:false,
 	            success:function(data){
@@ -291,14 +329,14 @@
 	            	} 
 	            },
 	            error:function(){
-	              alert('error');
+	            	document.getElementById('alertAcctUpdateFail').style.display = "block";
 	            }
 			});
 			
 			var username=$("#username").val();// value in field username
 			$.ajax({
 	            url:'${pageContext.request.contextPath}/checkIfValueExists',
-	            data:{username: username, email: '0', idAccount: '0'},
+	            data:{idAccount: idAccount, username: username, email: '0'},
 	            type:'get',
 	            cache:false,
 	            success:function(data){
@@ -307,7 +345,7 @@
 	            	}
 	            },
 	            error:function(){
-	              alert('error');
+	            	document.getElementById('alertAcctUpdateFail').style.display = "block";
 	            }
 			});
 			if(checkIfValidMobileNo() == 'error') {
@@ -318,25 +356,75 @@
 				return false;
 			}
 			
+
+	    	var active=$("#radioActive").val();
+	    	var inactive=$("#radioInactive").val();
+	    	var acctStatus = "";
+	    	
+	    	if (active==1) {
+	    		acctStatus = "STATUS001";
+	    	} else if (inactive==1) {
+	    		acctStatus = "STATUS002";
+	    	}
+			
 			var firstName=$("#firstName").val();
 	    	var lastName=$("#lastName").val();
 	    	var gender=$("#gender").val();
 	    	var acctType=$("#dropdownUserProfiles").val();
 	    	var screenName=$("#screenName").val();
-	    	var email=$("#email").val();
-	    	var username=$("#username").val();
 	    	var mobileNo=$("#mobileNo").val();
-			
+	    	var codType=$("#codType").val();
+	    		    	
+	    	
+	    	var account = {idAccount: idAccount, firstName: firstName, lastName: lastName, gender: gender, codType: codType, email: email, username: username, mobileNo: mobileNo, codStatus: acctStatus};
+	    	var accountJSON = JSON.stringify(account);
+	    	
 			$.ajax({
-	            url:'${pageContext.request.contextPath}/createUserController',
-	            data:{firstName: firstName, lastName: lastName, gender: gender, codType: acctType, screenName: screenName, email: email, username: username, mobileNo: mobileNo},
+	            url:'${pageContext.request.contextPath}/updateUserController',
+	            data: accountJSON,
 	            type:'post',
 	            cache:false,
 	            success:function(data){
 	            	if ($.trim(data) == 'success') {
-	            		document.getElementById('alertAcctCreationSuccess').style.display = "block";
+	            		document.getElementById('alertAcctUpdateSuccess').style.display = "block";
 	            	} else {
-	            		document.getElementById('alertAcctCreationFail').style.display = "block";
+	            		document.getElementById('alertAcctUpdateFail').style.display = "block";
+	            	}
+	            },
+	            error:function(){
+	            	document.getElementById('alertAcctUpdateFail').style.display = "block";
+	            }
+			});
+		}
+		
+		function closeAlert(idAlert) {
+			document.getElementById(idAlert).style.display = "none";
+		}
+		
+		$('#btnCancel').click(function(){
+			window.location.href='adminUserMaintenance.jsp';
+		})
+		
+		
+		function updateAccountStatus(strStatus) {
+			var idAccount=$("#idAccount").val()
+			var codStatus = "";
+			if (strStatus == 'activate') {
+				codStatus = "STATUS001";
+			} else if (strStatus == 'deactivate') {
+				codStatus = "STATUS002";				
+			}
+							
+			$.ajax({
+	            url:'${pageContext.request.contextPath}/updateAccountStatus',
+	            data:{idAccount: idAccount, codStatus: codStatus},
+	            type:'post',
+	            cache:false,
+	            success:function(data){
+	            	if ($.trim(data) == 'success') {
+	            		document.getElementById('alertAcctUpdateSuccess').style.display = "block";
+	            	} else if ($.trim(data) == 'fail') {
+	            		document.getElementById('alertAcctUpdateFail').style.display = "block";
 	            	}
 	            },
 	            error:function(){
@@ -344,19 +432,7 @@
 	            }
 			});
 		}
-		
-		$('#dropdownUserProfiles').on('change',function(){
-			   var selection = $(this).val();
-			   if (selection == 'PROFILE003') {
-			       $('#divScreenName').show();
-			   } else {
-				   $('#divScreenName').hide();
-			   }
-		});
-		
-		function closeAlert(idAlert) {
-			document.getElementById(idAlert).style.display = "none";
-		}
+		    
 	</script>
    
 </body>

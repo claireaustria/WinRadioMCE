@@ -1,7 +1,31 @@
+<!-- Prevent Access to the page without logging in -->
+	<%
+		try{
+			String userName = (String) session.getAttribute("userName");
+			if (null == userName) {
+			   request.setAttribute("Error", "Session has ended.  Please login.");
+			   response.sendRedirect("adminLogin.jsp");
+			}
+		}catch(Exception e){
+			System.out.print(e.getMessage());
+			e.printStackTrace();
+		}
+	
+		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");//HTTP 1.1
+	    response.setHeader("Pragma","no-cache"); //HTTP 1.0
+	    response.setDateHeader ("Expires", 0); //prevents caching at the proxy server
+	%>
+<!-- End of Access Restriction -->
+
+<%@page import="com.win.radio.manila.utilities.TransactionLogOperations"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.ResultSet"%>
-<%@page import="com.win.radio.manila.utilities.TransactionLogOperations"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="com.win.radio.manila.utilities.ConnectionUtil"%>
 <%@include file="nav.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -26,8 +50,26 @@
     <!-- Custom styles for this template -->
     <link href="custom-css/style.css" rel="stylesheet">
     <link href="custom-css/admin.css" rel="stylesheet">
+    
+    <style type="text/css">
+    	.card-body-icon {
+			position: absolute;
+			z-index: 0;
+			top: -10px;
+			right: -25px;
+			font-size: 5rem;
+			-webkit-transform: rotate(15deg);
+			-ms-transform: rotate(15deg);
+			transform: rotate(15deg);
+		}
+		
+		.card-header {
+			height: 12%;
+		}
+    </style>
 </head>
 <body>
+	
 	<div class="container-fluid" id="wrapper">
 		<div class="row">
 			
@@ -37,32 +79,26 @@
 						<h1 class="float-left text-center text-md-left">Dashboard</h1>
 					</div>
 					
-					<div class="dropdown user-dropdown col-md-6 col-lg-4 text-center text-md-right"><a class="btn btn-stripped dropdown-toggle" href="https://example.com" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<img src="img/profile-pic.jpg" alt="profile photo" class="circle float-left profile-photo" width="50" height="auto">
-						
-						<div class="username mt-1">
-							<h4 class="mb-1">Username</h4>
-							
-							<h6 class="text-muted">Super Admin</h6>
-						</div>
-						</a>
-						
-						<div class="dropdown-menu dropdown-menu-right" style="margin-right: 1.5rem;" aria-labelledby="dropdownMenuLink"><a class="dropdown-item" href="#"><em class="fa fa-user-circle mr-1"></em> View Profile</a>
-						     <a class="dropdown-item" href="#"><em class="fa fa-sliders mr-1"></em> Preferences</a>
-						     <a class="dropdown-item" href="#"><em class="fa fa-power-off mr-1"></em> Logout</a></div>
-					</div>
+					<!-- include headerSection Start-->
+					<%@include file="headerSection.jsp" %>
+					<!-- include headerSection End -->	
 					
 					<div class="clear"></div>
 				</header>
-				
 				 
-			     <!-- Modal start -->
-				 <div id="modalChangePassword" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<!-- Check of IndexChangePWD start-->
+				<%
+				try{
+				 	if((Integer)session.getAttribute("indChangePwd") == 1){
+				%>
+				 
+			    <!-- Modal start -->
+				<div id="modalChangePassword" class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 					 <div class="modal-dialog" role="document">
 					    <div class="modal-content">
 					      <div class="modal-header">
 					        <h5 class="modal-title" id="exampleModalLabel">Change password:</h5>
-					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					        <button type="button" id="btnModalClose" class="close" style="display:none;" data-dismiss="modal" aria-label="Close">
 					          <span aria-hidden="true">&times;</span>
 					        </button>
 					      </div>
@@ -70,43 +106,126 @@
 					        <form>
 					          <div class="form-group">
 					            <label for="recipient-name" class="form-control-label">New password:</label>
-					            <input type="text" class="form-control" id="newPassword1" name="newPassword1" required="required">
+					            <input type="password" class="form-control" id="password1" name="password1" required="required">
 					          </div>
 					          <div class="form-group">
 					            <label for="message-text" class="form-control-label">Enter new password again:</label>
-					            <input type="text" class="form-control" id="newPassword2" name="newPassword2" required="required">
+					            <input type="password" class="form-control" id="password2" name="password2" required="required">
+					          </div>
+					          <div class="form-group">
+					            <label for="message-text" id="diffPwdLabel" class="form-control-label" style="display: none; color:red;">Both passwords should be the same.</label>
+					          </div>
+					          <div class="form-group">
+					            <label for="message-text" id="lblChangePwdSuccess" class="form-control-label" style="display: none; color:green;">Password changed successfully.</label>
+					          </div>
+					          <div class="form-group">
+					            <label for="message-text" id="lblError" class="form-control-label" style="display: none; color:red;">Something went wrong, please try again.</label>
 					          </div>
 					        </form>
 					      </div>
 					      <div class="modal-footer">
-					        <button type="button" class="btn btn-primary">Submit</button>
+					        <button type="button" class="btn btn-primary" onclick="changePassword()">Submit</button>
 					      </div>
 					    </div>
 					 </div>
 				</div>
 				<!-- Modal end -->
+				
+				<%	}
+				}
+				 catch(Exception e){
+					 System.out.print(e.getMessage());
+					 e.printStackTrace();
+				}
+				%>
+				<!--Check of IndexChangePWD end-->
 		
 				
 				<!-- ROW START -->
 				<div class="row">
-					<div class="col-md-12 col-lg-8">
-						<div class="row" id="iconStatsRow">
-							<div class="col-lg-4 iconStats">asdsdf</div>
-							<div class="col-lg-4 iconStats">asd</div>
-							<div class="col-lg-4 iconStats">asd</div>
-						</div>
+					
+					<div class="col-lg-8">
+						<section class="row">
+							<div class="col-lg-12">
+								<div class="jumbotron">
+									<h1 class="mb-4">Hello, user!</h1>
+									<p class="lead">Welcome to the admin page of Win Radio PH.</p>		
+								</div>
+							</div>
+						</section>
+						
+						<!-- Card statistics start -->
+						<section class="row">
+							<div class="col-lg-4">
+								<div class="card card-inverse card-info">
+									<div class="card-header">
+										<div class="card-body-icon">
+						                  <i class="fa fa-fw fa-globe"></i>
+						                </div>126 Site Views <br />Today
+					                </div>
+									
+									<a href="#" class="card-footer text-white clearfix small z-1">
+						                <span class="float-left">View Details</span>
+						                <span class="float-right">
+						                  <i class="fa fa-angle-right"></i>
+						                </span>
+					              	</a>
+								</div>
+							</div>
+							
+							<div class="col-lg-4">
+								<div class="card card-inverse card-warning">
+									<div class="card-header">
+										<div class="card-body-icon">
+						                  <i class="fa fa-fw fa-tasks"></i>
+						                </div>2 User Activities<br /> Today
+					                </div>
+									
+									<a href="#" class="card-footer text-white clearfix small z-1">
+						                <span class="float-left">View Details</span>
+						                <span class="float-right">
+						                  <i class="fa fa-angle-right"></i>
+						                </span>
+					              	</a>
+								</div>
+							</div>
+							
+							<div class="col-lg-4">
+								<div class="card card-inverse card-success">
+									<div class="card-header">
+										<div class="card-body-icon">
+						                  <i class="fa fa-fw fa-globe"></i>
+						                </div>126 Site Views <br />Today
+					                </div>
+									
+									<a href="#" class="card-footer text-white clearfix small z-1">
+						                <span class="float-left">View Details</span>
+						                <span class="float-right">
+						                  <i class="fa fa-angle-right"></i>
+						                </span>
+					              	</a>
+								</div>
+							</div>
+						</section>
+						<!-- Card statistics end -->
 					</div>
-					 
-					<div class="col-md-12 col-lg-4">
+					
+					<!-- User activity start -->
+					<div class="col-lg-4">
 						<div class="card mb-4">
 							<div class="card-block">
 								<h3 class="card-title">Recent Activities</h3>
 									<div class="list-group list-group-flush small">
-					              	<%
-									try{	
-									ResultSet rs = new TransactionLogOperations().getTransactionLogs();
-									while(rs.next()){
-									
+					              	<%ResultSet rs = null;
+				            		Statement select = null;
+				            		Connection conn = null;
+				            		
+				            		try{	 
+				                 	conn = ConnectionUtil.getConnection();
+				        			select = conn.createStatement();
+				        			rs = select.executeQuery(TransactionLogOperations.GET_TRANSACTION_LOGS);
+				        			
+				        				while(rs.next()) {
 									%>
 					                <a href="#" class="list-group-item list-group-item-action">
 					                  <div class="media">
@@ -121,12 +240,33 @@
 					                    </div>
 					                  </div>
 					                </a>
-					                <%}
-									rs.close();  
-									} catch (Exception e) {
-										System.out.print(e.getMessage());
-									e.printStackTrace();
-									}
+					                <%	}
+				            		} catch(Exception ex)
+				            		{
+				            			ex.printStackTrace();
+				            		} finally {
+				            			if (rs != null) {
+				            				try {
+				            					rs.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+				            			if (select != null) {
+				            				try {
+				            					select.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+				            			if (conn != null) {
+				            				try {
+				            					conn.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+				            		}
 									%>
 					                <a href="#" class="list-group-item list-group-item-action">
 					                  View all activity...
@@ -135,6 +275,7 @@
 							</div>
 						</div>
 					</div>
+					<!-- User activity end -->
 				</div>
 				<!-- ROW END -->
 				
@@ -161,10 +302,40 @@
     <script src="custom-js/custom.js"></script>
     <script>
 	window.onload = function () {
-
-		$('#modalChangePassword').modal({backdrop: 'static', keyboard: false})  
+		$('#modalChangePassword').modal({backdrop: 'static', keyboard: false});
 		$('#modalChangePassword').modal('show');
 	};
+	
+	function changePassword() {
+		var password1=$("#password1").val();
+		var password2=$("#password2").val();
+		var diffPwdLabel = document.getElementById('diffPwdLabel');
+		
+		if (password1 != password2) {
+			diffPwdLabel.style.display = "block";
+		} else {
+			diffPwdLabel.style.display = "none";
+			
+			$.ajax({
+	            url:'${pageContext.request.contextPath}/changePasswordController',
+	            data:{password1: password1, password2: password2},
+	            type:'post',
+	            cache:false,
+	            success:function(data){
+	            	if ($.trim(data) == 'success') {
+	            		document.getElementById('lblChangePwdSuccess').style.display = "block";
+	            		document.getElementById('btnModalClose').style.display = "block";
+	            	} else if ($.trim(data) == 'fail') {
+	            		var diffPwdLabel = document.getElementById('lblError');
+	            		diffPwdLabel.style.display = "block";
+	            	}
+	            },
+	            error:function(){
+	              alert('error');
+	            }
+			});
+		}
+	}
 	</script>
     
 	  </body>

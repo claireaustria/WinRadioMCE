@@ -4,8 +4,6 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.security.SecureRandom;
 import java.sql.Date;
-import java.util.Locale;
-import java.util.Random;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
@@ -17,11 +15,15 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import com.win.radio.manila.utilities.AccountOperations;
 import com.win.radio.manila.utilities.CodeUtil;
-import com.win.radio.manila.utilities.SQLOperations;
+import com.win.radio.manila.utilities.DJListOperations;
+import com.win.radio.manila.utilities.LogHelper;
+import com.win.radio.manila.utilities.TransactionLogOperations;
 import com.win.radio.manila.models.AccountModel;
+import com.win.radio.manila.models.DJListModel;
 
 @WebServlet("/createUserController")
 public class CreateUserController extends HttpServlet {
@@ -33,15 +35,21 @@ public class CreateUserController extends HttpServlet {
     
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+		PrintWriter rspns = response.getWriter();
 		String saltString = getSaltString(8);
-				
-		Date currentDateTime = new java.sql.Date(new java.util.Date().getTime());
+		
+		HttpSession session = request.getSession();
+		int idAccount = (int) session.getAttribute("idAccount");
+
+		Calendar cal = Calendar.getInstance();  
+		java.sql.Timestamp timestamp = new java.sql.Timestamp(cal.getTimeInMillis());
+		
 		AccountModel account = new AccountModel();
-		account.setCreateDate(currentDateTime);
-		account.setUpdateDate(currentDateTime);
-		account.setCodProfile(request.getParameter("codProfile"));
+		account.setCreateDate(timestamp);
+		account.setUpdateDate(timestamp);
+		account.setUpdateUser(idAccount);
+		account.setCodType(request.getParameter("codType"));
 		account.setEmail(request.getParameter("email"));
-		account.setScreenName(request.getParameter("screenName"));
 		account.setLastName(request.getParameter("lastName"));
 		account.setFirstName(request.getParameter("firstName"));
 		account.setGender(request.getParameter("gender"));
@@ -49,27 +57,35 @@ public class CreateUserController extends HttpServlet {
 		account.setUsername(request.getParameter("username"));
 		account.setPassword(String.valueOf(saltString.hashCode()));
 		account.setCodStatus(CodeUtil.COD_STATUS_ACTIVE);
+		account.setCodRegion(CodeUtil.COD_REGION_MNL);
 		
 		try{
 			new AccountOperations();
-			AccountOperations.addUser(account);
+			int newId = AccountOperations.addUser(account);
+			if(newId != 0) {
+				
+				if (account.getCodType().equals(CodeUtil.COD_TYPE_DJ)) {
+					DJListModel dj = new DJListModel();
+					dj.setCreateDate(timestamp);
+					dj.setUpdateDate(timestamp);
+					dj.setUpdateUser(idAccount);
+					dj.setDjName(request.getParameter("screenName"));
+					dj.setDescription("-");
+					dj.setIdAccount(newId);
+					dj.setCodRegion(CodeUtil.COD_REGION_MNL);
+					
+					new DJListOperations();
+					DJListOperations.addNewDJ(dj);
+				}
+				
+				sendInitialEmail(account, saltString);
 			
-			sendInitialEmail(account, saltString);
-			
-			/*
-			 * Use for alert display for successful transaction
-			 * 
-			//PrintWriter rspns = response.getWriter();
-			RequestDispatcher rd = null;
-			//rspns.println("<div class=\"alert bg-success\" role=\"alert\"><em class=\"fa fa-check-circle mr-2\"></em> Account successfully created. <a href=\"#\" class=\"float-right\"><em class=\"fa fa-remove\"></em></a></div>");
-			rd = request.getRequestDispatcher("manila/adminUserMaintenance.jsp");
-			request.setAttribute("isSuccess", "success");
-			rd.include(request, response);
-			//rspns.close();
-			 * 
-			 * */
-			
-			response.sendRedirect("manila/adminUserMaintenance.jsp");
+				new TransactionLogOperations();
+				TransactionLogOperations.addTransactionLog(idAccount, "addUser", "added a new user.", CodeUtil.COD_REGION_MNL);
+
+				rspns.println("success");
+				rspns.close();
+			}
 		}
 		catch(Exception e)
 		{
@@ -93,7 +109,7 @@ public class CreateUserController extends HttpServlet {
         return saltStr;
     }
 	
-	protected void sendInitialEmail(AccountModel account, String saltString) {
+	protected boolean sendInitialEmail(AccountModel account, String saltString) {
 
 		// Sender's email ID needs to be mentioned
 		String from = CodeUtil.DEFAULT_FROM_EMAIL;
@@ -130,15 +146,25 @@ public class CreateUserController extends HttpServlet {
 			message.setSubject("Win Radio Account Credentials");
 
 			// Now set the actual message
-			message.setText("Username: " + account.getUsername() + " " + "Password: " + saltString);
+			String msg = "Hi, " + account.getFirstName() + "! <br>";
+			msg += "You have been assigned an account at Win Radio PH. <br>";
+			msg += "<b>Username: </b>" + account.getUsername() + " " + "<b>Password:</b> " + saltString + "<br>";
+			msg += "To login, go to <b>www.winradio.com.ph/admin. </b><br><br><br>";
+			msg += "This is an automated message, please do not respond. <br>";
+			msg += "For assistance, please contact your systems administrator.";
+			
+			message.setContent(msg, "text/html; charset=utf-8");
 
 			// Send message
 			Transport transport = session.getTransport("smtp");
 			transport.connect(host, from, pass);
 			transport.sendMessage(message, message.getAllRecipients());
 			transport.close();
+			
+			return true;
 	   }catch (MessagingException mex) {
 	      mex.printStackTrace();
+	      return false;
 	   }
        
 	}

@@ -1,3 +1,5 @@
+<%@page import="com.win.radio.manila.utilities.CodeUtil"%>
+<%@page import="com.win.radio.manila.utilities.AccountCommands"%>
 <!-- Prevent Access to the page without logging in -->
 	<%
 		try{
@@ -20,7 +22,12 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.ResultSet"%>
-<%@page import="com.win.radio.manila.utilities.SQLOperations"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="com.win.radio.manila.utilities.AccountOperations"%>
+<%@page import="com.win.radio.manila.utilities.ConnectionUtil"%>
 <%@include file="nav.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -31,7 +38,7 @@
 	<meta name="description" content="Win Radio website">
 	<meta name="author" content="Win Radio 2017">
 	
-	<title>Win Radio Admin</title>
+	<title>Win Radio Admin - User Maintenance</title>
 	
     <!-- Bootstrap core CSS -->
     <link href="../core-css/bootstrap.min.css" rel="stylesheet">
@@ -43,8 +50,8 @@
     <link href="../core-css/font-awesome.css" rel="stylesheet">
     
     <!-- Custom styles for this template -->
-    <link href="../custom-css/style.css" rel="stylesheet">
-    <link href="../custom-css/admin.css" rel="stylesheet">
+    <link href="custom-css/style.css" rel="stylesheet">
+    <link href="custom-css/admin.css" rel="stylesheet">
 </head>
 <body>
 	<div class="container-fluid" id="wrapper">
@@ -53,7 +60,7 @@
 			<main class="col-xs-12 col-sm-8 offset-sm-4 col-lg-9 offset-lg-3 col-xl-10 offset-xl-2 pt-3 pl-4">
 				<header class="page-header row justify-center">
 					<div class="col-md-6 col-lg-8" >
-						<h1 class="float-left text-center text-md-left">Dashboard</h1>
+						<h1 class="float-left text-center text-md-left">DJ Blogs Maintenance</h1>
 					</div>
 					
 					<!-- include headerSection Start-->
@@ -62,18 +69,50 @@
 					
 					<div class="clear"></div>
 				</header>
+				
+				
+				<div class="row">
+					<!-- Blog table start -->
+					<div class="col-lg-8">
+						<div class="card">
+							<div class="card-block">
+								<h4 class="card-title">Blog Title</h4>
+								<h5 class="card-subtitle mb-2 text-muted">by dj claire</h5>
+								<div class="card-block">
+									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
+				                    ut ante in sapien blandit luctus sed ut lacus. Phasellus urna est, faucibus
+				                    nec ultrices placerat, feugiat et ligula. Donec vestibulum magna a dui
+				                    pharetra molestie. Fusce et dui urna.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- Blog table end -->
+					
+					<!-- Search options start -->
+					<div class="col-lg-4">
+					</div>
+					<!-- Search options end -->
+				</div>
+					
 					
 				
 			</main>
+			
+
 		</div>
+	
+	
 	</div>
 
     <!-- Bootstrap core JavaScript -->
-    <!-- Placed at the end of the document so the pages load faster -->
     <script src="../core-js/jquery-3.2.1.min.js"></script>
+    <script src="../core-js/jquery.min.js"></script>
     <script src="../core-js/tether.min.js"></script>
     <script src="../core-js/bootstrap.min.js"></script>
     
-    <script src="custom-js/custom.js"></script>
+    <script src="custom-js/admin.js"></script>
+    
+   
 </body>
 </html>

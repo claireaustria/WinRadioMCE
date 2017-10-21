@@ -17,11 +17,11 @@ import com.win.radio.manila.utilities.AccountOperations;
 import com.win.radio.manila.utilities.CodeUtil;
 import com.win.radio.manila.utilities.TransactionLogOperations;
 
-@WebServlet("/changePasswordController")
-public class ChangePasswordController extends HttpServlet {
+@WebServlet("/updateAccountStatus")
+public class UpdateUserStatusController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
        
-    public ChangePasswordController() {
+    public UpdateUserStatusController() {
         super();
     }
     
@@ -38,17 +38,28 @@ public class ChangePasswordController extends HttpServlet {
 		AccountModel account = new AccountModel();
 		account.setUpdateDate(timestamp);
 		account.setUpdateUser(idAccount);
-		account.setPassword(String.valueOf(request.getParameter("password1").hashCode()));
-		account.setIndChangePwd(0);
-		account.setIdAccount(idAccount);
+		account.setCodStatus(request.getParameter("codStatus"));
+		account.setIdAccount(Integer.valueOf(request.getParameter("idAccount")));
 		
 		try{	
 			new AccountOperations();
-			if (AccountOperations.changePassword(account)) {
+			if (AccountOperations.updateAccountStatus(account)) {
 				rspns.println("success");
 			} else {
 				rspns.println("fail");
 			}
+			
+			String strLogDesc = "";
+			
+			if (account.getCodStatus() == CodeUtil.COD_STATUS_ACTIVE) {
+				strLogDesc = "activated an account.";
+			} else {
+				strLogDesc = "deactivated an account.";
+			}
+			
+			new TransactionLogOperations();
+			TransactionLogOperations.addTransactionLog(idAccount, "updateUserStatus", strLogDesc, CodeUtil.COD_REGION_MNL);
+
 			
 			rspns.close();
 			

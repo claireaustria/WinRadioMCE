@@ -1,7 +1,33 @@
+<!-- Prevent Access to the page without logging in -->
+	<%
+		try{
+			String userName = (String) session.getAttribute("userName");
+			if (null == userName) {
+			   request.setAttribute("Error", "Session has ended.  Please login.");
+			   response.sendRedirect("adminLogin.jsp");
+			}
+		}catch(Exception e){
+			System.out.print(e.getMessage());
+			e.printStackTrace();
+		}
+	
+		response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");//HTTP 1.1
+	    response.setHeader("Pragma","no-cache"); //HTTP 1.0
+	    response.setDateHeader ("Expires", 0); //prevents caching at the proxy server
+	%>
+<!-- End of Access Restriction -->
+
+<%@page import="java.util.List"%>
+<%@page import="com.win.radio.manila.models.AccountModel"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.SQLException"%>
 <%@page import="com.win.radio.manila.utilities.AccountOperations"%>
+<%@page import="com.win.radio.manila.utilities.ConnectionUtil"%>
 <%@include file="nav.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
@@ -29,6 +55,21 @@
     <!-- Custom styles for this template -->
     <link href="custom-css/style.css" rel="stylesheet">
     <link href="custom-css/admin.css" rel="stylesheet">
+    
+    <style>
+    #dataTable_wrapper {
+		padding: 20px 15px 20px 15px;
+		margin: 5px;
+	}
+	
+	.highlight { 
+		background: #F0F0F0; 
+	}
+	
+	.clickableRow:hover {
+		cursor: pointer;
+	}
+    </style>
 </head>
 <body>
 	<div class="container-fluid" id="wrapper">
@@ -40,28 +81,29 @@
 						<h1 class="float-left text-center text-md-left">User Maintenance</h1>
 					</div>
 					
-					<div class="dropdown user-dropdown col-md-6 col-lg-4 text-center text-md-right"><a class="btn btn-stripped dropdown-toggle" href="https://example.com" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<img src="img/profile-pic.jpg" alt="profile photo" class="circle float-left profile-photo" width="50" height="auto">
-						
-						<div class="username mt-1">
-							<h4 class="mb-1">Username</h4>
-							
-							<h6 class="text-muted">Super Admin</h6>
-						</div>
-						</a>
-						
-						<div class="dropdown-menu dropdown-menu-right" style="margin-right: 1.5rem;" aria-labelledby="dropdownMenuLink"><a class="dropdown-item" href="#"><em class="fa fa-user-circle mr-1"></em> View Profile</a>
-						     <a class="dropdown-item" href="#"><em class="fa fa-sliders mr-1"></em> Preferences</a>
-						     <a class="dropdown-item" href="#"><em class="fa fa-power-off mr-1"></em> Logout</a></div>
-					</div>
+					<!-- include headerSection Start-->
+					<%@include file="headerSection.jsp" %>
+					<!-- include headerSection End -->	
 					
 					<div class="clear"></div>
 				</header>
-								
+				
+				<!-- Alert confirmation start -->			
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="alert bg-warning" id="alertNoAcctSelected" style="display:none;" role="alert">
+							<em class="fa fa-minus-circle mr-2"></em> Please choose an account to modify
+							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertNoAcctSelected')"></em></a>
+						</div>
+					</div>
+				</div>
+				<!-- Alert confirmation end -->		
+					
 				
 				<!-- Buttons -->
 				<div class="row">
 					<div class="col-lg-12">
+						<span id="currentRow" style="display: none;"></span>
 						<button type="submit" class="btn btn-primary btn-md float-right btn-options" id="btnNewUser">Create New User</button>
 						<button type="submit" class="btn btn-primary btn-md float-right btn-options" id="btnModifyUser">Modify Details</button>
 					</div>
@@ -77,6 +119,7 @@
 			              <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
 			                <thead>
 			                  <tr>
+			                  	<th style="display:none;">ID Account</th>
 			                  	<th>Create Date</th>
 			                    <th>Last Name</th>
 			                    <th>First Name</th>
@@ -84,32 +127,57 @@
 			                    <th>Username</th>
 			                    <th>E-mail</th>
 			                    <th>Account Status</th>
-			                    <th>Status Date</th>
 			                  </tr>
 			                </thead>
 			                <tbody>
-			                 	<%
-								try{	
-								ResultSet rs = new AccountOperations().getAllUsers();
-								while(rs.next()){
-								
+			                 	<%ResultSet rs = null;
+			            		Statement select = null;
+			            		Connection conn = null;
+			            		
+			            		try{	 
+			                 	conn = ConnectionUtil.getConnection();
+			        			select = conn.createStatement();
+			        			rs = select.executeQuery(AccountOperations.GET_ALL_USERS);
+			        			while(rs.next()) {
 								%>
-								<tr class="clickableRow">
-									<td><%=rs.getString("CREATE_DATE") %></td>
-									<td><%=rs.getString("LAST_NAME") %></td>	
+								<tr class="clickableRow">								
+									<td style="display:none;"><%=rs.getString("ID_ACCOUNT")%></td>
+									<td><%=rs.getString("CREATE_DATE")%></td>
+									<td><%=rs.getString("LAST_NAME")%></td>
 									<td><%=rs.getString("FIRST_NAME") %></td>
 									<td><%=rs.getString("ACCOUNT_TYPE") %></td>
 									<td><%=rs.getString("USERNAME") %></td>
 									<td><%=rs.getString("EMAIL") %></td>
 									<td><%=rs.getString("ACCOUNT_STATUS") %></td>
-									<td><%=rs.getString("UPDATE_DATE") %></td>
 								</tr>
-								<%}
-								rs.close();  
-								} catch (Exception e) {
-									System.out.print(e.getMessage());
-								e.printStackTrace();
+								<%
 								}
+			            		} catch(Exception ex)
+			            		{
+			            			ex.printStackTrace();
+			            		} finally {
+			            			if (rs != null) {
+			            				try {
+			            					rs.close();
+			            				} catch (SQLException e) {
+			            					e.printStackTrace();
+			            				}
+			            			}
+			            			if (select != null) {
+			            				try {
+			            					select.close();
+			            				} catch (SQLException e) {
+			            					e.printStackTrace();
+			            				}
+			            			}
+			            			if (conn != null) {
+			            				try {
+			            					conn.close();
+			            				} catch (SQLException e) {
+			            					e.printStackTrace();
+			            				}
+			            			}
+			            		}
 								%>
 			                </tbody>
 			              </table>
@@ -137,41 +205,50 @@
     <script type="text/javascript">
     $(function() {
         
-        /* Get all rows from your 'table' but not the first one 
-         * that includes headers. */
+        //Get all data rows from the table 
         var rows = $('tr').not(':first');
         
-        /* Create 'click' event handler for rows */
         rows.on('click', function(e) {
-            
-            /* Get current row */
+            //Get current row
             var row = $(this);
-            
-            /* Check if 'Ctrl', 'cmd' or 'Shift' keyboard key was pressed
-             * 'Ctrl' => is represented by 'e.ctrlKey' or 'e.metaKey'
-             * 'Shift' => is represented by 'e.shiftKey' */
+            //Highlight row
             if ((e.ctrlKey || e.metaKey) || e.shiftKey) {
-                /* If pressed highlight the other row that was clicked */
                 row.addClass('highlight');
             } else {
-                /* Otherwise just highlight one row and clean others */
                 rows.removeClass('highlight');
                 row.addClass('highlight');
+                //Get the first column - hidden ID account
+                var idAccount = row.find('td:eq(0)').text();
+                var span = document.getElementById("currentRow");
+                span.textContent = idAccount;
             }
-	            
-	        });
-	        
-	        /* This 'event' is used just to avoid that the table text 
-	         * gets selected (just for styling). 
-	         * For example, when pressing 'Shift' keyboard key and clicking 
-	         * (without this 'event') the text of the 'table' will be selected.
-	         * You can remove it if you want, I just tested this in 
-	         * Chrome v30.0.1599.69 */
-	        $(document).bind('selectstart dragstart', function(e) { 
-	            e.preventDefault(); return false; 
-	        });
-	        
 	    });
+	        
+        //Prevents the table texts from being modified
+        $(document).bind('selectstart dragstart', function(e) { 
+            e.preventDefault(); return false; 
+        });
+	 });
+    
+    /*Page redirect*/
+    $('#btnNewUser').click(function(){
+       window.location.href='adminNewUser.jsp';
+    })
+    
+    /*Page redirect*/
+    $('#btnModifyUser').click(function(){
+    	var span = document.getElementById("currentRow");
+    	var spanText = span.textContent;
+    	if ($.trim(spanText) != "") {
+       		window.location.href='adminUpdateUser.jsp?idAccountToModify='+spanText;
+    	} else {
+    		document.getElementById('alertNoAcctSelected').style.display = "block";
+    	}
+    })
+    
+    function closeAlert(idAlert) {
+		document.getElementById(idAlert).style.display = "none";
+	}
     </script>
     
     

@@ -20,14 +20,19 @@
 <%@page import="com.win.radio.manila.utilities.ConnectionUtil"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+
+<%@page import="com.win.radio.manila.utilities.QOTDCommands"%>
+<%@page import="com.win.radio.manila.utilities.QOTDOperations"%>
+
+<%@page import="com.win.radio.manila.utilities.CodeUtil"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.Statement"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.SQLException"%>
-<%@page import="com.win.radio.manila.utilities.QOTDOperations"%>
 <%@page import="com.win.radio.manila.utilities.ConnectionUtil"%>
 <%@include file="nav.jsp"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
@@ -76,8 +81,8 @@
 				<div class="col-lg-12">
 					<!-- Breadcrumbs -->
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a
-							href="adminQOTD.jsp">DJ Question of the Day</a></li>
+						<li class="breadcrumb-item"><a href="adminQOTD.jsp">DJ
+								Question of the Day</a></li>
 						<li class="breadcrumb-item active">New Post</li>
 					</ol>
 				</div>
@@ -87,7 +92,7 @@
 				<div class="col-lg-12">
 					<div class="alert bg-success" id="alertQuestionSuccess"
 						style="display: none;" role="alert">
-						<em class="fa fa-check-circle mr-2"></em> New question successful!
+						<em class="fa fa-check-circle mr-2"></em> New post successful!
 						<a href="#" class="float-right"><em class="fa fa-remove"
 							onclick="closeAlert('alertQuestionSuccess')"></em></a>
 					</div>
@@ -95,8 +100,7 @@
 						style="display: none;" role="alert">
 						<em class="fa fa-minus-circle mr-2"></em> Something went wrong,
 						please try again. <a href="#" class="float-right"><em
-							class="fa fa-remove"
-							onclick="closeAlert('alertQuestionFail')"></em></a>
+							class="fa fa-remove" onclick="closeAlert('alertQuestionFail')"></em></a>
 					</div>
 				</div>
 			</div>
@@ -213,6 +217,8 @@
 		function addNewQOTD() {
 			var djName = $("#dropdownDJ").val();
 			var question = $("#message").val();
+			
+			alert(question);
 
 			$
 					.ajax({
@@ -231,7 +237,7 @@
 							}
 						},
 						error : function() {
-							alert('Tangina ano mali');
+							alert('error');
 						}
 					});
 		}

@@ -123,6 +123,7 @@
 									cellspacing="0">
 									<thead>
 										<tr>
+											<th style="display: none;">ID Account</th>
 											<th>Create Date</th>
 											<th>Posted By</th>
 											<th>DJ Name</th>
@@ -151,6 +152,7 @@
 													}
 										%>
 										<tr class="clickableRow">
+											<td style="display:none;"><%=rs.getString("ID_QUESTION")%></td>
 											<td><%=rs.getString("CREATE_DATE")%></td>
 											<td><%=rs.getString("USERNAME")%></td>
 											<td><%=rs.getString("DJ_NAME")%></td>
@@ -232,6 +234,10 @@
 					/* Otherwise just highlight one row and clean others */
 					rows.removeClass('highlight');
 					row.addClass('highlight');
+
+					var idQuestionToModify = row.find('td:eq(0)').text();
+					var span = document.getElementById("currentRow");
+					span.textContent = idQuestionToModify;
 				}
 
 			});
@@ -261,12 +267,16 @@
 							var span = document.getElementById("currentRow");
 							var spanText = span.textContent;
 							if ($.trim(spanText) != "") {
-								window.location.href = 'adminUpdateQOTD.jsp?idAccountToModify='
+								window.location.href = 'adminUpdateQOTD.jsp?idQuestionToModify='
 										+ spanText;
 							} else {
 								document.getElementById('alertNoSelected').style.display = "block";
 							}
 						})
+
+		function closeAlert(idAlert) {
+			document.getElementById(idAlert).style.display = "none";
+		}
 	</script>
 
 

@@ -39,7 +39,7 @@ public class QOTDOperations implements QOTDCommands {
 		PreparedStatement pstmt = null;
 		Connection conn = null;
 		ResultSet rs = null;
-		//Integer newQuestion = 0;
+		// Integer newQuestion = 0;
 
 		try {
 
@@ -51,7 +51,8 @@ public class QOTDOperations implements QOTDCommands {
 			pstmt.setInt(3, question.getUpdateUser());
 			pstmt.setString(4, question.getQuestion());
 			pstmt.setInt(5, question.getPostOwner());
-			pstmt.setString(6, question.getCodRegion());
+			pstmt.setInt(6, question.getIndPost());
+			pstmt.setString(7, question.getCodRegion());
 			pstmt.executeUpdate();
 
 		} catch (SQLException sqle) {
@@ -75,6 +76,92 @@ public class QOTDOperations implements QOTDCommands {
 			if (rs != null) {
 				try {
 					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+
+	public static boolean updateQOTD(QOTDModel question) {
+
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		ResultSet rs = null;
+
+		try {
+
+			conn = ConnectionUtil.getConnection();
+			pstmt = conn.prepareStatement(UPDATE_QUESTION);
+
+			pstmt.setTimestamp(1, question.getUpdateDate());
+			pstmt.setString(2, question.getQuestion());
+			pstmt.setInt(3, question.getUpdateUser());
+
+			pstmt.setInt(4, question.getIdQuestion());
+
+			pstmt.executeUpdate();
+
+		} catch (SQLException sqle) {
+			System.out.println("SQLException - updateQOTD: " + sqle.getMessage());
+			return false;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+
+	public static boolean updateQuestionStatus(QOTDModel question) {
+
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+
+		try {
+
+			conn = ConnectionUtil.getConnection();
+			pstmt = conn.prepareStatement(UPDATE_QUESTION_STATUS);
+
+			pstmt.setTimestamp(1, question.getUpdateDate());
+			pstmt.setInt(2, question.getUpdateUser());
+			pstmt.setInt(3, question.getIndPost());
+			pstmt.setInt(4, question.getIdQuestion());
+
+			pstmt.executeUpdate();
+		} catch (SQLException sqle) {
+			System.out.println("SQLException - updateQuestionStatus" + sqle.getMessage());
+			return false;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}

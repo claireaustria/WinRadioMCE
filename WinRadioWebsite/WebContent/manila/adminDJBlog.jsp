@@ -1,3 +1,4 @@
+<%@page import="com.win.radio.manila.utilities.BlogContentCommands"%>
 <%@page import="com.win.radio.manila.utilities.CodeUtil"%>
 <%@page import="com.win.radio.manila.utilities.AccountCommands"%>
 <!-- Prevent Access to the page without logging in -->
@@ -52,6 +53,7 @@
     <!-- Custom styles for this template -->
     <link href="custom-css/style.css" rel="stylesheet">
     <link href="custom-css/admin.css" rel="stylesheet">
+    <link href="custom-css/djblog-style.css" rel="stylesheet">
 </head>
 <body>
 	<div class="container-fluid" id="wrapper">
@@ -70,32 +72,127 @@
 					<div class="clear"></div>
 				</header>
 				
-				
+				<!-- Alert confirmation start -->			
 				<div class="row">
-					<!-- Blog table start -->
-					<div class="col-lg-8">
-						<div class="card">
-							<div class="card-block">
-								<h4 class="card-title">Blog Title</h4>
-								<h5 class="card-subtitle mb-2 text-muted">by dj claire</h5>
-								<div class="card-block">
-									<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque
-				                    ut ante in sapien blandit luctus sed ut lacus. Phasellus urna est, faucibus
-				                    nec ultrices placerat, feugiat et ligula. Donec vestibulum magna a dui
-				                    pharetra molestie. Fusce et dui urna.</p>
+					<div class="col-lg-12">
+						<div class="alert bg-warning" id="alertNoRowSelected" style="display:none;" role="alert">
+							<em class="fa fa-minus-circle mr-2"></em> Please choose a post to modify
+							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertNoAcctSelected')"></em></a>
+						</div>
+					</div>
+				</div>
+				<!-- Alert confirmation end -->	
+				
+				<!-- Row buttons start -->
+				<div class="row">
+					<div class="col-lg-6">
+						<div class="pull-left">
+							<div class="btn-group">
+								<button type="button" class="btn btn-sm btn-default btn-filter" data-target="Published">Published</button>
+								<button type="button" class="btn btn-sm btn-default btn-filter" data-target="Draft">Draft</button>
+								<button type="button" class="btn btn-sm btn-default btn-filter" data-target="cancelado">Cancelado</button>
+								<button type="button" class="btn btn-sm btn-default btn-filter" data-target="all">All</button>
+							</div>
+						</div>
+					</div>
+					<div class="col-lg-6">
+						<div class="pull-right">
+							<button type="button" class="btn btn-sm btn-primary" onclick="modifyPost()">Modify</button>
+							<button type="button" class="btn btn-sm btn-primary">Create New Post</button>
+						</div>
+					</div>
+				</div>
+				<!-- Row buttons end -->
+				
+				<br/>
+
+				<!-- Table row start -->
+				<div class="row">
+					<div class="col-lg-12">
+			        	<div class="card mb-3">
+								<div class="table-container">
+									<table class="table table-filter" id="blogListTable">
+										<tbody>
+										
+											<%ResultSet rs = null;
+						            		PreparedStatement pstmt = null;
+						            		Connection conn = null;
+						            		
+						            		try{	 
+						                 	conn = ConnectionUtil.getConnection();
+						                 	pstmt = conn.prepareStatement(BlogContentCommands.GET_BLOG_POSTS);
+						                 	pstmt.setString(1, "%");
+						                 	pstmt.setString(2, CodeUtil.COD_REGION_MNL);
+						                	rs = pstmt.executeQuery();
+						        				while(rs.next()) {
+											%>
+											
+											<tr data-status="<%=rs.getString("STATUS")%>">
+												<td style="display:none;">
+													<%=rs.getString("ID_BLOG")%>
+												</td>
+												<td>
+													<div class="row">
+														<div class="col-lg-1 justify-center">
+															<a href="#" class="pull-left">
+																<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
+															</a>
+														</div>
+														<div class ="col-lg-11">
+															<div class="media">
+																
+																<div class="media-body">
+																	<span class="media-meta pull-right"><%=rs.getString("CREATE_DATE")%></span>
+																	<h4 class="title">
+																		<%=rs.getString("TITLE")%>
+																		<span class="pull-right <%=rs.getString("STATUS")%>">(<%=rs.getString("STATUS")%>)</span>
+																	</h4>
+																	<p class="summary"><%=rs.getString("FORMATTED_CONTENT")%></p>
+																</div>
+															</div>
+														</div>
+													</div>
+												</td>
+											</tr>
+											<%	}
+						            		} catch(Exception ex)
+						            		{
+						            			ex.printStackTrace();
+						            		} finally {
+						            			if (rs != null) {
+						            				try {
+						            					rs.close();
+						            				} catch (SQLException e) {
+						            					e.printStackTrace();
+						            				}
+						            			}
+						            			if (pstmt != null) {
+						            				try {
+						            					pstmt.close();
+						            				} catch (SQLException e) {
+						            					e.printStackTrace();
+						            				}
+						            			}
+						            			if (conn != null) {
+						            				try {
+						            					conn.close();
+						            				} catch (SQLException e) {
+						            					e.printStackTrace();
+						            				}
+						            			}
+						            		}
+											%>
+										</tbody>
+									</table>
 								</div>
 							</div>
 						</div>
 					</div>
-					<!-- Blog table end -->
-					
-					<!-- Search options start -->
-					<div class="col-lg-4">
-					</div>
-					<!-- Search options end -->
 				</div>
-					
-					
+				<!-- Table row end -->
+				
+				<!-- Hidden text to store ID of current row -->
+				<span id="currentRow" style="display: none;"></span>
 				
 			</main>
 			
@@ -112,6 +209,44 @@
     <script src="../core-js/bootstrap.min.js"></script>
     
     <script src="custom-js/admin.js"></script>
+    
+    <script>
+    $(document).ready(function () {
+
+        $('tr').on('click', function () {
+        	$(this).closest('table').find('tr').not(this).removeClass('selected');  
+            $(this).toggleClass('selected');
+            var idBlog = $(this).find('td:eq(0)').text();
+            var span = document.getElementById("currentRow");
+            span.textContent = idBlog;
+        });
+        
+        $('.btn-filter').on('click', function () {
+          var $target = $(this).data('target');
+          if ($target != 'all') {
+            $('.table tr').css('display', 'none');
+            $('.table tr[data-status="' + $target + '"]').fadeIn('slow');
+          } else {
+            $('.table tr').css('display', 'none').fadeIn('slow');
+          }
+        });
+
+     });
+    
+    function modifyPost() {
+    	var currentRow = document.getElementById("currentRow");
+    	var rowContent = currentRow.textContent;
+    	if ($.trim(rowContent) != "") {
+       		window.location.href='adminUpdateDJBlog.jsp?idBlog='+rowContent;
+    	} else {
+    		document.getElementById('alertNoRowSelected').style.display = "block";
+    	}
+    }
+    
+    function closeAlert(idAlert) {
+		document.getElementById(idAlert).style.display = "none";
+	}
+    </script>
     
    
 </body>

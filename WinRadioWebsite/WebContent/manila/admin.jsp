@@ -232,7 +232,7 @@
 					                    <div class="col-sm-3 col-md-2" style="padding: 0;">
 											<img src="img/profile-pic.jpg" alt="profile photo" class="circle profile-photo" style="width: 100%; max-width: 100px;">
 										</div>
-										<div class="col-sm-6 col-md-8">
+										<div class="col-sm-6 col-md-10">
 					                    <div class="media-body">
 					                      <%=rs.getString("EVENT") %>
 					                      <div class="text-muted smaller"><%=rs.getString("CREATE_DATE") %></div>

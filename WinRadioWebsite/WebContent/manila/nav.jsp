@@ -5,9 +5,10 @@
 				
 	<ul class="nav nav-pills flex-column sidebar-nav">
 		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/admin.jsp' ? ' active' : ''}" href="admin.jsp"><em class="fa fa-dashboard"></em> Dashboard <span class="sr-only">(current)</span></a></li>
-		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/#.jsp' ? ' active' : ''}" href="#"><em class="fa fa-home"></em> Home Page</a></li>
+		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/#.jsp' ? ' active' : ''}" href="#"><em class="fa fa-home"></em> Top 10</a></li>
+		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/#.jsp' ? ' active' : ''}" href="#"><em class="fa fa-home"></em> DJ List</a></li>
+		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/#.jsp' ? ' active' : ''}" href="#"><em class="fa fa-exclamation"></em> What's Hot </a></li>
 		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/adminProgramSchedule.jsp' ? ' active' : ''}" href="adminProgramSchedule.jsp"><em class="fa fa-film"></em> Program Sched</a></li>
-		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/#.jsp' ? ' active' : ''}" href="#"><em class="fa fa-exclamation"></em> Promotions </a></li>
 		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/#.jsp' ? ' active' : ''}" href="#"><em class="fa fa-file-audio-o"></em> Episodes </a></li>
 		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/adminQOTD.jsp.jsp' ? ' active' : ''}" href="adminQOTD.jsp"><em class="fa fa-quote-left"></em> QOTD </a></li>
 		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/adminDJBlog.jsp' ? ' active' : ''}" href="adminDJBlog.jsp"><em class="fa fa-pencil"></em> DJ Blogs </a> </li>

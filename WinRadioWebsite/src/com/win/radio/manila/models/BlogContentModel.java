@@ -1,26 +1,20 @@
 package com.win.radio.manila.models;
 
-import java.sql.Date;
 import java.sql.Timestamp;
 
 public class BlogContentModel {
 
 	private Timestamp createDate;
 	private Timestamp updateDate;
-	private String updateUser;
+	private int updateUser;
 	private int idBlog;
 	private String title;
 	private String content;
 	private int postOwner;
+	private String status;
 	private String codRegion;
 
 	
-	public String getUpdateUser() {
-		return updateUser;
-	}
-	public void setUpdateUser(String updateUser) {
-		this.updateUser = updateUser;
-	}
 	public int getIdBlog() {
 		return idBlog;
 	}
@@ -62,6 +56,18 @@ public class BlogContentModel {
 	}
 	public void setUpdateDate(Timestamp updateDate) {
 		this.updateDate = updateDate;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
+	public int getUpdateUser() {
+		return updateUser;
+	}
+	public void setUpdateUser(int updateUser) {
+		this.updateUser = updateUser;
 	}
 	
 }

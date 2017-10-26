@@ -88,11 +88,11 @@
            		Connection conn = null;
 								            		
            		try{	 
-                	conn = ConnectionUtil.getConnection();
+                conn = ConnectionUtil.getConnection();
    				pstmt = conn.prepareStatement(BlogContentCommands.GET_BLOG_POSTS);
-                	pstmt.setString(1, request.getParameter("idBlog"));
-                	pstmt.setString(2, CodeUtil.COD_REGION_MNL);
-                	rs = pstmt.executeQuery();
+               	pstmt.setString(1, request.getParameter("idBlog"));
+               	pstmt.setString(2, CodeUtil.COD_REGION_MNL);
+               	rs = pstmt.executeQuery();
    				
    				while (rs.next()) {
    					String strStatus = rs.getString("STATUS");

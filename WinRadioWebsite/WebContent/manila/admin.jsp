@@ -1,5 +1,10 @@
 <!-- Prevent Access to the page without logging in -->
-	<%
+	<%@page import="java.util.Calendar"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.sql.Date"%>
+<%@page import="com.win.radio.manila.utilities.TransactionLogCommands"%>
+<%@page import="com.win.radio.manila.utilities.CodeUtil"%>
+<%
 		try{
 			String userName = (String) session.getAttribute("userName");
 			if (null == userName) {
@@ -173,12 +178,27 @@
 								</div>
 							</div>
 							
+							<%ResultSet resultSet = null;
+		            		PreparedStatement pstmt = null;
+		            		Connection connection = null;
+		            		
+		            		try{	 
+		            		connection = ConnectionUtil.getConnection();
+		                 	pstmt = connection.prepareStatement(TransactionLogCommands.GET_DAILY_TRANSACTION_LOG_COUNT);
+		                 	
+		                 	String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
+		                 	
+		                 	pstmt.setString(1, timeStamp);
+		                 	pstmt.setString(2, CodeUtil.COD_REGION_MNL);
+		                 	resultSet = pstmt.executeQuery();
+		        				while(resultSet.next()) {
+							%>
 							<div class="col-lg-4">
 								<div class="card card-inverse card-warning">
 									<div class="card-header">
 										<div class="card-body-icon">
 						                  <i class="fa fa-fw fa-tasks"></i>
-						                </div>2 User Activities<br /> Today
+						                </div><%=resultSet.getString("TRANSACTION_COUNT") %> User Activities<br /> Today
 					                </div>
 									
 									<a href="#" class="card-footer text-white clearfix small z-1">
@@ -189,7 +209,35 @@
 					              	</a>
 								</div>
 							</div>
-							
+							<%	}
+		            		} catch(Exception ex)
+		            		{
+		            			ex.printStackTrace();
+		            		} finally {
+		            			if (resultSet != null) {
+		            				try {
+		            					resultSet.close();
+		            				} catch (SQLException e) {
+		            					e.printStackTrace();
+		            				}
+		            			}
+		            			if (pstmt != null) {
+		            				try {
+		            					pstmt.close();
+		            				} catch (SQLException e) {
+		            					e.printStackTrace();
+		            				}
+		            			}
+		            			if (connection != null) {
+		            				try {
+		            					connection.close();
+		            				} catch (SQLException e) {
+		            					e.printStackTrace();
+		            				}
+		            			}
+		            		}
+							%>
+											
 							<div class="col-lg-4">
 								<div class="card card-inverse card-success">
 									<div class="card-header">

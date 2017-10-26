@@ -1,5 +1,7 @@
 <!-- Prevent Access to the page without logging in -->
-	<%
+<%@page import="com.win.radio.manila.utilities.CodeUtil"%>
+<%@page import="com.win.radio.manila.utilities.DJListCommands"%>
+<%
 		try{
 			String userName = (String) session.getAttribute("userName");
 			if (null == userName) {
@@ -22,11 +24,9 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@page import="java.sql.ResultSet"%>
-<%@page import="java.sql.Statement"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.SQLException"%>
-<%@page import="com.win.radio.manila.utilities.AccountOperations"%>
 <%@page import="com.win.radio.manila.utilities.ConnectionUtil"%>
 <%@include file="nav.jsp" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -78,7 +78,7 @@
 			<main class="col-xs-12 col-sm-8 offset-sm-4 col-lg-9 offset-lg-3 col-xl-10 offset-xl-2 pt-3 pl-4">
 				<header class="page-header row justify-center">
 					<div class="col-md-6 col-lg-8" >
-						<h1 class="float-left text-center text-md-left">User Maintenance</h1>
+						<h1 class="float-left text-center text-md-left">DJ Maintenance</h1>
 					</div>
 					
 					<!-- include headerSection Start-->
@@ -113,78 +113,72 @@
 
 				
 				<!-- Users table start -->
-				<div class="row">
-			        <div class="card mb-3">
-			          <div class="card-body">
-			            <div class="table-responsive">
-			              <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
-			                <thead>
-			                  <tr>
-			                  	<th style="display:none;">ID Account</th>
-			                  	<th>Create Date</th>
-			                    <th>Last Name</th>
-			                    <th>First Name</th>
-			                    <th>Account Type</th>
-			                    <th>Username</th>
-			                    <th>E-mail</th>
-			                    <th>Account Status</th>
-			                  </tr>
-			                </thead>
-			                <tbody>
-			                 	<%ResultSet rs = null;
-			            		Statement select = null;
-			            		Connection conn = null;
-			            		
-			            		try{	 
-			                 	conn = ConnectionUtil.getConnection();
-			        			select = conn.createStatement();
-			        			rs = select.executeQuery(AccountOperations.GET_ALL_USERS);
-			        			while(rs.next()) {
-								%>
-								<tr class="clickableRow">								
-									<td style="display:none;"><%=rs.getString("ID_ACCOUNT")%></td>
-									<td><%=rs.getString("CREATE_DATE")%></td>
-									<td><%=rs.getString("LAST_NAME")%></td>
-									<td><%=rs.getString("FIRST_NAME") %></td>
-									<td><%=rs.getString("ACCOUNT_TYPE") %></td>
-									<td><%=rs.getString("USERNAME") %></td>
-									<td><%=rs.getString("EMAIL") %></td>
-									<td><%=rs.getString("ACCOUNT_STATUS") %></td>
-								</tr>
-								<%
-								}
-			            		} catch(Exception ex)
-			            		{
-			            			ex.printStackTrace();
-			            		} finally {
-			            			if (rs != null) {
-			            				try {
-			            					rs.close();
-			            				} catch (SQLException e) {
-			            					e.printStackTrace();
-			            				}
-			            			}
-			            			if (select != null) {
-			            				try {
-			            					select.close();
-			            				} catch (SQLException e) {
-			            					e.printStackTrace();
-			            				}
-			            			}
-			            			if (conn != null) {
-			            				try {
-			            					conn.close();
-			            				} catch (SQLException e) {
-			            					e.printStackTrace();
-			            				}
-			            			}
-			            		}
-								%>
-			                </tbody>
-			              </table>
-			            </div>
-			          </div>  
-			        </div>
+				<div class="row justify-content-md-center">
+					<div class="col-lg-10">
+				        <div class="card mb-3">
+				          <div class="card-body">
+				            <div class="table-responsive">
+				              <table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
+				                <thead>
+				                  <tr>
+				                  	<th style="display:none;">ID DJ</th>
+				                  	<th>DJ Name</th>
+				                    <th>Description</th>
+				                  </tr>
+				                </thead>
+				                <tbody>
+				                 	<%ResultSet rs = null;
+				               		PreparedStatement pstmt = null;
+				               		Connection conn = null;
+				    								            		
+				               		try{	 
+				                    conn = ConnectionUtil.getConnection();
+				       				pstmt = conn.prepareStatement(DJListCommands.GET_ALL_DJ);
+				                   	pstmt.setString(1, CodeUtil.COD_REGION_MNL);
+				                   	rs = pstmt.executeQuery();
+				       				
+				       				while (rs.next()) {
+									%>
+									<tr class="clickableRow">								
+										<td style="display:none;"><%=rs.getString("ID_DJ")%></td>
+										<td><%=rs.getString("DJ_NAME")%></td>
+										<td><%=rs.getString("DESCRIPTION")%></td>
+									</tr>
+									<%
+									}
+				            		} catch(Exception ex)
+				            		{
+				            			ex.printStackTrace();
+				            		} finally {
+				            			if (rs != null) {
+				            				try {
+				            					rs.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+				            			if (pstmt != null) {
+				            				try {
+				            					pstmt.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+				            			if (conn != null) {
+				            				try {
+				            					conn.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+				            		}
+									%>
+				                </tbody>
+				              </table>
+				            </div>
+				          </div>  
+				        </div>
+					</div>
 		        </div>
 		        <!-- Users table end -->
 			

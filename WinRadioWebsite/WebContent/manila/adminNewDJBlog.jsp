@@ -1,3 +1,4 @@
+<%@page import="com.win.radio.manila.utilities.DJListCommands"%>
 <%@page import="com.win.radio.manila.utilities.BlogContentCommands"%>
 <%@page import="com.win.radio.manila.utilities.CompanyDescriptionCommands"%>
 <%@page import="com.win.radio.manila.utilities.ConnectionUtil"%>
@@ -63,10 +64,6 @@
 							<em class="fa fa-check-circle mr-2"></em> Draft saved successfully!
 							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertDraftSuccess')"></em></a>
 						</div>
-						<div class="alert bg-success" id="alertArchiveSuccess" style="display:none;" role="alert">
-							<em class="fa fa-check-circle mr-2"></em> Blog post successfully archived!
-							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertArchiveSuccess')"></em></a>
-						</div>
 						<div class="alert bg-danger" id="alertMissingField" style="display:none;" role="alert">
 							<em class="fa fa-minus-circle mr-2"></em> Please fill up all fields.
 							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertMissingField')"></em></a>
@@ -83,127 +80,98 @@
 				</div>
 				<!-- Alert confirmation end -->
 				
-				<%ResultSet rs = null;
-           		PreparedStatement pstmt = null;
-           		Connection conn = null;
-								            		
-           		try{	 
-                	conn = ConnectionUtil.getConnection();
-   				pstmt = conn.prepareStatement(BlogContentCommands.GET_BLOG_POSTS);
-                	pstmt.setString(1, request.getParameter("idBlog"));
-                	pstmt.setString(2, CodeUtil.COD_REGION_MNL);
-                	rs = pstmt.executeQuery();
-   				
-   				while (rs.next()) {
-   					String strStatus = rs.getString("STATUS");
-				%>	
-				<!-- Buttons start -->
-				<div class="row">
-					<div class="col-lg-6">
-						<span><a href="adminDJBlog.jsp"><em class="fa fa-arrow-left">  Back</em></a></span>
-					</div>
-					<div class="col-lg-6">
-						<%if (!strStatus.equals(CodeUtil.COD_BLOG_STATUS_ARCHIVED)) {%>
-						<button type="button" class="btn btn-sm btn-secondary float-right btn-options" onclick="updateBlog('Archived')">Archive</button>
-						<%} %>
-						<button type="button" class="btn btn-sm btn-primary float-right btn-options" onclick="updateBlog('Published')">Publish to website</button>
-						<button type="button" class="btn btn-sm btn-primary float-right btn-options" onclick="updateBlog('Draft')">Save As Draft</button>
-						</div>
-				</div>
 				
 				<br/>
 				
 				<!-- Blog content row start -->
-				<div class="row">
+				<div class="row justify-content-md-center">
 					<div class="col-lg-8">
 						<div class="card">
 							<div class="card-block">
-								<form class="form-horizontal">
-									<div class="form-group" id="titleSection">
-										<div class="row">
-											<div class="col-lg-11">
-												<h3><%=rs.getString("TITLE") %></h3>
-											</div>
-											<div class="col-lg-1">
-												<h4><em class="fa fa-pencil pull-right" data-toggle="tooltip" title="Edit title" onclick="editTitle()"></em></h4>
-											</div>	
-										</div>							
-										<div class="divider" style="margin-top: 1rem;"></div>
-									</div>
-									
-								    <div class="form-group" style="display:none;">
-								        <label for="message-text" class="form-control-label">ID Blog:</label>
-								        <input type="text" class="form-control" id="idBlog" required="required" value="<%=rs.getString("ID_BLOG") %>">
-								    </div>							
-									<div class="form-group" id="editTitleSection" style="display:none;">
+								<form class="form-horizontal">		
+									<div class="form-group" id="editTitleSection">
 								        <label for="message-text" class="form-control-label">Blog Title:</label>
-								        <input type="text" class="form-control" id="title" required="required" value="<%=rs.getString("TITLE") %>">
+								        <input type="text" class="form-control" id="title" required="required" value="">
 								    </div>
-								    <div class="form-group" style="display:none;">
-								        <label for="message-text" class="form-control-label">Post Owner ID:</label>
-								        <input type="text" class="form-control" id="postOwner" required="required" value="<%=rs.getString("POST_OWNER") %>">
-								    </div>
-									<div class="form-group">
+								    <%if (!session.getAttribute("codType").equals(CodeUtil.COD_TYPE_DJ)) { %>
+								    <div class="form-group">
 								        <label for="message-text" class="form-control-label">Posted By:</label>
-								        <input type="text" class="form-control" required="required" value="<%=rs.getString("DJ_NAME") %>">
-								    </div>
+								        <select class="form-control" id="postOwner">
+									    <%ResultSet rs = null;
+					            		PreparedStatement pstmt = null;
+					            		Connection conn = null;
+					            		
+					            		try{	 
+					                 	conn = ConnectionUtil.getConnection();
+					                 	pstmt = conn.prepareStatement(DJListCommands.GET_ALL_DJ);
+					                 	pstmt.setString(1, CodeUtil.COD_REGION_MNL);
+					                	rs = pstmt.executeQuery();
+					        				while(rs.next()) {
+										%>
+										
+										<option value="<%=rs.getString("ID_DJ") %>"><%=rs.getString("DJ_NAME") %></option>
+									      	
+									    <%	}
+					            		} catch(Exception ex)
+					            		{
+					            			ex.printStackTrace();
+					            		} finally {
+					            			try {
+					           					if (rs != null) {
+					           						rs.close();
+					           					}
+					           					if (pstmt != null) {
+					           						pstmt.close();
+					           					}
+					           					if (conn != null) {
+					           						conn.close();
+					           					}
+					           				} catch (SQLException e) {
+					           					e.printStackTrace();
+					           				}
+					            		}
+										%>
+										</select>
+									</div>
+									<%} %>
 									<div class="form-group">
 										<label class="col-12 control-label no-padding" for="message">Content</label>
 										<div class="col-12 no-padding">
-											<textarea class="form-control" id="content" name="blogContent" placeholder="" required="required" rows="5" value=""><%=rs.getString("CONTENT") %></textarea>
+											<textarea class="form-control" id="content" name="blogContent" rows="5" ></textarea>
 										</div>
 									</div>
-									
+									<div class="form-group">
+										<fieldset class="form-group">
+									    	<label class="col-12 control-label no-padding" for="message">Save blog post as:</label>
+									    	<div class="form-check">
+									      		<label class="form-check-label">
+									        	<input type="radio" class="form-check-input" name="status" id="optionsRadios1" value="<%=CodeUtil.COD_BLOG_STATUS_DRAFT%>">
+									        	Draft
+									      		</label>
+									    	</div>
+									    	<div class="form-check">
+										    	<label class="form-check-label">
+										        <input type="radio" class="form-check-input" name="status" id="optionsRadios2" value="<%=CodeUtil.COD_BLOG_STATUS_PUBLISHED%>">
+										        Publish on website
+										      	</label>
+									    	</div>
+									 	</fieldset>
+								 	</div>
+									<div class="form-group">
+										<div class="col-12 widget-right no-padding">
+											<button type="button" class="btn btn-primary btn-md float-right" onclick="createBlog()">Submit</button>
+										</div>
+									</div>
 								</form>
 							</div>
 						</div>
 					</div>
-					
-					<div class="col-lg-4">
-						<div class="card">
-							<div class="card-block">
-								<center>
-									<h4>Blog Status:</h4>
-									<%
-									if (strStatus.equals(CodeUtil.COD_BLOG_STATUS_DRAFT)) {%>
-										<h5 style="color: #f0ad4e;"><%=strStatus %></h5>
-									<%} else if (strStatus.equals(CodeUtil.COD_BLOG_STATUS_PUBLISHED)) { %>
-										<h5 style="color: #5cb85c;"><%=strStatus %></h5>
-									<%} else if (strStatus.equals(CodeUtil.COD_BLOG_STATUS_ARCHIVED)) { %>
-										<h5 style="color: #999999;"><%=strStatus %></h5>
-									<%} %>
-								</center>
-							</div>
-						</div>
-					</div>
-					
 				</div>
 				<!-- Blog content row end -->	
+				<br/>			
 				
-				
-				<%	}
-           		} catch(Exception ex)
-           		{
-           			ex.printStackTrace();
-           		} finally {
-           			try {
-          					if (rs != null) {
-          						rs.close();
-          					}
-          					if (pstmt != null) {
-          						pstmt.close();
-          					}
-          					if (conn != null) {
-          						conn.close();
-          					}
-          				} catch (SQLException e) {
-          					e.printStackTrace();
-          				}
-           		}
-				%>
 			</main>
 			
-
 		</div>
 	
 	
@@ -226,18 +194,24 @@
     	window.location.href='adminDJBlog.jsp';
     }
     
-    function updateBlog(status) {
-		var idBlog=$("#idBlog").val();
+    function createBlog() {
+
+		document.getElementById('alertPublishSuccess').style.display = "none";
+		document.getElementById('alertDraftSuccess').style.display = "none";
+		document.getElementById('alertJSFail').style.display = "none";
+		document.getElementById('alertMissingField').style.display = "none";
+    	
     	var title=$("#title").val();
 		var content=$("#content").val();
 		var postOwner = $("#postOwner").val();
+		var status = $("input[name='status']:checked").val();
 		
-		var blogContent = {idBlog: idBlog, title: title, content: content, postOwner: postOwner, status: status};
+		var blogContent = {title: title, content: content, postOwner: postOwner, status: status};
     	var blogContentJSON = JSON.stringify(blogContent);
 		
-		if ($.trim(title) != "" && $.trim(content) != "" && $.trim(postOwner) != "") {
+		if ($.trim(title) != "" && $.trim(content) != "" && $.trim(postOwner) != "" && $.trim(status) != "") {
 			$.ajax({
-	            url:'${pageContext.request.contextPath}/updateDJBlogController',
+	            url:'${pageContext.request.contextPath}/createDJBlogController',
 	            data:blogContentJSON,
 	            type:'post',
 	            cache:false,
@@ -247,8 +221,6 @@
 	            			document.getElementById('alertDraftSuccess').style.display = "block";
 	            		} else if (status == 'Published') {
 	            			document.getElementById('alertPublishSuccess').style.display = "block";
-	            		} else if (status == 'Archived') {
-	            			document.getElementById('alertArchiveSuccess').style.display = "block";
 	            		}
 	            	} else if ($.trim(data) == 'fail') {
 	            		document.getElementById('alertFail').style.display = "block";
@@ -268,10 +240,6 @@
 		document.getElementById(idAlert).style.display = "none";
 	}
     
-    function editTitle() {
-    	document.getElementById('titleSection').style.display = "none";
-    	document.getElementById('editTitleSection').style.display = "block";
-    }
     </script>
 </body>
 </html>

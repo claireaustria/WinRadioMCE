@@ -18,11 +18,11 @@ import com.win.radio.manila.utilities.TransactionLogOperations;
 import com.google.gson.Gson;
 import com.win.radio.manila.models.BlogContentModel;
 
-@WebServlet("/updateDJBlogController")
-public class UpdateDJBlogController extends HttpServlet {
+@WebServlet("/createDJBlogController")
+public class CreateDJBlogController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	       
-    public UpdateDJBlogController() {
+    public CreateDJBlogController() {
         super();
     }
     
@@ -50,24 +50,24 @@ public class UpdateDJBlogController extends HttpServlet {
 	    Gson gson = new Gson();
 	    BlogContentModel blogContentRequest = (BlogContentModel) gson.fromJson(sbBlogContent.toString(), BlogContentModel.class);
 				
+	    blogContentRequest.setCreateDate(timestamp);
 	    blogContentRequest.setUpdateDate(timestamp);
 	    blogContentRequest.setUpdateUser(updateUserIdAccount);
+	    blogContentRequest.setCodRegion(CodeUtil.COD_REGION_MNL);
 		
 		try{
-			if(BlogContentOperations.updateBlog(blogContentRequest)) {				
+			if(BlogContentOperations.createBlog(blogContentRequest)) {				
 				new TransactionLogOperations();
 				String strLogDesc ="";
 				String strBlogStatus = blogContentRequest.getStatus();
 				
 				if (strBlogStatus.equals(CodeUtil.COD_BLOG_STATUS_DRAFT)) {
-					strLogDesc = "saved a draft blog post.";
+					strLogDesc = "saved a new draft blog post.";
 				} else if (strBlogStatus.equals(CodeUtil.COD_BLOG_STATUS_PUBLISHED)) {
-					strLogDesc = "published a blog post.";
-				} else if (strBlogStatus.equals(CodeUtil.COD_BLOG_STATUS_ARCHIVED)) {
-					strLogDesc = "archived a blog post.";
+					strLogDesc = "published a new blog post.";
 				}
 				
-				TransactionLogOperations.addTransactionLog(updateUserIdAccount, "updateBlog", strLogDesc, CodeUtil.COD_REGION_MNL);
+				TransactionLogOperations.addTransactionLog(updateUserIdAccount, "createBlog", strLogDesc, CodeUtil.COD_REGION_MNL);
 	
 				rspns.println("success");
 			} else {

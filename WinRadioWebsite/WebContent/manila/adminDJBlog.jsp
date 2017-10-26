@@ -90,7 +90,7 @@
 							<div class="btn-group">
 								<button type="button" class="btn btn-sm btn-default btn-filter" data-target="Published">Published</button>
 								<button type="button" class="btn btn-sm btn-default btn-filter" data-target="Draft">Draft</button>
-								<button type="button" class="btn btn-sm btn-default btn-filter" data-target="cancelado">Cancelado</button>
+								<button type="button" class="btn btn-sm btn-default btn-filter" data-target="Archived">Archived</button>
 								<button type="button" class="btn btn-sm btn-default btn-filter" data-target="all">All</button>
 							</div>
 						</div>
@@ -98,7 +98,7 @@
 					<div class="col-lg-6">
 						<div class="pull-right">
 							<button type="button" class="btn btn-sm btn-primary" onclick="modifyPost()">Modify</button>
-							<button type="button" class="btn btn-sm btn-primary">Create New Post</button>
+							<button type="button" class="btn btn-sm btn-primary" onclick="createPost()">Create New Post</button>
 						</div>
 					</div>
 				</div>
@@ -111,7 +111,7 @@
 					<div class="col-lg-12">
 			        	<div class="card mb-3">
 								<div class="table-container">
-									<table class="table table-filter" id="blogListTable">
+									<table class="table table-filter" id="dataTable">
 										<tbody>
 										
 											<%ResultSet rs = null;
@@ -246,6 +246,10 @@
     function closeAlert(idAlert) {
 		document.getElementById(idAlert).style.display = "none";
 	}
+    
+    function createPost() {
+    	window.location.href='adminNewDJBlog.jsp?';
+    }
     </script>
     
    

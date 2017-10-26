@@ -14,6 +14,7 @@ public class CodeUtil {
 	
 	public final static String COD_BLOG_STATUS_DRAFT		= "Draft";
 	public final static String COD_BLOG_STATUS_PUBLISHED	= "Published";
+	public final static String COD_BLOG_STATUS_ARCHIVED		= "Archived";
 		
 	public final static String COD_REGION_MNL 				= "MNL";
 		

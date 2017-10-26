@@ -13,7 +13,7 @@ public class BlogContentOperations implements BlogContentCommands  {
 
 	/* CONTROLLER FUNCTIONS */
 	
-	public static boolean saveDJBlogDraft(BlogContentModel blog){
+	public static boolean updateBlog(BlogContentModel blog){
 		PreparedStatement pstmt = null;
 		Connection conn = null;
 		ResultSet rs = null;
@@ -29,7 +29,52 @@ public class BlogContentOperations implements BlogContentCommands  {
 			pstmt.setInt(7, blog.getIdBlog());
 			pstmt.executeUpdate(); 
 		} catch (SQLException sqle){
-			System.out.println("SQLException - saveDJBlogDraft: " +sqle.getMessage());
+			System.out.println("SQLException - updateBlog: " +sqle.getMessage());
+			return false;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (rs != null) {
+				try {
+					rs.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
+	
+	public static boolean createBlog(BlogContentModel blog){
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		ResultSet rs = null;
+		try {
+			conn = ConnectionUtil.getConnection();
+			pstmt = conn.prepareStatement(CREATE_BLOG_POST);
+			pstmt.setTimestamp(1, blog.getCreateDate());
+			pstmt.setTimestamp(2, blog.getUpdateDate());
+			pstmt.setInt(3, blog.getUpdateUser());
+			pstmt.setString(4, blog.getTitle());
+			pstmt.setString(5, blog.getContent());
+			pstmt.setInt(6, blog.getPostOwner());
+			pstmt.setString(7, blog.getStatus());
+			pstmt.setString(8, blog.getCodRegion());
+			pstmt.executeUpdate(); 
+		} catch (SQLException sqle){
+			System.out.println("SQLException - createBlog: " +sqle.getMessage());
 			return false;
 		} finally {
 			if (pstmt != null) {

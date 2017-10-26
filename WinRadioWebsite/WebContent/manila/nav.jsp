@@ -5,8 +5,8 @@
 				
 	<ul class="nav nav-pills flex-column sidebar-nav">
 		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/admin.jsp' ? ' active' : ''}" href="admin.jsp"><em class="fa fa-dashboard"></em> Dashboard <span class="sr-only">(current)</span></a></li>
-		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/#.jsp' ? ' active' : ''}" href="#"><em class="fa fa-home"></em> Top 10</a></li>
-		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/#.jsp' ? ' active' : ''}" href="#"><em class="fa fa-home"></em> DJ List</a></li>
+		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/#.jsp' ? ' active' : ''}" href="#"><em class="fa fa-music"></em> Most Requested Hits</a></li>
+		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/#.jsp' ? ' active' : ''}" href="#"><em class="fa fa-headphones"></em> DJ List</a></li>
 		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/#.jsp' ? ' active' : ''}" href="#"><em class="fa fa-exclamation"></em> What's Hot </a></li>
 		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/adminProgramSchedule.jsp' ? ' active' : ''}" href="adminProgramSchedule.jsp"><em class="fa fa-film"></em> Program Sched</a></li>
 		<li class="nav-item"><a class="nav-link ${pageContext.request.requestURI eq '/WinRadioWebsite/manila/#.jsp' ? ' active' : ''}" href="#"><em class="fa fa-file-audio-o"></em> Episodes </a></li>

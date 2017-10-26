@@ -148,7 +148,7 @@
 						<section class="row">
 							<div class="col-lg-12">
 								<div class="jumbotron">
-									<h1 class="mb-4">Hello, user!</h1>
+									<h1 class="mb-4">Hello, <%=session.getAttribute("firstName")%>!</h1>
 									<p class="lead">Welcome to the admin page of Win Radio PH.</p>		
 								</div>
 							</div>

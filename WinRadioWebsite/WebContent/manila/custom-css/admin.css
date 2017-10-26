@@ -13,3 +13,8 @@ input::-webkit-inner-spin-button {
 	cursor: pointer;
 	background-color: #eee;
 }
+
+span {
+	font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  	font-size: 14px;
+}

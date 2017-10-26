@@ -131,14 +131,14 @@ p {
 	font-size: .8em;
 	margin-right: 20px;
 }
-.table-filter .media .title span.published {
+.published {
 	color: #5cb85c;
 }
-.table-filter .media .title span.draft {
+.draft {
 	color: #f0ad4e;
 }
-.table-filter .media .title span.cancelado {
-	color: #d9534f;
+.archived {
+	color: #999999;
 }
 .table-filter .media .summary {
 	font-size: 14px;

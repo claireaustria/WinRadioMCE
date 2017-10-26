@@ -14,4 +14,7 @@ public interface BlogContentCommands {
 	public String UPDATE_BLOG_POST = "UPDATE BLOG_CONTENT " +
 			"SET UPDATE_DATE = ?, UPDATE_USER = ?, TITLE = ?, CONTENT = ?, POST_OWNER = ?, " +
 			"STATUS = ? WHERE ID_BLOG = ?";
+	
+	public String CREATE_BLOG_POST = "INSERT INTO BLOG_CONTENT (CREATE_DATE, UPDATE_DATE, UPDATE_USER, TITLE, CONTENT, POST_OWNER, STATUS, COD_REGION) " +
+			"VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 }

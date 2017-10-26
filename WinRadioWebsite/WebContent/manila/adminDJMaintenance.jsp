@@ -91,7 +91,7 @@
 				<!-- Alert confirmation start -->			
 				<div class="row">
 					<div class="col-lg-12">
-						<div class="alert bg-warning" id="alertNoAcctSelected" style="display:none;" role="alert">
+						<div class="alert bg-warning" id="alertNoRowSelected" style="display:none;" role="alert">
 							<em class="fa fa-minus-circle mr-2"></em> Please choose an account to modify
 							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertNoAcctSelected')"></em></a>
 						</div>
@@ -104,8 +104,11 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<span id="currentRow" style="display: none;"></span>
-						<button type="submit" class="btn btn-primary btn-md float-right btn-options" id="btnNewUser">Create New User</button>
-						<button type="submit" class="btn btn-primary btn-md float-right btn-options" id="btnModifyUser">Modify Details</button>
+						<button type="submit" class="btn btn-primary btn-md float-right btn-options" id="btnNewUser" data-toggle="tooltip"
+						title="You will need to create a new user in order to create a DJ">
+							Create New DJ
+						</button>
+						<button type="submit" class="btn btn-primary btn-md float-right btn-options" id="btnModifyDJ">Modify Details</button>
 					</div>
 				</div>
 				
@@ -134,7 +137,8 @@
 				               		try{	 
 				                    conn = ConnectionUtil.getConnection();
 				       				pstmt = conn.prepareStatement(DJListCommands.GET_ALL_DJ);
-				                   	pstmt.setString(1, CodeUtil.COD_REGION_MNL);
+				                   	pstmt.setString(1, "%");
+				                   	pstmt.setString(2, CodeUtil.COD_REGION_MNL);
 				                   	rs = pstmt.executeQuery();
 				       				
 				       				while (rs.next()) {
@@ -199,6 +203,10 @@
     <script src="custom-js/sb-admin.min.js"></script>
    
     <script type="text/javascript">
+    $(document).ready(function(){
+        $('[data-toggle="tooltip"]').tooltip(); 
+    });
+    
     $(function() {
         
         //Get all data rows from the table 
@@ -232,13 +240,13 @@
     })
     
     /*Page redirect*/
-    $('#btnModifyUser').click(function(){
+    $('#btnModifyDJ').click(function(){
     	var span = document.getElementById("currentRow");
     	var spanText = span.textContent;
     	if ($.trim(spanText) != "") {
-       		window.location.href='adminUpdateUser.jsp?idAccountToModify='+spanText;
+       		window.location.href='adminUpdateDJ.jsp?idDJ='+spanText;
     	} else {
-    		document.getElementById('alertNoAcctSelected').style.display = "block";
+    		document.getElementById('alertNoRowSelected').style.display = "block";
     	}
     })
     

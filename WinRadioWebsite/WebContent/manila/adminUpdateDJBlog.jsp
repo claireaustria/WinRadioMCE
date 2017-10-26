@@ -250,7 +250,7 @@
 	            		} else if (status == 'Archived') {
 	            			document.getElementById('alertArchiveSuccess').style.display = "block";
 	            		}
-	            	} else if ($.trim(data) == 'fail') {
+	            	} else {
 	            		document.getElementById('alertFail').style.display = "block";
 	            	}
 	            },

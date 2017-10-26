@@ -1,5 +1,6 @@
 <!-- Prevent Access to the page without logging in -->
-	<%
+	<%@page import="com.win.radio.manila.utilities.CodeUtil"%>
+<%
 		try{
 			String userName = (String) session.getAttribute("userName");
 			if (null == userName) {
@@ -149,7 +150,13 @@
 									<td><%=rs.getString("ACCOUNT_TYPE") %></td>
 									<td><%=rs.getString("USERNAME") %></td>
 									<td><%=rs.getString("EMAIL") %></td>
-									<td><%=rs.getString("ACCOUNT_STATUS") %></td>
+									<%
+									String strStatus = rs.getString("COD_STATUS");
+									if (strStatus.equals(CodeUtil.COD_STATUS_ACTIVE)) {%>
+										<td style="color:#5cb85c;"><%=rs.getString("ACCOUNT_STATUS") %></td>
+									<%} else if (strStatus.equals(CodeUtil.COD_STATUS_INACTIVE)) { %>
+										<td style="color:#f0ad4e;"><%=rs.getString("ACCOUNT_STATUS") %></td>
+									<%}%>
 								</tr>
 								<%
 								}

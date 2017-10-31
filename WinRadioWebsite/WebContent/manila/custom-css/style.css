@@ -240,9 +240,8 @@ p {
   background: #FDE72F; }
   .sidebar a {
     color: black;
-    text-transform: uppercase;
-    font-size: .7rem;
-    letter-spacing: .2rem;
+    font-size: .8rem;
+    letter-spacing: .05rem; 
     padding: .75rem 1rem; }
   .sidebar em {
     font-size: 1rem; }
@@ -255,7 +254,9 @@ p {
     letter-spacing: .2rem; }
   .sidebar .site-title {
     margin-top: .5rem;
-    margin-bottom: 1.75rem; }
+    margin-bottom: 1.75rem;
+    color: black;
+    letter-spacing: .1rem; !important }
     .sidebar .site-title a {
       font-size: .9rem;
       padding-left: 0;
@@ -573,3 +574,7 @@ input[type=checkbox]:checked + label {
   margin-top: 2rem; }
   .todo-list-footer .btn {
     border-radius: .4rem; }
+
+.col-lg-4, .col-lg-6 {
+	margin-top: 10px;
+}

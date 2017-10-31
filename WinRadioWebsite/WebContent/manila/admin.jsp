@@ -53,7 +53,7 @@
     <link href="../core-css/font-awesome.css" rel="stylesheet">
     
     <!-- Custom styles for this template -->
-    <link href="custom-css/style.css" rel="stylesheet">
+    <link href="custom-css/style.css?version=51" rel="stylesheet">
     <link href="custom-css/admin.css" rel="stylesheet">
     
     <style type="text/css">

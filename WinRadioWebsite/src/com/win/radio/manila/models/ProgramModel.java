@@ -1,35 +1,36 @@
 package com.win.radio.manila.models;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class ProgramModel {
 
-	private Date createDate;
-	private Date updateDate;
-	private String updateUser;
+	private Timestamp createDate;
+	private Timestamp updateDate;
+	private int updateUser;
 	private int idProgram;
-	private String dj;
+	private String ProgramDj;
 	private String title;
 	private String description;
 	private String schedule;
 	private String codRegion;
+	private String status;
 	
-	public Date getCreateDate() {
+	public Timestamp getCreateDate() {
 		return createDate;
 	}
-	public void setCreateDate(Date createDate) {
+	public void setCreateDate(Timestamp createDate) {
 		this.createDate = createDate;
 	}
-	public Date getUpdateDate() {
+	public Timestamp getUpdateDate() {
 		return updateDate;
 	}
-	public void setUpdateDate(Date updateDate) {
+	public void setUpdateDate(Timestamp updateDate) {
 		this.updateDate = updateDate;
 	}
-	public String getUpdateUser() {
+	public int getUpdateUser() {
 		return updateUser;
 	}
-	public void setUpdateUser(String updateUser) {
+	public void setUpdateUser(int updateUser) {
 		this.updateUser = updateUser;
 	}
 	public int getIdProgram() {
@@ -38,11 +39,11 @@ public class ProgramModel {
 	public void setIdProgram(int idProgram) {
 		this.idProgram = idProgram;
 	}
-	public String getDj() {
-		return dj;
+	public String getProgramDj() {
+		return ProgramDj;
 	}
-	public void setDj(String dj) {
-		this.dj = dj;
+	public void setProgramDj(String programDj) {
+		ProgramDj = programDj;
 	}
 	public String getTitle() {
 		return title;
@@ -68,5 +69,10 @@ public class ProgramModel {
 	public void setCodRegion(String codRegion) {
 		this.codRegion = codRegion;
 	}
-		
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 }

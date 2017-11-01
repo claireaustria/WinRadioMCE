@@ -82,6 +82,25 @@ public class UpdateDramaController extends HttpServlet {
 			dramaStatus.setStatus(Integer.valueOf(request.getParameter("status")));
 			dramaStatus.setIdEpisode(Integer.valueOf(request.getParameter("idEpisode")));
 
+			try {
+				new DramaOperations();
+
+				if (DramaOperations.updateEpisodeStatus(dramaStatus)) {
+					new TransactionLogOperations();
+					TransactionLogOperations.addTransactionLog(idAccount, "updateEpisodeStatus",
+							"updated the status of an episode.", CodeUtil.COD_REGION_MNL);
+
+					rspns.println("success");
+				} else {
+					rspns.println("fail");
+				}
+
+				rspns.close();
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+
 		}
 	}
 

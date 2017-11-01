@@ -100,4 +100,44 @@ public class DramaOperations implements DramaCommands {
 		return true;
 	}
 	
+	public static boolean updateEpisodeStatus(DramaModel drama) {
+		
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		
+		try {
+			
+			conn = ConnectionUtil.getConnection();
+			pstmt = conn.prepareStatement(UPDATE_EPISODE_STATUS);
+			
+			pstmt.setTimestamp(1, drama.getUpdateDate());
+			pstmt.setInt(2, drama.getUpdateUser());
+			pstmt.setInt(3, drama.getStatus());
+			pstmt.setInt(4, drama.getIdEpisode());
+			
+			pstmt.executeUpdate();
+			
+		} catch (SQLException sqle) {
+			System.out.println("SQLException - updateEpisodeStatus" + sqle.getMessage());
+			return false;
+		} finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		
+		return true;
+	}
+	
 }

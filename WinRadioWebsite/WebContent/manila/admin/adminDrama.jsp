@@ -37,7 +37,7 @@
 <meta name="description" content="Win Radio website">
 <meta name="author" content="Win Radio 2017">
 
-<title>Win Radio - QOTD Maintenance</title>
+<title>Win Radio - Heart Stories</title>
 
 	<!-- Import CSS files   
 	================================================== -->
@@ -91,10 +91,10 @@
 				<div class="col-lg-12">
 					<span id="currentRow" style="display: none;"></span>
 					<button type="submit"
-						class="btn btn-primary btn-md float-right btn-options"
+						class="btn btn-primary btn-sm float-right btn-options"
 						id="btnNewDrama">Post New Episode</button>
 					<button type="submit"
-						class="btn btn-primary btn-md float-right btn-options"
+						class="btn btn-primary btn-sm float-right btn-options"
 						id="btnModifyDrama">Modify Details</button>
 				</div>
 			</div>

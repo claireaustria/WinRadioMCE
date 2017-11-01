@@ -144,7 +144,7 @@
 								<div class="form-group">
 									<div class="col-12 widget-right no-padding">
 										<button type="button"
-											class="btn btn-primary btn-md float-right"
+											class="btn btn-primary btn-sm float-right"
 											onclick="addNewEpisode()">Submit</button>
 									</div>
 								</div>

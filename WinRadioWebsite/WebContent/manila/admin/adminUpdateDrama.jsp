@@ -133,13 +133,13 @@
 					%>
 
 					<button type="button"
-						class="btn btn-secondary btn-md float-right btn-options"
+						class="btn btn-secondary btn-sm float-right btn-options"
 						onclick="updateStatus('deactivate')">Deactivate</button>
 					<button type="button"
-						class="btn btn-primary btn-md float-right btn-options"
+						class="btn btn-primary btn-sm float-right btn-options"
 						id="btnCancel">Cancel</button>
 					<button type="button"
-						class="btn btn-primary btn-md float-right btn-options"
+						class="btn btn-primary btn-sm float-right btn-options"
 						onclick="updateEpisode()">Save</button>
 
 					<%
@@ -147,7 +147,7 @@
 					%>
 
 					<button type="button"
-						class="btn btn-secondary btn-md float-right btn-options"
+						class="btn btn-secondary btn-sm float-right btn-options"
 						onclick="updateStatus('activate')">Activate</button>
 
 					<%
@@ -199,7 +199,7 @@
 									<div class="col-lg-9">
 										<input class="form-control file" id="file" name="file"
 											type="file" placeholder="File..." required="required"
-											value="<%=rs.getString("FILENAME")%>">
+											value="TESTESTESTSETSE">
 									</div>
 								</div>
 								<div class="form-group row">
@@ -280,6 +280,9 @@
 						success: function(data) {
 							if ($.trim(data) == 'success') {
 			            		document.getElementById('alertSuccess').style.display = "block";
+			            		setTimeout(function() {
+									location.reload();
+								}, 2000);
 			            	} else {
 			            		document.getElementById('alertFail').style.display = "block";
 			            	}
@@ -310,13 +313,29 @@
 				type: 'post',
 				cache: false,
 				success : function(data) {
-					
+					if ($.trim(data) == 'success') {
+	            		document.getElementById('alertSuccess').style.display = "block";
+	            		setTimeout(function() {
+							location.reload();
+						}, 2000);
+	            	} else {
+	            		document.getElementById('alertFail').style.display = "block";
+	            	}
 				},
 				error : function(data) {
-					
+					alert("error");
 				}
 			})
 		}
+		
+		function closeAlert(idAlert) {
+			document.getElementById(idAlert).style.display = "none";
+		}
+
+		$('#btnCancel').click(function() {
+			window.location.href = 'adminQOTD.jsp';
+		})
+		
 	</script>
 
 </body>

@@ -107,7 +107,7 @@
 						id="btnNewDrama">Post New Episode</button>
 					<button type="submit"
 						class="btn btn-primary btn-md float-right btn-options"
-						id="btnModifyEpisode">Modify Details</button>
+						id="btnModifyDrama">Modify Details</button>
 				</div>
 			</div>
 
@@ -267,7 +267,7 @@
 							var span = document.getElementById("currentRow");
 							var spanText = span.textContent;
 							if ($.trim(spanText) != "") {
-								window.location.href = 'adminUpdateQOTD.jsp?idDramaModify='
+								window.location.href = 'adminUpdateDrama.jsp?idDramaModify='
 										+ spanText;
 							} else {
 								document.getElementById('alertNoSelected').style.display = "block";
@@ -277,6 +277,10 @@
 	function closeAlert(idAlert) {
 			document.getElementById(idAlert).style.display = "none";
 		}
+	
+	function modifyDrama(idDramaModify) {
+		
+	}
 	
 	</script>
 

@@ -1,0 +1,117 @@
+
+.bgcolor2 
+{ 
+	background-color: #131722 !important; 
+	border: 1px solid #131722;
+	padding: 0px 50px 80px 50px;
+	border-radius: 25px;
+	margin-bottom: 80px;
+}
+
+.songs-list {
+	position: relative;
+	width: 100%;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-flex-direction: row;
+	flex-direction: row;
+	-webkit-justify-content: flex-start;
+	justify-content: flex-start;
+	align-self: center;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+	padding: 15px 0;
+}
+
+.songs-list [class*=songs-] { align-self: center; }
+
+.songs-list .songs-number { width: 6%; }
+
+.songs-list .songs-image { max-width: 21%; }
+
+.songs-list .songs-image img { padding: 0 10px; }
+
+.songs-list .songs-name {
+	width: 55%;
+	padding-right: 15px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	color: rgba(255, 255, 255, 0.8);
+	font-weight: 400;
+	font-size: 13px;
+}
+
+.songs-list .songs-name {
+	color: rgba(255, 255, 255, 0.8);
+	font-weight: 400;
+	font-size: 20px;
+	text-transform: capitalize;
+}
+
+.songs-list .songs-name span {
+	display: block;
+	font-weight: 300;
+	font-size: 15px;
+	letter-spacing: 1px;
+	color: rgba(255, 255, 255, 0.3);
+}
+
+.songs-list .songs-time {
+	display: none;
+}
+
+.songs-list .songs-button {
+	width: 13%;
+	text-align: center;
+}
+
+.songs-list .songs-image a i,
+.songs-list .songs-button a i {
+	width: 30px;
+	height: 30px;
+	line-height: 28px;
+	font-size: 14px;
+	color: rgba(255,255,255,0.5);
+	border: 1px solid rgba(255,255,255,0.5);
+	border-radius: 50%;
+	-webkit-transition: color .4s, border-color .3s;
+	-o-transition: color .4s, border-color .3s;
+	transition: color .4s, border-color .3s;
+}
+
+.songs-list .songs-button a:hover i {
+	color: rgba(255,255,255,0.8);
+	border: 1px solid rgba(255,255,255,0.8);
+}
+
+.songs-list .songs-image a {
+	position: relative;
+	display: block;
+}
+
+.songs-list .songs-image a span i {
+	position: absolute;
+	left: 50%;
+	top: 50%;
+	margin-top: -15px;
+	margin-left: -15px;
+	z-index: 1;
+	opacity: 0;
+	-webkit-transition: opacity .3s ease;
+	-o-transition: opacity .3s ease;
+	transition: opacity .3s ease;
+	text-align: center;
+}
+
+.songs-list .songs-image a i {
+	color: #111;
+	border: none;
+	padding-top: 1px;
+	background-color: #FFF;
+}
+
+.songs-list .songs-image a i.icon-play { padding-left: 4px; }
+
+.songs-list:hover .songs-image a span i { opacity: 1; }
+
+.songs-list .songs-image a span i.icon-pause { opacity: 1; }

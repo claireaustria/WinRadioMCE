@@ -1,0 +1,20 @@
+/*Global*/
+.btn-options {
+	margin: 0px 5px 0px 5px;
+}
+
+input::-webkit-inner-spin-button {
+    /* removes spinners on number input */
+    -webkit-appearance: none;
+    margin: 0; 
+}
+
+.clickableRow:hover {
+	cursor: pointer;
+	background-color: #eee;
+}
+
+span {
+	font-family: "Montserrat", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  	font-size: 14px;
+}

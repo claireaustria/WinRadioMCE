@@ -21,8 +21,8 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
-<%@page import="com.win.radio.manila.utilities.DramaCommands"%>
-<%@page import="com.win.radio.manila.utilities.DramaOperations"%>
+<%@page import="com.win.radio.manila.utilities.BannerCommands"%>
+<%@page import="com.win.radio.manila.utilities.BannerOperations"%>
 
 <%@page import="com.win.radio.manila.utilities.CodeUtil"%>
 <%@page import="java.sql.ResultSet"%>
@@ -45,9 +45,9 @@
 
 <title>Win Radio Admin - DJ QOTD</title>
 
-	<!-- Import CSS files   
+<!-- Import CSS files   
 	================================================== -->
-	<%@include file="admin-css-imports.jsp" %>
+<%@include file="admin-css-imports.jsp"%>
 
 </head>
 <body>
@@ -59,7 +59,8 @@
 					col-xl-10 offset-xl-2 pt-3 pl-4">
 			<header class="page-header row justify-center">
 			<div class="col-md-6 col-lg-8">
-				<h1 class="float-left text-center text-md-left">Advertisement Banner Maintenance</h1>
+				<h1 class="float-left text-center text-md-left">Advertisement
+					Banner Maintenance</h1>
 			</div>
 
 			<!-- include headerSection Start--> <%@include
@@ -72,7 +73,8 @@
 				<div class="col-lg-12">
 					<!-- Breadcrumbs -->
 					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="#">Advertisement Banner</a></li>
+						<li class="breadcrumb-item"><a href="#">Advertisement
+								Banner</a></li>
 						<li class="breadcrumb-item active">Maintenance</li>
 					</ol>
 				</div>
@@ -96,6 +98,8 @@
 				</div>
 			</div>
 
+
+
 			<div class="row justify-content-md-center">
 				<div class="col-lg-10">
 					<div class="card">
@@ -104,137 +108,63 @@
 							<br>
 							<form id="formModifyBanner" class="form">
 								<center></center>
+
+								<%
+									ResultSet rs = null;
+									Statement select = null;
+									Connection conn = null;
+
+									try {
+										conn = ConnectionUtil.getConnection();
+										select = conn.createStatement();
+										rs = select.executeQuery(BannerOperations.GET_BANNER_ADS);
+										while (rs.next()) {
+								%>
+								
 								<div class="form-group row">
 									<div class="col-lg-2">
-										<label class="col-form label" for="brand1">Brand 1</label>
-									</div>									
-									<div class="col-lg-5">
-										<input class="form-control" id="brand1Title" name="brand1Title"
-											type="text" placeholder="Brand 1" required="required">
+										<label class="col-form label" for="brand">Brand</label>
 									</div>
 									<div class="col-lg-5">
-										<input class="form-control file" id="file1" name="file1"
-											type="file" placeholder="File..." required="required">
-									</div>
-								</div>
-								<div class="form-group row">
-									<div class="col-lg-2">
-										<label class="col-form label" for="brand2">Brand 2</label>
+										<input class="form-control" id="brandTitle"
+											name="brandTitle" type="text" placeholder="Brand "
+											required="required" value="<%=rs.getString("BRAND")%>">
 									</div>
 									<div class="col-lg-5">
-										<input class="form-control" id="brand2Title" name="brand2Title"
-											type="text" placeholder="Brand 2" required="required">
-									</div>
-									<div class="col-lg-5">
-										<input class="form-control file" id="file2" name="file2"
-											type="file" placeholder="File..." required="required">
-									</div>
-								</div>
-								<div class="form-group row">
-									<div class="col-lg-2">
-										<label class="col-form label" for="brand3">Brand 3</label>
-									</div>
-									<div class="col-lg-5">
-										<input class="form-control" id="brand3Title" name="brand3Title"
-											type="text" placeholder="Brand 3" required="required">
-									</div>
-									<div class="col-lg-5">
-										<input class="form-control file" id="file3" name="file3"
-											type="file" placeholder="File..." required="required">
-									</div>
-								</div>
-								<div class="form-group row">
-									<div class="col-lg-2">
-										<label class="col-form label" for="brand4">Brand 4</label>
-									</div>
-									<div class="col-lg-5">
-										<input class="form-control" id="brand4Title" name="brand4Title"
-											type="text" placeholder="Brand 4" required="required">
-									</div>
-									<div class="col-lg-5">
-										<input class="form-control file" id="file4" name="file4"
-											type="file" placeholder="File..." required="required">
-									</div>
-								</div>
-								<div class="form-group row">
-									<div class="col-lg-2">
-										<label class="col-form label" for="brand5">Brand 5</label>
-									</div>
-									<div class="col-lg-5">
-										<input class="form-control" id="brand5Title" name="brand5Title"
-											type="text" placeholder="Brand 5" required="required">
-									</div>
-									<div class="col-lg-5">
-										<input class="form-control file" id="file5" name="file5"
-											type="file" placeholder="File..." required="required">
-									</div>
-								</div>
-								<div class="form-group row">
-									<div class="col-lg-2">
-										<label class="col-form label" for="brand6">Brand 6</label>
-									</div>
-									<div class="col-lg-5">
-										<input class="form-control" id="brand6Title" name="brand6Title"
-											type="text" placeholder="Brand 6" required="required">
-									</div>
-									<div class="col-lg-5">
-										<input class="form-control file" id="file6" name="file6"
-											type="file" placeholder="File..." required="required">
-									</div>
-								</div>
-								<div class="form-group row">
-									<div class="col-lg-2">
-										<label class="col-form label" for="brand7">Brand 7</label>
-									</div>
-									<div class="col-lg-5">
-										<input class="form-control" id="brand7Title" name="brand7Title"
-											type="text" placeholder="Brand 7" required="required">
-									</div>
-									<div class="col-lg-5">
-										<input class="form-control file" id="file7" name="file7"
-											type="file" placeholder="File..." required="required">
-									</div>
-								</div>
-								<div class="form-group row">
-									<div class="col-lg-2">
-										<label class="col-form label" for="brand8">Brand 8</label>
-									</div>
-									<div class="col-lg-5">
-										<input class="form-control" id="brand8Title" name="brand8Title"
-											type="text" placeholder="Brand 8" required="required">
-									</div>
-									<div class="col-lg-5">
-										<input class="form-control file" id="file8" name="file8"
-											type="file" placeholder="File..." required="required">
-									</div>
-								</div>
-								<div class="form-group row">
-									<div class="col-lg-2">
-										<label class="col-form label" for="brand9">Brand 9</label>
-									</div>
-									<div class="col-lg-5">
-										<input class="form-control" id="brand9Title" name="brand9Title"
-											type="text" placeholder="Brand 9" required="required">
-									</div>
-									<div class="col-lg-5">
-										<input class="form-control file" id="file9" name="file9"
-											type="file" placeholder="File..." required="required">
-									</div>
-								</div>
-								<div class="form-group row">
-									<div class="col-lg-2">
-										<label class="col-form label" for="brand10">Brand 10</label>
-									</div>
-									<div class="col-lg-5">
-										<input class="form-control" id="brand10Title" name="brand10Title"
-											type="text" placeholder="Brand 10" required="required">
-									</div>
-									<div class="col-lg-5">
-										<input class="form-control file" id="file10" name="file10"
+										<input class="form-control file" id="file" name="file"
 											type="file" placeholder="File..." required="required">
 									</div>
 								</div>
 								
+								<%
+									}
+									} catch (Exception ex) {
+										ex.printStackTrace();
+									} finally {
+										if (rs != null) {
+											try {
+												rs.close();
+											} catch (SQLException e) {
+												e.printStackTrace();
+											}
+										}
+										if (select != null) {
+											try {
+												select.close();
+											} catch (SQLException e) {
+												e.printStackTrace();
+											}
+										}
+										if (conn != null) {
+											try {
+												conn.close();
+											} catch (SQLException e) {
+												e.printStackTrace();
+											}
+										}
+									}
+								%>
+
 								<div class="form-group">
 									<div class="col-12 widget-right no-padding">
 										<button type="button"
@@ -248,16 +178,14 @@
 					</div>
 				</div>
 			</div>
-
 			</main>
-
 		</div>
 
 	</div>
 
 	<!-- Import JavaScript
 	================================================== -->
-	<%@include file="admin-js-imports.jsp" %>
+	<%@include file="admin-js-imports.jsp"%>
 
 	<script type="text/javascript">
 		function modifyBanner() {
@@ -271,7 +199,7 @@
 			var brand8 = $('#brand8').val();
 			var brand9 = $('#brand9').val();
 			var brand10 = $('#brand10').val();
-			
+
 		}
 	</script>
 

@@ -91,7 +91,9 @@
 				<!-- Buttons start -->
 				<div class="row">
 					<div class="col-lg-6">
-						<span><a href="adminDJBlog.jsp"><em class="fa fa-arrow-left">  Back</em></a></span>
+						<a href="adminDJBlog.jsp">
+							<button type="button" class="btn btn-sm btn-primary float-left btn-options"><em class="fa fa-long-arrow-left"></em> Back</button>
+						</a>
 					</div>
 					<div class="col-lg-6">
 						<%if (!strStatus.equals(CodeUtil.COD_BLOG_STATUS_ARCHIVED)) {%>

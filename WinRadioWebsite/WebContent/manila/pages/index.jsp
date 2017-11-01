@@ -83,7 +83,7 @@
 								<div class="slider-caption slider-caption-center">
 									<h2 data-caption-animate="fadeInUp">Welcome to Win Radio PH!</h2>
 									<p data-caption-animate="fadeInUp" data-caption-delay="200">
-										<a href="#" class="button button-mini button-border button-circle button-yellow button-light"><i class="icon-trash2"></i>Stream Now</a>
+										<a href="#" class="button button-border button-circle button-yellow button-light"><i class="icon-trash2"></i>Stream Now</a>
 									</p>
 								</div>
 							</div>

@@ -89,7 +89,6 @@
 
 			<div class="row">
 				<div class="col-lg-12">
-					<span id="currentRow" style="display: none;"></span>
 					<button type="submit"
 						class="btn btn-primary btn-sm float-right btn-options"
 						id="btnNewDrama">Post New Episode</button>
@@ -177,6 +176,9 @@
 										%>
 									</tbody>
 								</table>
+								
+								<!-- Hidden span to store ID  -->
+								<span id="currentRow" style="display: none;"></span>
 							</div>
 						</div>
 					</div>
@@ -197,44 +199,28 @@
 	<script type="text/javascript">
 	$(function() {
 
-		/* Get all rows from your 'table' but not the first one 
-		 * that includes headers. */
-		var rows = $('tr').not(':first');
+		var table = $('#dataTable').DataTable();
+    	
+    	$('#dataTable tbody').on( 'click', 'tr', function () {
+            if ( $(this).hasClass('highlight') ) {
+                $(this).removeClass('highlight');
+                
+                //Get the first column - hidden ID account
+                var row = $(this);
+                var idAccount = row.find('td:eq(0)').text();
+                var span = document.getElementById("currentRow");
+                span.textContent = "";
+            }
+            else {
+                table.$('tr.highlight').removeClass('highlight');
+                $(this).addClass('highlight'); var row = $(this);
 
-		/* Create 'click' event handler for rows */
-		rows.on('click', function(e) {
-
-			/* Get current row */
-			var row = $(this);
-
-			/* Check if 'Ctrl', 'cmd' or 'Shift' keyboard key was pressed
-			 * 'Ctrl' => is represented by 'e.ctrlKey' or 'e.metaKey'
-			 * 'Shift' => is represented by 'e.shiftKey' */
-			if ((e.ctrlKey || e.metaKey) || e.shiftKey) {
-				/* If pressed highlight the other row that was clicked */
-				row.addClass('highlight');
-			} else {
-				/* Otherwise just highlight one row and clean others */
-				rows.removeClass('highlight');
-				row.addClass('highlight');
-
-				var idEpisodeModify = row.find('td:eq(0)').text();
-				var span = document.getElementById("currentRow");
-				span.textContent = idEpisodeModify;
-			}
-
-		});
-
-		/* This 'event' is used just to avoid that the table text 
-		 * gets selected (just for styling). 
-		 * For example, when pressing 'Shift' keyboard key and clicking 
-		 * (without this 'event') the text of the 'table' will be selected.
-		 * You can remove it if you want, I just tested this in 
-		 * Chrome v30.0.1599.69 */
-		$(document).bind('selectstart dragstart', function(e) {
-			e.preventDefault();
-			return false;
-		});
+                //Get the first column - hidden ID account
+                var idAccount = row.find('td:eq(0)').text();
+                var span = document.getElementById("currentRow");
+                span.textContent = idAccount;
+            }
+        } );   
 
 	});
 	

@@ -2,7 +2,7 @@
   box-sizing: border-box;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
-  font-family: Montserrat;
+  font-family: Montserrat; !important
 }
 
 body {
@@ -13,6 +13,10 @@ h1 {
   color: #ccc;
   text-align: center;
   font-size: 50px;
+}
+
+#logo {
+	margin-bottom: 30px;
 }
 
 .login-form {
@@ -74,7 +78,7 @@ h1 {
 }
 
 .log-btn {
-  background: #F9CC29;
+  background: #FFFF01;
   dispaly: inline-block;
   width: 100%;
   font-size: 16px;

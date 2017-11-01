@@ -5,18 +5,22 @@
 <head>
   	<meta charset="UTF-8">
   	<title>Win Radio Admin Login</title>
-  
-  	<!-- Import CSS files   
-	================================================== -->
-	<%@include file="admin-css-imports.jsp" %>
-  	
-	<link rel="stylesheet" href="custom-css/login-style.css">
+
+	<!--Fonts-->
+	<link href="../../fonts/fonts.css" rel="stylesheet">
+	  
+	<!-- Icons -->
+	<link href="../../core-css/font-awesome.css" rel="stylesheet">
+	
+	<link rel="stylesheet" href="custom-css/login-style.css?version=51">
   	
 </head>
 
 <body>
   <div class="login-form">
-     <h1>Win Radio</h1>
+  	 <center>
+	     <img src="img/logo-circle-gray-100px.jpg" id="logo" alt="Win Radio" />
+	 </center>
      <form id="formNewUser" class="form">
 	     <div class="form-group log-status" id="logStatUname">
 	       <input type="text" class="form-control" placeholder="Username" autocomplete="off" id="username" required="required">
@@ -26,11 +30,13 @@
 	       <input type="password" class="form-control" placeholder="Password" id="password" required="required">
 	       <i class="fa fa-lock"></i>
 	     </div>
-	     <span class="alert" id="alertBlankUsername">Please input username</span>
-	     <span class="alert" id="alertBlankPassword">Please input password</span>
-	     <span class="alert" id="alertUsername">Incorrect username</span>
-	     <span class="alert" id="alertPassword">Incorrect password</span>
-	     <a class="link" href="#">Forgot your password?</a>
+	     <div class="form-group log-status" id="logStatPwd">
+	     	<span class="alert" id="alertBlankUsername">Please input username</span>
+		    <span class="alert" id="alertBlankPassword">Please input password</span>
+		    <span class="alert" id="alertUsername">Incorrect username</span>
+		    <span class="alert" id="alertPassword">Incorrect password</span>
+		    <a class="link" href="#">Forgot your password?</a>
+	     </div>
 	     <div class="form-group">
 	     	<button type="button" class="log-btn" id="btnLogin" onclick="login()">Log in</button>
 	     </div>

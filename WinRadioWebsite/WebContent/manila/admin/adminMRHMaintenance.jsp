@@ -104,10 +104,6 @@
 				<!-- Buttons start -->
 				<div class="row">
 					<div class="col-lg-12">
-						<button type="button" class="btn btn-primary btn-sm float-left btn-options" id="btnBack"
-						onclick="updateAccountStatus('deactivate')" >
-							<em class="fa fa-arrow-left"></em> Back
-						</button>
 						<button type="button" class="btn btn-primary btn-sm float-right btn-options" onclick="updateMRH()">Save list</button>
 					</div>
 				</div>
@@ -205,6 +201,7 @@
     <!-- Import JavaScript
 	================================================== -->
 	<%@include file="admin-js-imports.jsp" %>
+ 	<script src="../../core-js/table-dragger.min.js"></script>
     
     <script type="text/javascript"> 
    	tableDragger(document.querySelector("#tblMRH"), { mode: "row", onlyBody: true });

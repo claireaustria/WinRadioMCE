@@ -93,8 +93,8 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<span id="currentRow" style="display: none;"></span>
-						<button type="submit" class="btn btn-primary btn-md float-right btn-options" id="btnNewUser">Create New User</button>
-						<button type="submit" class="btn btn-primary btn-md float-right btn-options" id="btnModifyUser">Modify Details</button>
+						<button type="submit" class="btn btn-primary btn-sm float-right btn-options" id="btnNewUser">Create New User</button>
+						<button type="submit" class="btn btn-primary btn-sm float-right btn-options" id="btnModifyUser">Modify Details</button>
 					</div>
 				</div>
 				
@@ -102,7 +102,7 @@
 
 				
 				<!-- Users table start -->
-				<div class="row">
+				<div class="row" style="margin-bottom: 50px;">
 					<div class="col-lg-12">
 				        <div class="card">
 				          <div class="card-body">
@@ -194,34 +194,32 @@
 	<!-- Import JavaScript
 	================================================== -->
 	<%@include file="admin-js-imports.jsp" %>
-	<script  src="custom-js/sb-admin.min.js"></script>
    
     <script type="text/javascript">
     $(function() {
-        
-        //Get all data rows from the table 
-        var rows = $('tr').not(':first');
-        
-        rows.on('click', function(e) {
-            //Get current row
-            var row = $(this);
-            //Highlight row
-            if ((e.ctrlKey || e.metaKey) || e.shiftKey) {
-                row.addClass('highlight');
-            } else {
-                rows.removeClass('highlight');
-                row.addClass('highlight');
+    	var table = $('#dataTable').DataTable();
+    	
+    	$('#dataTable tbody').on( 'click', 'tr', function () {
+            if ( $(this).hasClass('highlight') ) {
+                $(this).removeClass('highlight');
+                
+                //Get the first column - hidden ID account
+                var row = $(this);
+                var idAccount = row.find('td:eq(0)').text();
+                var span = document.getElementById("currentRow");
+                span.textContent = "";
+            }
+            else {
+                table.$('tr.highlight').removeClass('highlight');
+                $(this).addClass('highlight'); var row = $(this);
+
                 //Get the first column - hidden ID account
                 var idAccount = row.find('td:eq(0)').text();
                 var span = document.getElementById("currentRow");
                 span.textContent = idAccount;
             }
-	    });
-	        
-        //Prevents the table texts from being modified
-        $(document).bind('selectstart dragstart', function(e) { 
-            e.preventDefault(); return false; 
-        });
+        } );        
+        
 	 });
     
     /*Page redirect*/

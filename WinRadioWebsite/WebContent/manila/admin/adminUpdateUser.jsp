@@ -62,22 +62,7 @@
 					
 					<div class="clear"></div>
 				</header>
-				
-				<!-- Breadcrumbs start -->
-				<div class="row">
-					<div class="col-lg-12">
-						<!-- Breadcrumbs -->
-				        <ol class="breadcrumb">
-				          <li class="breadcrumb-item">
-				            <a href="adminUserMaintenance.jsp">User List</a>
-				          </li>
-				          <li class="breadcrumb-item active">Update User</li>
-				        </ol>
-					</div>
-				</div>
-				<!-- Breadcrumbs end -->
-				
-				
+								
 				<%ResultSet rs = null;
            		PreparedStatement pstmt = null;
            		Connection conn = null;
@@ -117,16 +102,21 @@
 				
 				<!-- Buttons start -->
 				<div class="row">
-					<div class="col-lg-12">
+					<div class="col-lg-6">
+						<a href="adminUserMaintenance.jsp">
+							<button type="button" class="btn btn-sm btn-primary float-left btn-options"><em class="fa fa-long-arrow-left"></em> Back</button>
+						</a>
+					</div>
+					<div class="col-lg-6">
 						<span id="currentRow" style="display: none;"></span>
 						<%String strCodStatus = rs.getString("COD_STATUS");
 						if (strCodStatus.equals(CodeUtil.COD_STATUS_ACTIVE)) 
 						{%>
-						<button type="button" class="btn btn-secondary btn-md float-right btn-options" onclick="updateAccountStatus('deactivate')">Deactivate</button>
-						<button type="button" class="btn btn-primary btn-md float-right btn-options" id="btnCancel">Cancel</button>
-						<button type="button" class="btn btn-primary btn-md float-right btn-options" onclick="updateAccount()">Save</button>
+						<button type="button" class="btn btn-secondary btn-sm float-right btn-options" onclick="updateAccountStatus('deactivate')">Deactivate</button>
+						<button type="button" class="btn btn-primary btn-sm float-right btn-options" id="btnCancel">Cancel</button>
+						<button type="button" class="btn btn-primary btn-sm float-right btn-options" onclick="updateAccount()">Save</button>
 						<%} else if (strCodStatus.equals(CodeUtil.COD_STATUS_INACTIVE)) {%>
-						<button type="button" class="btn btn-secondary btn-md float-right btn-options" onclick="updateAccountStatus('activate')">Activate</button>
+						<button type="button" class="btn btn-secondary btn-sm float-right btn-options" onclick="updateAccountStatus('activate')">Activate</button>
 						<%} %>
 					</div>
 				</div>

@@ -45,6 +45,21 @@
 	================================================== -->
 	<%@include file="admin-css-imports.jsp" %>
 	
+	<style>
+    #dataTable_wrapper {
+		padding: 20px 15px 20px 15px;
+		margin: 5px;
+	}
+	
+	.highlight { 
+		background: #F0F0F0; 
+	}
+	
+	.clickableRow:hover {
+		cursor: pointer;
+	}
+    </style>
+	
 </head>
 <body>
 	<div class="container-fluid" id="wrapper">
@@ -76,17 +91,7 @@
 				
 				<!-- Row buttons start -->
 				<div class="row">
-					<div class="col-lg-6">
-						<div class="pull-left">
-							<div class="btn-group">
-								<button type="button" class="btn btn-sm btn-default btn-filter" data-target="Published">Published</button>
-								<button type="button" class="btn btn-sm btn-default btn-filter" data-target="Draft">Draft</button>
-								<button type="button" class="btn btn-sm btn-default btn-filter" data-target="Archived">Archived</button>
-								<button type="button" class="btn btn-sm btn-default btn-filter" data-target="all">All</button>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-6">
+					<div class="col-lg-12">
 						<div class="pull-right">
 							<button type="button" class="btn btn-sm btn-primary" onclick="modifyPost()">Modify</button>
 							<button type="button" class="btn btn-sm btn-primary" onclick="createPost()">Create New Post</button>
@@ -101,10 +106,21 @@
 				<div class="row">
 					<div class="col-lg-12">
 			        	<div class="card mb-3">
-								<div class="table-container">
-									<table class="table table-filter" id="dataTable">
+								<div class="table-responsive">
+									<table class="table table-bordered" width="100%" id="dataTable" cellspacing="0">
+										<thead>
+						                	<tr>
+							                  	<th style="display:none;">ID Blog</th>
+							                  	<th>Creation Date</th>
+							                    <th>Last Update Date</th>
+							                    <th>Post Owner</th>
+							                    <th>Title</th>
+							                    <th>Content</th>
+							                    <th>Status</th>
+							                    <th>Last Updated By</th>
+						                  	</tr>
+						                </thead>
 										<tbody>
-										
 											<%ResultSet rs = null;
 						            		PreparedStatement pstmt = null;
 						            		Connection conn = null;
@@ -118,33 +134,25 @@
 						        				while(rs.next()) {
 											%>
 											
-											<tr data-status="<%=rs.getString("STATUS")%>">
-												<td style="display:none;">
-													<%=rs.getString("ID_BLOG")%>
-												</td>
-												<td>
-													<div class="row">
-														<div class="col-lg-1 justify-center">
-															<a href="#" class="pull-left">
-																<img src="https://s3.amazonaws.com/uifaces/faces/twitter/fffabs/128.jpg" class="media-photo">
-															</a>
-														</div>
-														<div class ="col-lg-11">
-															<div class="media">
-																
-																<div class="media-body">
-																	<span class="media-meta pull-right"><%=rs.getString("CREATE_DATE")%></span>
-																	<h4 class="title">
-																		<%=rs.getString("TITLE")%>
-																		<span class="pull-right <%=rs.getString("STATUS")%>">(<%=rs.getString("STATUS")%>)</span>
-																	</h4>
-																	<p class="summary"><%=rs.getString("FORMATTED_CONTENT")%></p>
-																</div>
-															</div>
-														</div>
-													</div>
-												</td>
+											<tr class="clickableRow">								
+												<td style="display:none;"><%=rs.getString("ID_BLOG")%></td>
+												<td><%=rs.getString("CREATE_DATE")%></td>
+												<td><%=rs.getString("UPDATE_DATE")%></td>
+												<td><%=rs.getString("DJ_NAME") %></td>
+												<td><%=rs.getString("TITLE") %></td>
+												<td><%=rs.getString("FORMATTED_CONTENT") %></td>
+												<%
+							   					String strStatus = rs.getString("STATUS");
+												if (strStatus.equals(CodeUtil.COD_BLOG_STATUS_DRAFT)) {%>
+													<td style="color: #f0ad4e;"><%=strStatus %></td>
+												<%} else if (strStatus.equals(CodeUtil.COD_BLOG_STATUS_PUBLISHED)) { %>
+													<td style="color: #5cb85c;"><%=strStatus %></td>
+												<%} else if (strStatus.equals(CodeUtil.COD_BLOG_STATUS_ARCHIVED)) { %>
+													<td style="color: #999999;"><%=strStatus %></td>
+												<%} %>
+												<td><%=rs.getString("UPDATE_USER") %></td>
 											</tr>
+											
 											<%	}
 						            		} catch(Exception ex)
 						            		{
@@ -199,27 +207,33 @@
 	<%@include file="admin-js-imports.jsp" %>
     
     <script>
-    $(document).ready(function () {
+    $(function() {
+    	var table = $('#dataTable').DataTable();
+    	
+    	$('#dataTable tbody').on( 'click', 'tr', function () {
+            if ( $(this).hasClass('highlight') ) {
+                $(this).removeClass('highlight');
+                
+                //Get the first column - hidden ID account
+                var row = $(this);
+                var idAccount = row.find('td:eq(0)').text();
+                var span = document.getElementById("currentRow");
+                span.textContent = "";
+            }
+            else {
+                table.$('tr.highlight').removeClass('highlight');
+                $(this).addClass('highlight'); var row = $(this);
 
-        $('tr').on('click', function () {
-        	$(this).closest('table').find('tr').not(this).removeClass('selected');  
-            $(this).toggleClass('selected');
-            var idBlog = $(this).find('td:eq(0)').text();
-            var span = document.getElementById("currentRow");
-            span.textContent = idBlog;
-        });
+                //Get the first column - hidden ID account
+                var idAccount = row.find('td:eq(0)').text();
+                var span = document.getElementById("currentRow");
+                span.textContent = idAccount;
+            }
+        });        
         
-        $('.btn-filter').on('click', function () {
-          var $target = $(this).data('target');
-          if ($target != 'all') {
-            $('.table tr').css('display', 'none');
-            $('.table tr[data-status="' + $target + '"]').fadeIn('slow');
-          } else {
-            $('.table tr').css('display', 'none').fadeIn('slow');
-          }
-        });
-
-     });
+    });
+    
+   
     
     function modifyPost() {
     	var currentRow = document.getElementById("currentRow");

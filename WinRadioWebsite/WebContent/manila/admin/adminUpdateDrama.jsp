@@ -73,17 +73,6 @@
 
 			<div class="row">
 				<div class="col-lg-12">
-					<!-- Breadcrumbs -->
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="adminQOTD.jsp">Heart
-								Stories</a></li>
-						<li class="breadcrumb-item active">Modify Episode</li>
-					</ol>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-lg-12">
 					<div class="alert bg-success" id="alertSuccess"
 						style="display: none;" role="alert">
 						<em class="fa fa-check-circle mr-2"></em> Episode updated! <a
@@ -122,10 +111,16 @@
 						} else {
 							status = "Active";
 						}
-			%> <!-- Active buttons start -->
-
+			%> 
+			
+			<!-- Row buttons start -->
 			<div class="row">
-				<div class="col-lg-12">
+				<div class="col-lg-6">
+					<a href="adminDrama.jsp">
+						<button type="button" class="btn btn-sm btn-primary float-left btn-options"><em class="fa fa-long-arrow-left"></em> Back</button>
+					</a>
+				</div>
+				<div class="col-lg-6">
 					<span id="currentRow" style="display: none;"></span>
 
 					<%
@@ -157,8 +152,9 @@
 				</div>
 			</div>
 			<br />
-
-			<!-- Active buttons end --> <!-- Row start: update question form -->
+			<!-- Row buttons end --> 
+			
+			<!-- Row start: update question form -->
 			<div class="row justify-content-md-center">
 				<div class="col-lg-8">
 					<div class="card">

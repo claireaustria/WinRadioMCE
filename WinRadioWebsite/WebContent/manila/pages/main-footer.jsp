@@ -9,7 +9,7 @@
 		<div class="container clearfix">
 
 			<div class="col_half">
-				<img src="images/footer-logo.png" alt="" class="footer-logo">
+				<img src="" alt="Win Radio Logo" class="footer-logo">
 
 				Copyrights &copy; 2017 Win Radio Philippines
 			</div>

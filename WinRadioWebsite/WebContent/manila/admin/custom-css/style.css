@@ -496,8 +496,8 @@ p {
   border-radius: 9999px; }
 
 .timeline-badge.primary {
-  background-color: #7376df !important;
-  color: #fff !important;
+  background-color: #FDE72F !important;
+  color: black !important;
   border: none !important; }
 
 .timeline-badge.success {

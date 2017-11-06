@@ -275,7 +275,7 @@
 	            success:function(data){
 	            	if ($.trim(data)) {
 	            		document.getElementById('lblTakenEmail').style.display = "block";
-	            		return;
+	            		returnFalse();
 	            	} 
 	            },
 	            error:function(){
@@ -292,12 +292,14 @@
 	            success:function(data){
 	            	if ($.trim(data)) {
 	            		document.getElementById('lblTakenUsername').style.display = "block";
+	            		returnFalse();
 	            	}
 	            },
 	            error:function(){
 	              alert('error');
 	            }
 			});
+			
 			if(checkIfValidMobileNo() == 'error') {
 				document.getElementById('lblMissingField').style.display = "none";
 				document.getElementById('lblTakenEmail').style.display = "none";
@@ -341,6 +343,11 @@
 				   $('#divScreenName').hide();
 			   }
 		});
+		
+		function returnFalse() {
+			return false;
+		}
+		
 		
 		function closeAlert(idAlert) {
 			document.getElementById(idAlert).style.display = "none";

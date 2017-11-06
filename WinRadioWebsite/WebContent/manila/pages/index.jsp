@@ -7,28 +7,10 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="author" content="SemiColonWeb" />
 
-	<!-- Stylesheets
+	<!-- Stylesheet imports
 	============================================= -->
-	<link href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
-	<link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
-	<link rel="stylesheet" href="style.css" type="text/css" />
-	<link rel="stylesheet" href="css/swiper.css" type="text/css" />
-	<link rel="stylesheet" href="css/dark.css" type="text/css" />
-	<link rel="stylesheet" href="css/font-icons.css" type="text/css" />
-	<link rel="stylesheet" href="css/animate.css" type="text/css" />
-	<link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
-	<link rel="stylesheet" href="../../core-css/font-awesome.min.css" type="text/css" />
-
-	<link rel="stylesheet" href="css/responsive.css" type="text/css" />
-	<link rel="stylesheet" href="music.css" type="text/css" />
+	<%@include file="css-imports.jsp" %>
 	
-	<!-- Custom CSS -->
-	<link rel="stylesheet" href="custom.css" type="text/css" />
-	
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
-	
-	<link rel="shortcut icon" href="../../favicon.ico"/>
-
 	<!-- Document Title
 	============================================= -->
 	<title>Win Radio PH</title>
@@ -155,47 +137,47 @@
 									<div class="songs-image track-image">
 										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg" alt="Image 1">
 									</div>
-									<div class="songs-name track-name">I Believe In You<br><span>Lost European</span></div>
+									<div class="songs-name track-name">Despacito<br><span>Justin Bieber</span></div>
 								</div>
 	
 								<!-- List Items
 								============================================= -->
 								<div class="songs-list">
-									<div class="songs-number">01</div>
+									<div class="songs-number">02</div>
 									<div class="songs-image track-image">
 										<img src="demos/music/tracks/poster-images/i-need-you-now.jpg" alt="Image 1">
 									</div>
-									<div class="songs-name track-name">I Believe In You<br><span>Lost European</span></div>
+									<div class="songs-name track-name">A Beautiful Mess<br><span>Jason Mraz</span></div>
 								</div>
 		
 								<!-- List Items
 								============================================= -->
 								<div class="songs-list">
-									<div class="songs-number">01</div>
+									<div class="songs-number">03</div>
 									<div class="songs-image track-image">
 										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg" alt="Image 1">
 									</div>
-									<div class="songs-name track-name">I Believe In You<br><span>Lost European</span></div>
+									<div class="songs-name track-name">1000 Things<br><span>Jason Mraz</span></div>
 								</div>
 								
 								<!-- List Items
 								============================================= -->
 								<div class="songs-list">
-									<div class="songs-number">01</div>
+									<div class="songs-number">04</div>
 									<div class="songs-image track-image">
 										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg" alt="Image 1">
 									</div>
-									<div class="songs-name track-name">I Believe In You<br><span>Lost European</span></div>
+									<div class="songs-name track-name">Breathe<br><span>Michelle Branch</span></div>
 								</div>
 	
 								<!-- List Items
 								============================================= -->
 								<div class="songs-list">
-									<div class="songs-number">01</div>
+									<div class="songs-number">05</div>
 									<div class="songs-image track-image">
 										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg" alt="Image 1">
 									</div>
-									<div class="songs-name track-name">I Believe In You<br><span>Lost European</span></div>
+									<div class="songs-name track-name">Certain Things<br><span>James Arthur</span></div>
 								</div>
 	
 							</div>
@@ -207,51 +189,51 @@
 								<!-- List Items
 								============================================= -->
 								<div class="songs-list">
-									<div class="songs-number">01</div>
+									<div class="songs-number">06</div>
 									<div class="songs-image track-image">
 										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg" alt="Image 1">
 									</div>
-									<div class="songs-name track-name">I Believe In You<br><span>Lost European</span></div>
+									<div class="songs-name track-name">Viva La Vida<br><span>Coldplay</span></div>
 								</div>
 	
 								<!-- List Items
 								============================================= -->
 								<div class="songs-list">
-									<div class="songs-number">01</div>
+									<div class="songs-number">07</div>
 									<div class="songs-image track-image">
 										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg" alt="Image 1">
 									</div>
-									<div class="songs-name track-name">I Believe In You<br><span>Lost European</span></div>
+									<div class="songs-name track-name">Nobela<br><span>Join The Club</span></div>
 								</div>
 	
 								<!-- List Items
 								============================================= -->
 								<div class="songs-list">
-									<div class="songs-number">01</div>
+									<div class="songs-number">08</div>
 									<div class="songs-image track-image">
 										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg" alt="Image 1">
 									</div>
-									<div class="songs-name track-name">I Believe In You<br><span>Lost European</span></div>
+									<div class="songs-name track-name">Michigan<br><span>Arms</span></div>
 								</div>
 	
 								<!-- List Items
 								============================================= -->
 								<div class="songs-list">
-									<div class="songs-number">01</div>
+									<div class="songs-number">09</div>
 									<div class="songs-image track-image">
 										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg" alt="Image 1">
 									</div>
-									<div class="songs-name track-name">I Believe In You<br><span>Lost European</span></div>
+									<div class="songs-name track-name">Smilky<br><span>Sud</span></div>
 								</div>
 	
 								<!-- List Items
 								============================================= -->
 								<div class="songs-list">
-									<div class="songs-number">01</div>
+									<div class="songs-number">10</div>
 									<div class="songs-image track-image">
 										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg" alt="Image 1">
 									</div>
-									<div class="songs-name track-name">I Believe In You<br><span>Lost European</span></div>
+									<div class="songs-name track-name">Profanities<br><span>Sud</span></div>
 								</div>
 	
 							</div>

@@ -7,18 +7,9 @@
 	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
 	<meta name="author" content="SemiColonWeb" />
 
-	<!-- Stylesheets
+	<!-- Stylesheet imports
 	============================================= -->
-	<link href="http://fonts.googleapis.com/css?family=Lato:300,400,400italic,600,700|Raleway:300,400,500,600,700|Crete+Round:400italic" rel="stylesheet" type="text/css" />
-	<link rel="stylesheet" href="css/bootstrap.css" type="text/css" />
-	<link rel="stylesheet" href="style.css" type="text/css" />
-	<link rel="stylesheet" href="css/dark.css" type="text/css" />
-	<link rel="stylesheet" href="css/font-icons.css" type="text/css" />
-	<link rel="stylesheet" href="css/animate.css" type="text/css" />
-	<link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
-
-	<link rel="stylesheet" href="css/responsive.css" type="text/css" />
-	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<%@include file="css-imports.jsp" %>
 
 	<!-- Document Title
 	============================================= -->
@@ -190,7 +181,7 @@
 								<div class="fbox-icon">
 									<a href="#"><i class="icon-facebook2"></i></a>
 								</div>
-								<h3>Facebook<span class="subtitle">CanvasOnSkype</span></h3>
+								<h3>Facebook<span class="subtitle">WinRadioPH</span></h3>
 							</div>
 						</div>
 
@@ -199,7 +190,7 @@
 								<div class="fbox-icon">
 									<a href="#"><i class="icon-twitter2"></i></a>
 								</div>
-								<h3>Follow on Twitter<span class="subtitle">2.3M Followers</span></h3>
+								<h3>Twitter<span class="subtitle">winradioph</span></h3>
 							</div>
 						</div>
 

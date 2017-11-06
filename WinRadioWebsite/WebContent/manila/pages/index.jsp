@@ -17,6 +17,7 @@
 	<link rel="stylesheet" href="css/font-icons.css" type="text/css" />
 	<link rel="stylesheet" href="css/animate.css" type="text/css" />
 	<link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
+	<link rel="stylesheet" href="../../core-css/font-awesome.min.css" type="text/css" />
 
 	<link rel="stylesheet" href="css/responsive.css" type="text/css" />
 	<link rel="stylesheet" href="music.css" type="text/css" />
@@ -25,6 +26,8 @@
 	<link rel="stylesheet" href="custom.css" type="text/css" />
 	
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	
+	<link rel="shortcut icon" href="../../favicon.ico"/>
 
 	<!-- Document Title
 	============================================= -->
@@ -47,13 +50,6 @@
 				<div class="container clearfix">
 
 					<div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
-
-					<!-- Logo
-					============================================= -->
-					<div id="logo">
-						<a href="index.html" class="standard-logo" data-dark-logo="images/logo-dark.png"><img src="images/logo.png" alt="Canvas Logo"></a>
-						<a href="index.html" class="retina-logo" data-dark-logo="images/logo-dark@2x.png"><img src="images/logo@2x.png" alt="Canvas Logo"></a>
-					</div><!-- #logo end -->
 
 					<!-- Primary Navigation
 					============================================= -->
@@ -83,7 +79,7 @@
 								<div class="slider-caption slider-caption-center">
 									<h2 data-caption-animate="fadeInUp">Welcome to Win Radio PH!</h2>
 									<p data-caption-animate="fadeInUp" data-caption-delay="200">
-										<a href="#" class="button button-border button-circle button-yellow button-light"><i class="icon-trash2"></i>Stream Now</a>
+										<a href="#" class="button button-border button-circle button-yellow button-light">Stream Now</a>
 									</p>
 								</div>
 							</div>
@@ -276,58 +272,58 @@
 			  		<div class="row seven-cols">
 			   			<div class="col-lg-1 col-md-3 col-sm-4 col-xs-6">
 			    			<div class="staff-photo">
-			    				<img src="images/team/3.jpg">
+			    				<img src="http://placehold.it/150x190.jpg">
 			    			</div>
 			    			<div class="team-desc">
-								<div class="team-title"><h4>Macho Bibbo</h4><span>CEO</span></div>
+								<div class="team-title"><h4>Macho Bibbo</h4></div>
 							</div>
 			    		</div>
 			    		<div class="col-lg-1 col-md-3 col-sm-4 col-xs-6">
 			    			<div class="staff-photo">
-			    				<img src="images/team/2.jpg">
+			    				<img src="http://placehold.it/150x190.jpg">
 			    			</div>
 			    			<div class="team-desc">
-								<div class="team-title"><h4>Ligaya</h4><span>CEO</span></div>
+								<div class="team-title"><h4>Ligaya</h4></div>
 							</div>
 			    		</div>
 			    		<div class="col-lg-1 col-md-3 col-sm-4 col-xs-6">
 			    			<div class="staff-photo">
-			    				<img src="images/team/4.jpg">
+			    				<img src="http://placehold.it/150x190.jpg">
 			    			</div>
 			    			<div class="team-desc">
-								<div class="team-title"><h4>Rhiko Mambo</h4><span>CEO</span></div>
+								<div class="team-title"><h4>Rhiko Mambo</h4></div>
 							</div>
 			    		</div>
 			    		<div class="col-lg-1 col-md-3 col-sm-4 col-xs-6">
 			    			<div class="staff-photo">
-			    				<img src="images/team/8.jpg">
+			    				<img src="http://placehold.it/150x190.jpg">
 			    			</div>
 			    			<div class="team-desc">
-								<div class="team-title"><h4>Tess Mosa</h4><span>CEO</span></div>
+								<div class="team-title"><h4>Tess Mosa</h4></div>
 							</div>
 			    		</div>
 			    		<div class="col-lg-1 col-md-3 col-sm-4 col-xs-6">
 			    			<div class="staff-photo">
-			    				<img src="images/team/3.jpg">
+			    				<img src="http://placehold.it/150x190.jpg">
 			    			</div>
 			    			<div class="team-desc">
-								<div class="team-title"><h4>Justin Kiss</h4><span>CEO</span></div>
+								<div class="team-title"><h4>Justin Kiss</h4></div>
 							</div>
 			    		</div>
 			    		<div class="col-lg-1 col-md-3 col-sm-4 col-xs-6">
 			    			<div class="staff-photo">
-			    				<img src="images/team/2.jpg">
+			    				<img src="http://placehold.it/150x190.jpg">
 			    			</div>
 			    			<div class="team-desc">
-								<div class="team-title"><h4>Kuya Jay Machete</h4><span>CEO</span></div>
+								<div class="team-title"><h4>Kuya Jay Machete</h4></div>
 							</div>
 			    		</div>
 						<div class="col-lg-1 col-md-3 col-sm-4 col-xs-6">
 			    			<div class="staff-photo">
-			    				<img src="http://placehold.it/150x167.jpg">
+			    				<img src="http://placehold.it/150x190.jpg">
 			    			</div>
 			    			<div class="team-desc">
-								<div class="team-title"><h4>Sisa Usisa</h4><span>CEO</span></div>
+								<div class="team-title"><h4>Sisa Usisa</h4></div>
 							</div>
 			    		</div>
 			   		 </div>

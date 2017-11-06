@@ -42,13 +42,6 @@
 
 					<div id="primary-menu-trigger"><i class="icon-reorder"></i></div>
 
-					<!-- Logo
-					============================================= -->
-					<div id="logo">
-						<a href="index.html" class="standard-logo" data-dark-logo="images/logo-dark.png"><img src="images/logo.png" alt="Canvas Logo"></a>
-						<a href="index.html" class="retina-logo" data-dark-logo="images/logo-dark@2x.png"><img src="images/logo@2x.png" alt="Canvas Logo"></a>
-					</div><!-- #logo end -->
-
 					<!-- Primary Navigation
 					============================================= -->
 					<%@include file="main-nav.jsp" %>
@@ -102,12 +95,6 @@
 
 				<div class="container clearfix">
 
-					<!-- PLACE CONTENT HERE -->
-					<div class="promo promo-light bottommargin">
-						<h3>Call us today at <span>+91.22.57412541</span> or Email us at <span>support@canvas.com</span></h3>
-						<span>We strive to provide Our Customers with Top Notch Support to make their Theme Experience Wonderful</span>
-						<a href="#" class="button button-xlarge button-rounded">Start Browsing</a>
-					</div>
 
 				</div>
 

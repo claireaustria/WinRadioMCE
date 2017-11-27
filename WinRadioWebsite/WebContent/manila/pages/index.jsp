@@ -1,5 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+    
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="com.win.radio.manila.utilities.IndexOperations"%>
+<%@page import="com.win.radio.manila.utilities.ConnectionUtil"%>
+
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
 <head>
@@ -129,57 +137,33 @@
 							<!-- Song Lists Items
 							============================================= -->
 							<div class="songs-lists-wrap">
-	
-								<!-- List Items
-								============================================= -->
+								<%
+									ResultSet rs = null;
+									Statement stmt = null;
+									Connection conn = null;
+									int cnt = 0;
+									
+									try{
+										conn = ConnectionUtil.getConnection();
+										stmt = conn.createStatement();
+										rs = stmt.executeQuery(IndexOperations.GET_ALL_MRH);
+										
+										while(rs.next()){
+											cnt++;
+								%>
 								<div class="songs-list">
-									<div class="songs-number">01</div>
+									<div class="songs-number"><%=rs.getInt("RANK")%></div>
 									<div class="songs-image track-image">
 										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg" alt="Image 1">
 									</div>
-									<div class="songs-name track-name">Despacito<br><span>Justin Bieber</span></div>
+									<div class="songs-name track-name"><%=rs.getString("TITLE")%><br><span><%=rs.getString("ARTIST")%></span></div>
 								</div>
-	
-								<!-- List Items
-								============================================= -->
-								<div class="songs-list">
-									<div class="songs-number">02</div>
-									<div class="songs-image track-image">
-										<img src="demos/music/tracks/poster-images/i-need-you-now.jpg" alt="Image 1">
-									</div>
-									<div class="songs-name track-name">A Beautiful Mess<br><span>Jason Mraz</span></div>
-								</div>
-		
-								<!-- List Items
-								============================================= -->
-								<div class="songs-list">
-									<div class="songs-number">03</div>
-									<div class="songs-image track-image">
-										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg" alt="Image 1">
-									</div>
-									<div class="songs-name track-name">1000 Things<br><span>Jason Mraz</span></div>
-								</div>
-								
-								<!-- List Items
-								============================================= -->
-								<div class="songs-list">
-									<div class="songs-number">04</div>
-									<div class="songs-image track-image">
-										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg" alt="Image 1">
-									</div>
-									<div class="songs-name track-name">Breathe<br><span>Michelle Branch</span></div>
-								</div>
-	
-								<!-- List Items
-								============================================= -->
-								<div class="songs-list">
-									<div class="songs-number">05</div>
-									<div class="songs-image track-image">
-										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg" alt="Image 1">
-									</div>
-									<div class="songs-name track-name">Certain Things<br><span>James Arthur</span></div>
-								</div>
-	
+								<%
+											if(cnt==5){
+												break;
+											}
+										}
+								%>
 							</div>
 						</div>
 	
@@ -188,54 +172,46 @@
 	
 								<!-- List Items
 								============================================= -->
+								
+								<%
+										while(rs.next()){
+								%>
 								<div class="songs-list">
-									<div class="songs-number">06</div>
+									<div class="songs-number"><%=rs.getInt("RANK")%></div>
 									<div class="songs-image track-image">
 										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg" alt="Image 1">
 									</div>
-									<div class="songs-name track-name">Viva La Vida<br><span>Coldplay</span></div>
+									<div class="songs-name track-name"><%=rs.getString("TITLE")%><br><span><%=rs.getString("ARTIST")%></span></div>
 								</div>
-	
-								<!-- List Items
-								============================================= -->
-								<div class="songs-list">
-									<div class="songs-number">07</div>
-									<div class="songs-image track-image">
-										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg" alt="Image 1">
-									</div>
-									<div class="songs-name track-name">Nobela<br><span>Join The Club</span></div>
-								</div>
-	
-								<!-- List Items
-								============================================= -->
-								<div class="songs-list">
-									<div class="songs-number">08</div>
-									<div class="songs-image track-image">
-										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg" alt="Image 1">
-									</div>
-									<div class="songs-name track-name">Michigan<br><span>Arms</span></div>
-								</div>
-	
-								<!-- List Items
-								============================================= -->
-								<div class="songs-list">
-									<div class="songs-number">09</div>
-									<div class="songs-image track-image">
-										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg" alt="Image 1">
-									</div>
-									<div class="songs-name track-name">Smilky<br><span>Sud</span></div>
-								</div>
-	
-								<!-- List Items
-								============================================= -->
-								<div class="songs-list">
-									<div class="songs-number">10</div>
-									<div class="songs-image track-image">
-										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg" alt="Image 1">
-									</div>
-									<div class="songs-name track-name">Profanities<br><span>Sud</span></div>
-								</div>
-	
+								<%
+										}
+									}catch(Exception ex)
+									{
+										ex.printStackTrace();
+									} finally{
+										if (rs != null) {
+				            				try {
+				            					rs.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+				            			if (stmt != null) {
+				            				try {
+				            					stmt.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+				            			if (conn != null) {
+				            				try {
+				            					conn.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+									}
+								%>
 							</div>
 						</div>
 					</div>

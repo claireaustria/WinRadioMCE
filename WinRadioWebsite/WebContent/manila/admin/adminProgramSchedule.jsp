@@ -1,3 +1,4 @@
+<%@page import="com.win.radio.manila.utilities.CodeUtil"%>
 <!-- Prevent Access to the page without logging in -->
 	<%
 		try{
@@ -134,7 +135,18 @@
 										<td><%=rs.getString("PROG_NAME")%></td>
 										<td><%=rs.getString("DESCRIPTION") %></td>
 										<td><%=rs.getString("SCHEDULE") %></td>
-										<td><%=rs.getString("STATUS")%></td>
+										<% 
+											String Stat = rs.getString("STATUS");
+											if(Stat.equals(CodeUtil.COD_PS_STATUS_PUBLISHED)){
+										%>
+										<td style="color: #5cb85c;"><%=CodeUtil.COD_PS_STATUS_PUBLISHED%></td>
+										<%
+											}else if(Stat.equals(CodeUtil.COD_PS_STATUS_ARCHIVED)){
+										%>
+										<td style="color: #999999;"><%=CodeUtil.COD_PS_STATUS_ARCHIVED%></td>
+										<%	
+											}
+										%>
 										<td>
 											<div class="dropdown">
 											  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
@@ -143,7 +155,7 @@
 											  <%
 											  		String Dj = rs.getString("PROG_DJ");
 													String[] DjList = Dj.split(", ");
-													for(int i = 0; i < DjList.length - 1; i++)
+													for(int i = 0; i < DjList.length; i++)
 													{
 														pstmt = conn.prepareStatement(PSOperations.GET_PROGRAM_DJ_NAME);
 														pstmt.setInt(1, Integer.parseInt(DjList[i]));

@@ -1,3 +1,4 @@
+<%@page import="com.win.radio.manila.utilities.CodeUtil"%>
 <!-- Prevent Access to the page without logging in -->
 	<%
 		try{
@@ -125,8 +126,8 @@
 										  <label class="col-lg-7 control-label no-padding" for="program schdedule">Program Status</label>
 											<div class="col-12 no-padding">
 										  	 <select class="form-control" id="programstatus" name="programstatus" disabled>
-									  			<option value="Active">Active</option>
-									  			<option value="Inactive">Inactive</option>
+									  			<option value="<%=CodeUtil.COD_PS_STATUS_PUBLISHED%>">Publish</option>
+									  			<option value="<%=CodeUtil.COD_PS_STATUS_ARCHIVED%>">Archive</option>
 									      	 </select>
 										  </div>
 										</div>
@@ -271,7 +272,7 @@
     			success:function(data){
     				if($.trim(data)){
     					document.getElementById('lblTakenProgramName').style.display = "block";
-    					return;
+    					returnfalse();
     				}
     			},
     			error:function(){
@@ -307,6 +308,10 @@
     			}
     		});
     	}
+    	
+    	function returnFalse() {
+			return false;
+		}
     	</script>
 </body>
 </html>

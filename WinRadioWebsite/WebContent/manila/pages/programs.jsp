@@ -1,3 +1,9 @@
+<%@page import="java.sql.ResultSet"%>
+<%@page import="java.sql.Statement"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="com.win.radio.manila.utilities.ConnectionUtil"%>
+<%@page import="com.win.radio.manila.utilities.IndexOperations"%>
 <!DOCTYPE html>
 <html dir="ltr" lang="en-US">
 <head>
@@ -62,46 +68,91 @@
 					<div id="side-navigation" class="tabs customjs">
 
 						<div class="col_one_third nobottommargin">
-
+							
 							<ul class="sidenav">
-								<li class="ui-tabs-active"><a href="#snav-content1"><i class="icon-screen"></i>Macho Bibbo<i class="icon-chevron-right"></i></a></li>
-								<li><a href="#snav-content2"><i class="icon-magic"></i>Ligaya<i class="icon-chevron-right"></i></a></li>
-								<li><a href="#snav-content3"><i class="icon-tint"></i>Rhiko Mambo<i class="icon-chevron-right"></i></a></li>
-								<li><a href="#snav-content4"><i class="icon-gift"></i>Tess Mosa<i class="icon-chevron-right"></i></a></li>
-								<li><a href="#snav-content5"><i class="icon-adjust"></i>Justin Kiss<i class="icon-chevron-right"></i></a></li>
-								<li><a href="#snav-content5"><i class="icon-adjust"></i>Kuya Jay Machete<i class="icon-chevron-right"></i></a></li>
-								<li><a href="#snav-content5"><i class="icon-adjust"></i>Sisa Usisa<i class="icon-chevron-right"></i></a></li>
+								<%
+									ResultSet rs = null;
+									ResultSet rs2 = null;
+									Statement select = null;
+									Connection conn = null;
+									
+									try{
+										conn = ConnectionUtil.getConnection();
+										select = conn.createStatement();
+										rs = select.executeQuery(IndexOperations.GET_ALL_PROGRAM_NAME);
+										
+										int 	cnt = 1;
+										
+										if(rs.next()){
+								%>
+								
+								<li class="ui-tabs-active"><a href="#snav-content<%=cnt%>"><i class="icon-screen"></i><%=rs.getString("PROG_NAME")%><i class="icon-chevron-right"></i></a></li>
+									
+								<%	
+										}
+										
+										while(rs.next()){
+											cnt++;
+								%>
+								<li><a href="#snav-content<%=cnt%>"><i class="icon-magic"></i><%=rs.getString("PROG_NAME")%><i class="icon-chevron-right"></i></a></li>
+								<%			
+										}
+								%>
 							</ul>
 
 						</div>
 
 						<div class="col_two_third col_last nobottommargin">
-
-							<div id="snav-content1">
+			
+							<!--<div id="snav-content1">
 								<img class="alignright img-responsive" width="100%" src="img/prog-sched.jpg" alt="">
+							</div>-->
+								<%
+										rs2 = select.executeQuery(IndexOperations.GET_ALL_PROGRAM_INFO);
+										int cnt2 = 1;
+										while(rs2.next()){
+								%>
+							<div id="snav-content<%=cnt2%>">
+								<h3><%=rs2.getString("PROG_NAME")%></h3>
+								<%=rs2.getString("DESCRIPTION")%>, <%=rs2.getString("SCHEDULE")%>
 							</div>
-
-							<div id="snav-content2">
-								<h3>Ligaya</h3>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nam, voluptatem reprehenderit natus facilis id deserunt iusto incidunt cumque odit molestias iste dolor eum esse soluta facere quidem minima in voluptate explicabo ducimus alias ratione aut molestiae omnis fuga labore quod optio modi voluptatum nemo suscipit porro maxime ex. Maiores, ratione eligendi labore quaerat veniam laborum nam rem delectus illum aspernatur quas sequi animi quae nulla alias hic inventore ex perspiciatis nisi consequatur enim a aut dolorum modi quod perferendis dicta impedit magni placeat repellat. Soluta, dicta, dolores, reiciendis, eum accusamus esse et debitis rem fugit fugiat dignissimos pariatur sint quod laborum autem. Nulla, ducimus, culpa, vel esse unde sapiente expedita corrupti consectetur veritatis quas autem laborum mollmquam amet eius. Numquam, ad, quaerat, ab, deleniti rem quae doloremque tenetur ea illum hic amet dolor suscipit porro ducimus excepturi perspiciatis modi praesentium voluptas quos expedita provident adipisci dolorem! Aliquam, ipsum voluptatem et voluptates impedit ab libero similique a. Nisi, ea magni et ab voluptatum nemo numquam odio quis libero aspernatur architecto tempore qui quisquam saepe corrupti necessitatibus natus quos aliquid non voluptatibus quod obcaecati fugiat quibusdam quidem inventore quia eveniet iusto culpa incidunt vero vel in accusamus eum. Molestiae nihil voluptate molestias illum eligendi esse nesciunt.
-							</div>
-
-							<div id="snav-content3">
-								<h3>Unlimited Color Options</h3>
-								Dolor aperiam modi aliquam dolores consequatur error commodi ad eius incidunt! Libero, odio incidunt ullam sunt fugiat? Laboriosam, perferendis, debitis, harum soluta iste eos sunt odit architecto porro eveniet sint optio nihil animi. Laudantium, quam, culpa, velit molestias exercitationem reprehenderit enim distinctio aliquam aut ex numquam sequi assumenda veritatis fuga voluptatum. Magni, voluptates adipisci unde sapiente eligendi ea maxime tempora pariatur ipsa.. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Recusandae, aspernatur, saepe, quidem animi hic rem libero earum fuga voluptas culpa iure qui accusantium ab quae dolorum laborum quia repellat fugit aut minima molestias placeat mollitia doloribus quibusdam consectetur officia nesciunt ad. Ab, quod ipsum commodi assumenda doloribus possimus sed laudantium.Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-							</div>
-
-							<div id="snav-content4">
-								<img class="alignleft img-responsive" src="images/landing/bootstrap.png" alt="">
-								<h3>Bootstrap v3.2.0 Compatiable</h3>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit. Debitis, nostrum, dolores id quo nam repudiandae ad culpa architecto minima nemo eaque soluta nulla laborum neque provident saepe facilis expedita numquam quas alias in perferendis accusamus ipsam blanditiis sit voluptatem temporibus vero error veritatis repellat eos reiciendis repellendus quam. Officia dicta ipsam nostrum aperiam. Dolor, expedita enim modi nostrum commodi sint architecto aliquam aut mollitia repellendus deserunt quaerat aspernatur aperiam voluptatibus consequatur rerum consequuntur.
-							</div>
-
-							<div id="snav-content5">
-								<h3>Light &amp; Dark Scheme Available</h3>
-								Lorem ipsum dolor sit amet, consectetur adipisicing elit. Quas, temporibus, maxime, laudantium quidem sapiente deserunt error rerum illum explicabo voluptate velit tempora cupiditate reprehenderit consequuntur nemo in et blanditiis soluta tempore perspiciatis at atque excepturi culpa facere sequi impedit cumque illo molestias saepe eveniet ducimus fugiat reiciendis unde. Modi, at laboriosam ex velit commodi officiis! Neque, consequatur, modi, nulla, voluptatem quibusdam incidunt minus dolores repellat nihil consectetur ducimus aliquid. Eaque, tempora voluptatum accusantium expedita obcaecati magnam voluptates consequatur ut harum rem dolor id error. Officia, repudiandae, eos, quibusdam porro eius esse cupiditate non fugit dignissimos delectus et tempora sequi fugiat quo voluptatem temporibus vel obcaecati? Laboriosam, quis obcaecati quas veniam repellendus officiis et quos velit id natus mollitia dacilis ipsum et perspiciatis officia iste cupiditate ducimus nisi consequuntur excepturi dolorum. Sint, architecto, cumque facere officia harum dicta perferendis inventore excepturi sequi explicabo provident omnis dolore quasi fugit molestiae atque id consectetur reprehenderit laborum beatae consequatur similique.
-							</div>
-
+							<%
+										cnt2++;
+										}
+							} catch(Exception ex)
+				            		{
+				            			ex.printStackTrace();
+				            		} finally {
+				            			if (rs != null) {
+				            				try {
+				            					rs.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+				            			if (rs2 != null) {
+				            				try {
+				            					rs2.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+				            			if (select != null) {
+				            				try {
+				            					select.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+				            			if (conn != null) {
+				            				try {
+				            					conn.close();
+				            				} catch (SQLException e) {
+				            					e.printStackTrace();
+				            				}
+				            			}
+				            		}
+							%>
 						</div>
 
 					</div>

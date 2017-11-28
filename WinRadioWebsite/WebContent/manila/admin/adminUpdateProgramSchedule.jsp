@@ -153,9 +153,21 @@
 										  <label class="col-lg-7 control-label no-padding" for="program schdedule">Program Status</label>
 											<div class="col-12 no-padding">
 										  	 <select class="form-control" id="programstatus" name="programstatus">
-									  			<option value="<%=CodeUtil.COD_PS_STATUS_PUBLISHED%>">Publish</option>
+										  	 	<%
+										  	 		String stat = rs.getString("STATUS");
+										  	 		if(stat.equals(CodeUtil.COD_PS_STATUS_PUBLISHED)){
+										  	 	%>
+										  	 	<option value="<%=CodeUtil.COD_PS_STATUS_PUBLISHED%>">Publish</option>
 									  			<option value="<%=CodeUtil.COD_PS_STATUS_ARCHIVED%>">Archive</option>
-									      	 </select>
+									      	 	<%		
+										  	 		}else if(stat.equals(CodeUtil.COD_PS_STATUS_ARCHIVED)){
+										  	 	%>
+										  	 	<option value="<%=CodeUtil.COD_PS_STATUS_ARCHIVED%>">Archive</option>
+									      	 	<option value="<%=CodeUtil.COD_PS_STATUS_PUBLISHED%>">Publish</option>
+									  			<%
+										  	 		}
+										  	 	%>
+									  			</select>
 										  </div>
 										</div>
 										

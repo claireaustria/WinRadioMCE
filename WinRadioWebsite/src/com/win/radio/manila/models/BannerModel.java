@@ -3,12 +3,27 @@ package com.win.radio.manila.models;
 import java.sql.Timestamp;
 
 public class BannerModel {
-
+	
+	private Timestamp createDate;
 	private Timestamp updateDate;
 	private int updateUser;
 	private int idAd;
 	private String brand;
 	private String image;
+	private String status;
+	
+	public Timestamp getCreateDate() {
+		return createDate;
+	}
+	public void setCreateDate(Timestamp createDate) {
+		this.createDate = createDate;
+	}
+	public String getStatus() {
+		return status;
+	}
+	public void setStatus(String status) {
+		this.status = status;
+	}
 	private String codRegion;
 	
 	public Timestamp getUpdateDate() {

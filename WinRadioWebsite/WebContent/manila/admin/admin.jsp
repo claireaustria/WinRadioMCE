@@ -65,7 +65,6 @@
     </style>
 </head>
 <body>
-	
 	<div class="container-fluid" id="wrapper">
 		<div class="row">
 			
@@ -140,16 +139,26 @@
 				<!-- ROW START -->
 				<div class="row">
 					
+					
+					<%if (strAcctType.equals(CodeUtil.COD_TYPE_ADMIN) || strAcctType.equals(CodeUtil.COD_TYPE_CONTENT_MANAGER)) { %>
 					<div class="col-lg-8">
+					<%} else { %>
+					<div class="col-lg-12">
+					<%} %>
 						<section class="row">
 							<div class="col-lg-12">
 								<div class="jumbotron">
 									<h1 class="mb-4">Hello, <%=session.getAttribute("firstName")%>!</h1>
-									<p class="lead">Welcome to the admin page of Win Radio PH.</p>		
+									<p class="lead">Welcome to the admin page of Win Radio PH. 
+										<%if (strAcctType.equals(CodeUtil.COD_TYPE_DJ)) { %>
+										 What do you want to do today?
+										<%} %>
+									</p>		
 								</div>
 							</div>
 						</section>
 						
+						<%if (strAcctType.equals(CodeUtil.COD_TYPE_ADMIN) || strAcctType.equals(CodeUtil.COD_TYPE_CONTENT_MANAGER)) { %>
 						<!-- Card statistics start -->
 						<section class="row">
 							<div class="col-lg-4">
@@ -247,8 +256,10 @@
 							</div>
 						</section>
 						<!-- Card statistics end -->
+						<%} %>
 					</div>
 					
+					<%if (strAcctType.equals(CodeUtil.COD_TYPE_ADMIN) || strAcctType.equals(CodeUtil.COD_TYPE_CONTENT_MANAGER)) { %>
 					<!-- User activity start -->
 					<div class="col-lg-4">
 						<div class="card mb-4">
@@ -315,6 +326,7 @@
 						</div>
 					</div>
 					<!-- User activity end -->
+					<%} %>
 				</div>
 				<!-- ROW END -->
 				

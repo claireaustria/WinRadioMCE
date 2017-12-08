@@ -147,6 +147,16 @@
 									    <input class="form-control" id="idAccount" name="idAccount" type="text" value="<%=rs.getString("ID_ACCOUNT") %>" readonly>
 									  </div>
 									</div>
+									<%String strAccountType = rs.getString("ACCOUNT_TYPE");
+									if (strAccountType.equals(CodeUtil.COD_TYPE_DJ)) 
+									{%>
+										<div class="form-group row">
+										  <label class="col-3 col-form-label">DJ Photo</label>
+										  <div class="col-9">
+										    <input class="form-control" id="idAccount" name="idAccount" type="text" value="<%=rs.getString("ID_ACCOUNT") %>" readonly>
+										  </div>
+										</div>
+									<%} %>
 				      				<div class="form-group row">
 									  <label for="example-text-input" class="col-3 col-form-label">First Name</label>
 									  <div class="col-9">

@@ -1,3 +1,10 @@
+<%@page import="com.win.radio.manila.utilities.CodeUtil"%>
+<%@page import="com.win.radio.manila.utilities.CompanyDescriptionCommands"%>
+<%@page import="com.win.radio.manila.utilities.ConnectionUtil"%>
+<%@page import="java.sql.Connection"%>
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="java.sql.SQLException"%>
+<%@page import="java.sql.ResultSet"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
@@ -85,8 +92,48 @@
 			<div class="content-wrap">
 
 				<div class="container clearfix">
+					<div class="row clearfix">
 
+						<div class="col-lg-12">
+							<%
+							ResultSet rs = null;
+		            		PreparedStatement pstmt = null;
+		            		Connection conn = null;
+		            		
+							try{	 
+			                 	conn = ConnectionUtil.getConnection();
+			    				pstmt = conn.prepareStatement(CompanyDescriptionCommands.GET_DESCRIPTION);
+			                 	pstmt.setString(1, CodeUtil.COD_REGION_MNL);
+			                 	rs = pstmt.executeQuery();
+			    				
+			    				while (rs.next()) {
+							%>
+							
+							<p class="lead" style="white-space: pre-wrap;"><%=rs.getString("DESCRIPTION") %></p>
+						      	
+						    <%	}
+		            		} catch(Exception ex)
+		            		{
+		            			ex.printStackTrace();
+		            		} finally {
+		            			try {
+		           					if (rs != null) {
+		           						rs.close();
+		           					}
+		           					if (pstmt != null) {
+		           						pstmt.close();
+		           					}
+		           					if (conn != null) {
+		           						conn.close();
+		           					}
+		           				} catch (SQLException e) {
+		           					e.printStackTrace();
+		           				}
+		            		}
+							%>
+						</div>
 
+					</div>
 				</div>
 
 			</div>

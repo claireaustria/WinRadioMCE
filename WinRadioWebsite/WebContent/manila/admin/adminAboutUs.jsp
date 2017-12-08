@@ -96,7 +96,7 @@
 								<h3 class="card-title">About the company</h3>
 								<h6 class="card-subtitle mb-2 text-muted">This will be displayed in the 'About Us' page</h6>
 								
-								<form class="form-horizontal" action="" method="post">
+								<form class="form-horizontal">
 									<%ResultSet rs = null;
 				            		PreparedStatement pstmt = null;
 				            		Connection conn = null;

@@ -98,37 +98,39 @@
 
 							<div class="contact-form-result"></div>
 
-							<form class="nobottommargin" id="template-contactform" name="template-contactform" action="include/sendemail.php" method="post">
+							<form class="nobottommargin" id="template-contactform">
 
 								<div class="form-process"></div>
 
-								<div class="col_one_third">
+								<div class="col_half">
 									<label for="template-contactform-name">Name <small>*</small></label>
-									<input type="text" id="template-contactform-name" name="template-contactform-name" value="" class="sm-form-control required" />
+									<input type="text" id="fullName" name="template-contactform-name" value="" class="sm-form-control required" />
 								</div>
 
-								<div class="col_one_third">
+								<div class="col_half col_last">
+									<label for="template-contactform-phone">Mobile No</label>
+									<input type="text" id="mobileNo" name="template-contactform-phone" value="" class="sm-form-control" />
+								</div>
+
+								<div class="clear"></div>
+								
+								<div class="col_full col_last">
 									<label for="template-contactform-email">Email <small>*</small></label>
-									<input type="email" id="template-contactform-email" name="template-contactform-email" value="" class="required email sm-form-control" />
-								</div>
-
-								<div class="col_one_third col_last">
-									<label for="template-contactform-phone">Phone</label>
-									<input type="text" id="template-contactform-phone" name="template-contactform-phone" value="" class="sm-form-control" />
+									<input type="email" id="email" name="template-contactform-email" value="" class="required email sm-form-control" />
 								</div>
 
 								<div class="clear"></div>
 
 								<div class="col_full col_last">
 									<label for="template-contactform-subject">Subject <small>*</small></label>
-									<input type="text" id="template-contactform-subject" name="template-contactform-subject" value="" class="required sm-form-control" />
+									<input type="text" id="subject" name="template-contactform-subject" value="" class="required sm-form-control" />
 								</div>
 								
 								<div class="clear"></div>
 
 								<div class="col_full">
 									<label for="template-contactform-message">Message <small>*</small></label>
-									<textarea class="required sm-form-control" id="template-contactform-message" name="template-contactform-message" rows="6" cols="30"></textarea>
+									<textarea class="required sm-form-control" id="message" name="template-contactform-message" rows="6" cols="30"></textarea>
 								</div>
 
 								<div class="col_full hidden">
@@ -136,7 +138,7 @@
 								</div>
 
 								<div class="col_full">
-									<button name="submit" type="submit" id="submit-button" tabindex="5" value="Submit" class="button button-3d nomargin">Submit Comment</button>
+									<button type="button" id="submit-button" tabindex="5" value="Submit" class="button button-3d nomargin" onclick="sendInquiryEmail()">Submit message</button>
 								</div>
 
 							</form>
@@ -196,6 +198,37 @@
 
 					</div><!-- Contact Info End -->
 
+
+					<!-- Modals -->
+					<div class="modal1" id="successModal">
+						<div class="block divcenter" style="background-color: #FFF; max-width: 500px;">
+							<div class="center" style="padding: 50px;">
+								<h3>Your message was sent</h3>
+								<p class="nobottommargin">
+									Thank you for your message! We'll get back to you as soon as we can. 
+								</p>
+							</div>
+							<div class="section center nomargin" style="padding: 30px;">
+								<a href="#" class="button" onClick="$.magnificPopup.close();return false;">close</a>
+							</div>
+						</div>
+					</div>
+					
+					<div class="modal1 mfp-hide" id="errorModal">
+						<div class="block divcenter" style="background-color: #FFF; max-width: 500px;">
+							<div class="center" style="padding: 50px;">
+								<h3>Something went wrong</h3>
+								<p class="nobottommargin">
+									Oops, looks like we're experiencing some technical difficulties. Please try again.
+								</p>
+							</div>
+							<div class="section center nomargin" style="padding: 30px;">
+								<a href="#" class="button" onClick="$.magnificPopup.close();return false;">close</a>
+							</div>
+						</div>
+					</div>
+					<!-- Modals End -->
+					
 				</div>
 
 			</div>
@@ -255,6 +288,31 @@
 				overviewMapControl: false
 			}
 		});
+		
+		function sendInquiryEmail() {
+			var fullName=$("#fullName").val();
+	    	var mobileNo=$("#mobileNo").val();
+	    	var email=$("#email").val();
+	    	var subject=$("#subject").val();
+	    	var message=$("#message").val();
+	    	
+	    	$.ajax({
+	            url:'${pageContext.request.contextPath}/sendInquiryController',
+	            data: {fullName: fullName, mobileNo: mobileNo, email: email, subject: subject, message: message},
+	            type:'post',
+	            cache:false,
+	            success:function(data){
+	            	if ($.trim(data) == 'success') {
+	            	    $("#successModal").modal('show');
+	            	} else {
+	            	    $("#errorModal").modal('show');
+	            	}
+	            },
+	            error:function(){
+            	    $("#errorModal").modal('show');
+	            }
+			});
+		}
 
 	</script>
 

@@ -1,5 +1,5 @@
 package com.win.radio.manila.utilities;
 
-public class IndexOperations  implements IndexCommands{
+public class IndexOperations implements IndexCommands{
 
 }

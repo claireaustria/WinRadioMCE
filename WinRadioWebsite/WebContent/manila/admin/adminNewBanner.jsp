@@ -167,6 +167,10 @@
 		function closeAlert(idAlert) {
 			document.getElementById(idAlert).style.display = "none";
 		}
+		
+		function validateImage(file) {
+			
+		}
 	</script>
 
 </body>

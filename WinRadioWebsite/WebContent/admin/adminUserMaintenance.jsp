@@ -11,6 +11,25 @@
 <%@page import="com.win.radio.manila.utilities.AccountOperations"%>
 <%@page import="com.win.radio.manila.utilities.ConnectionUtil"%>
 <%@include file="nav.jsp" %>
+
+<!-- Prevent Access to the page without logging in -->
+<%
+	try{
+		String userName = (String) session.getAttribute("userName");
+		if (null == userName) {
+		   request.setAttribute("Error", "Session has ended.  Please login.");
+		   response.sendRedirect("adminLogin.jsp");
+		}
+	}catch(Exception e){
+		System.out.print(e.getMessage());
+		e.printStackTrace();
+	}
+
+	response.setHeader("Cache-Control","no-cache,no-store,must-revalidate");//HTTP 1.1
+    response.setHeader("Pragma","no-cache"); //HTTP 1.0
+    response.setDateHeader ("Expires", 0); //prevents caching at the proxy server
+%>
+<!-- End of Access Restriction -->
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html lang="en">
 <head>
@@ -103,13 +122,14 @@
 				                </thead>
 				                <tbody>
 				                 	<%ResultSet rs = null;
-				            		Statement select = null;
+				            		PreparedStatement pstmt = null;
 				            		Connection conn = null;
 				            		
 				            		try{	 
 				                 	conn = ConnectionUtil.getConnection();
-				        			select = conn.createStatement();
-				        			rs = select.executeQuery(AccountOperations.GET_ALL_USERS);
+				                 	pstmt = conn.prepareStatement(AccountOperations.GET_ALL_USERS);
+				                	pstmt.setString(1, String.valueOf(session.getAttribute("codRegion")));
+				        			rs = pstmt.executeQuery();
 				        			while(rs.next()) {
 									%>
 									<tr class="clickableRow">								
@@ -141,9 +161,9 @@
 				            					e.printStackTrace();
 				            				}
 				            			}
-				            			if (select != null) {
+				            			if (pstmt != null) {
 				            				try {
-				            					select.close();
+				            					pstmt.close();
 				            				} catch (SQLException e) {
 				            					e.printStackTrace();
 				            				}

@@ -129,7 +129,7 @@
 						                 	conn = ConnectionUtil.getConnection();
 						                 	pstmt = conn.prepareStatement(BlogContentCommands.GET_BLOG_POSTS);
 						                 	pstmt.setString(1, "%");
-						                 	pstmt.setString(2, CodeUtil.COD_REGION_MNL);
+						                 	pstmt.setString(2, String.valueOf(session.getAttribute("codRegion")));
 						                	rs = pstmt.executeQuery();
 						        				while(rs.next()) {
 											%>

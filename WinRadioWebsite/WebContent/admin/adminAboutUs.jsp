@@ -104,7 +104,7 @@
 				            		try{	 
 				                 	conn = ConnectionUtil.getConnection();
 				    				pstmt = conn.prepareStatement(CompanyDescriptionCommands.GET_DESCRIPTION);
-				                 	pstmt.setString(1, CodeUtil.COD_REGION_MNL);
+				                 	pstmt.setString(1, String.valueOf(session.getAttribute("codRegion")));
 				                 	rs = pstmt.executeQuery();
 				    				
 				    				while (rs.next()) {
@@ -188,46 +188,21 @@
 				            		try{	 
 				            		connSocial = ConnectionUtil.getConnection();
 				            		pstmtSocial = connSocial.prepareStatement(SocialMediaCommands.GET_SOCIAL_MEDIA_ACCTS);
-				            		pstmtSocial.setString(1, CodeUtil.COD_REGION_MNL);
-				            		pstmtSocial.setString(2, CodeUtil.COD_REGION_MNL);
-				            		pstmtSocial.setString(3, CodeUtil.COD_REGION_MNL);
+				            		pstmtSocial.setString(1, String.valueOf(session.getAttribute("codRegion")));
 				            		rsSocial = pstmtSocial.executeQuery();
 				    				
 				    				while (rsSocial.next()) {
 									%>
 				      				<div class="form-group row">
-									  	<label for="example-text-input" class="col-4 col-form-label">Facebook:</label>
+									  	<label for="example-text-input" class="col-4 col-form-label"><%=rsSocial.getString("NAME") %></label>
 									  	<div style="display:none;">
-									    	<input class="form-control" id="facebookId" type="text" value="<%=rsSocial.getString("FACEBOOK_ID") %>" required="required">
+									    	<input class="form-control" id="facebookId" type="text" value="<%=rsSocial.getString("ID_MEDIA") %>" required="required">
 									  	</div>
 									  	<div class="col-8">
-									    	<input class="form-control" id="facebookUrl" type="text" value="<%=rsSocial.getString("FACEBOOK_URL") %>" required="required">
+									    	<input class="form-control" id="facebookUrl" type="text" value="<%=rsSocial.getString("URL") %>" required="required">
 									  	</div>
 									</div>
-									<div class="form-group row">
-									  	<label for="example-text-input" class="col-4 col-form-label">Video Streaming:</label>
-										<div style="display:none;">
-									    	<input class="form-control" id="videoStreamId" type="text" value="<%=rsSocial.getString("VIDEO_STREAM_ID") %>" required="required">
-									  	</div>
-									  	<div class="col-8 align-middle">
-									    	<input class="form-control align-middle" id="videoStreamUrl" type="text" value="<%=rsSocial.getString("VIDEO_STREAM_URL") %>" required="required">
-									  	</div>
-									</div>
-									<div class="form-group row">
-									  	<label for="example-text-input" class="col-4 col-form-label">Audio Streaming:</label>
-									  	<div style="display:none;">
-									    	<input class="form-control" id="audioStreamId" type="text" value="<%=rsSocial.getString("AUDIO_STREAM_ID") %>" required="required">
-									  	</div>
-									  	<div class="col-8">
-									    	<input class="form-control" id="audioStreamUrl" type="text" value="<%=rsSocial.getString("AUDIO_STREAM_URL") %>" required="required">
-									  	</div>
-									</div>
-									<!-- Form actions -->
-									<div class="form-group">
-										<div class="col-12 widget-right no-padding">
-											<button type="button" class="btn btn-primary btn-md float-right" onclick="saveSocialLinks()">Submit</button>
-										</div>
-									</div>
+
 									<%	}
 				            		} catch(Exception ex)
 				            		{
@@ -248,6 +223,12 @@
 			            				}
 				            		}
 									%>
+									<!-- Form actions -->
+									<div class="form-group">
+										<div class="col-12 widget-right no-padding">
+											<button type="button" class="btn btn-primary btn-md float-right" onclick="saveSocialLinks()">Submit</button>
+										</div>
+									</div>
 								</form>
 							
 							</div>

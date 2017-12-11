@@ -2,7 +2,6 @@ package com.win.radio.manila.utilities;
 
 public class CodeUtil {
 
-	public final static String DS_SOURCE					="java:comp/env/jdbc/WinRadioDB";
 	public final static String CONNECTION_NOT_FOUND			="Invalid connection. Unable to process request.";
 	
 	public final static String COD_TYPE_ADMIN 				= "PROFILE001";

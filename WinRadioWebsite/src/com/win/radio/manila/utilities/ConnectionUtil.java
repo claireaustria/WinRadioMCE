@@ -9,20 +9,19 @@ import javax.naming.NamingException;
 import javax.sql.DataSource;
 
 public class ConnectionUtil {
-	
-	@SuppressWarnings("unused")
-	public static Connection getConnection(){
-		Connection connection = null;		
-		try{
-			DataSource dataSource = 
-			(DataSource) InitialContext.doLookup(CodeUtil.DS_SOURCE);
-			connection = dataSource.getConnection();
-		}catch (NamingException e){
+
+	public static Connection getConnection() {		
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/winradio?autoReconnect=true&useSSL=false", "root", "sa123");
+			return conn;
+		} catch (ClassNotFoundException e) {
 			e.printStackTrace();
-		}catch (SQLException e){
+			return null;
+		} catch (SQLException e) {
 			e.printStackTrace();
+			return null;
 		}
-		return connection;
 	}
 	
 }

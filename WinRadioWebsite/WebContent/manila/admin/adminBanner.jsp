@@ -76,7 +76,8 @@
 			</div>
 
 			<!-- include usernameSection Start--> <%@include
-				file="headerSection.jsp"%> <!-- include sernameSection End -->
+				file="headerSection.jsp"%> 
+			<!-- include sernameSection End -->
 
 			<div class="clear"></div>
 			</header> <!-- Alert confirmation start -->

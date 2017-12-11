@@ -92,7 +92,7 @@
 						<div class="card-block">
 							<h3 class="card-title">Add New Sponsor in Banner</h3>
 							<br>
-							<form id="formNewSponsor" class="form">
+							<form action="${pageContext.request.contextPath}/fileUpload" method="post">
 								<center></center>
 								<div class="form-group row">
 									<label class="col-3 col-form label" for="title">Name of
@@ -113,9 +113,7 @@
 								</div>
 								<div class="form-group">
 									<div class="col-12 widget-right no-padding">
-										<button type="button"
-											class="btn btn-primary btn-sm float-right"
-											onclick="addNewSponsor()">Submit</button>
+										<button type="submit" class="btn btn-primary btn-sm float-right">Submit</button>
 									</div>
 								</div>
 							</form>
@@ -136,33 +134,7 @@
 	<%@include file="admin-js-imports.jsp"%>
 
 	<script type="text/javascript">
-		function addNewSponsor() {
-			var brand = $('#sponsorName').val();
-			var image = $('#file').val();
-			
-			$.ajax({
-				url : '${pageContext.request.contextPath}/createBannerController',
-				data : {
-					brand : brand,
-					image : image
-				},
-				type : 'post',
-				cache : false,
-				success : function(data) {
-					if ($.trim(data) == 'success') {
-						document.getElementById('alertSuccess').style.display = "block";
-						setTimeout(function() {
-							location.reload();
-						}, 2000);
-					} else if ($.trim(data) == 'fail') {
-						document.getElementById('alertFail').style.display = "block";
-					}
-				},
-				error : function() {
-					document.getElementById('alertFail').style.display = "block";
-				}
-			});
-		}
+		
 		
 		function closeAlert(idAlert) {
 			document.getElementById(idAlert).style.display = "none";

@@ -121,15 +121,17 @@
 									<tbody>
 										<%
 											ResultSet rs = null;
-											Statement select = null;
 											Connection conn = null;
+											PreparedStatement pstmt = null;
 											
 											String status;
 											
 											try {
 												conn = ConnectionUtil.getConnection();
-												select = conn.createStatement();
-												rs = select.executeQuery(DramaOperations.GET_ALL_DRAMA);
+												pstmt = conn.prepareStatement(DramaOperations.GET_ALL_DRAMA);
+												pstmt.setString(1, String.valueOf(session.getAttribute("codRegion")));
+												rs = pstmt.executeQuery();
+												
 												while (rs.next()) {
 													if (rs.getString("STATUS").equals("0")) {
 														status = "Inactive";
@@ -140,7 +142,7 @@
 										%>
 										<tr class="clickableRow">
 											<td style="display: none;"><%=rs.getString("ID_EPISODE")%></td>
-											<td><%=rs.getString("CREATE_DATE")%></td>
+											<td><%=rs.getString("DATE_POSTED")%></td>
 											<td><%=rs.getString("USERNAME")%></td>
 											<td><%=rs.getString("TITLE")%></td>
 											<td><%=status%></td>
@@ -158,9 +160,9 @@
 														e.printStackTrace();
 													}
 												}
-												if (select != null) {
+												if (pstmt != null) {
 													try {
-														select.close();
+														pstmt.close();
 													} catch (SQLException e) {
 														e.printStackTrace();
 													}

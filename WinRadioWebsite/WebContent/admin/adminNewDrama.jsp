@@ -71,16 +71,6 @@
 
 			<div class="row">
 				<div class="col-lg-12">
-					<!-- Breadcrumbs -->
-					<ol class="breadcrumb">
-						<li class="breadcrumb-item"><a href="#">Heart Stories</a></li>
-						<li class="breadcrumb-item active">New Post</li>
-					</ol>
-				</div>
-			</div>
-
-			<div class="row">
-				<div class="col-lg-12">
 					<div class="alert bg-success" id="alertSuccess"
 						style="display: none;" role="alert">
 						<em class="fa fa-check-circle mr-2"></em> Update question

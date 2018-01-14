@@ -2,9 +2,9 @@ package com.win.radio.manila.utilities;
 
 public interface MRHCommands {
 	/* JSP SCRIPTS */
-	public String GET_MRH_LIST = "SELECT TOP (10) RANK, TITLE, ARTIST " + 
-			"FROM MOST_REQUESTED_HITS WHERE COD_REGION = ? " +
-			"ORDER BY RANK ASC";
+	public String GET_MRH_LIST = "SELECT RANK, TITLE, ARTIST " + 
+			"FROM MOST_REQUESTED_HITS WHERE COD_REGION LIKE ? " +
+			"ORDER BY RANK ASC LIMIT 10";
 			
 	/* CONTROLLER SCRIPTS */
 	

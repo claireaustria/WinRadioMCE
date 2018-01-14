@@ -139,7 +139,7 @@
 				            		try{	 
 				                 	conn = ConnectionUtil.getConnection();
 				                 	pstmt = conn.prepareStatement(MRHCommands.GET_MRH_LIST);
-				                 	pstmt.setString(1, CodeUtil.COD_REGION_MNL);
+				                 	pstmt.setString(1, String.valueOf(session.getAttribute("codRegion")));
 				                	rs = pstmt.executeQuery();
 				        				while(rs.next()) {
 									%>
@@ -201,7 +201,7 @@
     <!-- Import JavaScript
 	================================================== -->
 	<%@include file="admin-js-imports.jsp" %>
- 	<script src="../../core-js/table-dragger.min.js"></script>
+ 	<script src="../core-js/table-dragger.min.js"></script>
     
     <script type="text/javascript"> 
    	tableDragger(document.querySelector("#tblMRH"), { mode: "row", onlyBody: true });

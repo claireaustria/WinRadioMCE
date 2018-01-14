@@ -2,8 +2,8 @@ package com.win.radio.manila.utilities;
 
 public interface BlogContentCommands {
 	/* JSP SCRIPTS */
-	public String GET_BLOG_POSTS = "SELECT DATE_FORMAT(B.CREATE_DATE, '%b %d, %Y %h:%i') as CREATE_DATE, " + 
-			"DATE_FORMAT(B.UPDATE_DATE, '%b %d, %Y %h:%i') as UPDATE_DATE, " +
+	public String GET_BLOG_POSTS = "SELECT DATE_FORMAT(B.CREATE_DATE, '%b %d, %Y - %h:%i %p') as CREATE_DATE, " + 
+			"DATE_FORMAT(B.UPDATE_DATE, '%b %d, %Y - %h:%i %p') as UPDATE_DATE, " +
 			"DATE_FORMAT(B.CREATE_DATE, '%b %d, %Y') as DATE_POSTED, " + 
 			"B.ID_BLOG, B.POST_OWNER, D.ID_DJ, D.DJ_NAME, D.DESCRIPTION AS DJ_DESC, B.CONTENT, A.FIRST_NAME AS UPDATE_USER, " + 
 			"B.TITLE, CONCAT(SUBSTRING(B.CONTENT,1,100), '...') AS FORMATTED_CONTENT, B.STATUS, B.COD_REGION, " + 

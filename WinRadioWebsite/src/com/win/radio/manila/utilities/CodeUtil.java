@@ -23,5 +23,9 @@ public class CodeUtil {
 	public final static String DEFAULT_FROM_EMAIL			= "winradio.donotreply@gmail.com";
 	public final static String DEFAULT_EMAIL_PW 			= "Winradio2017";
 	
+	public final static String STATUS_MSG_ADDED					= "Record added successfully.";
+	public final static String STATUS_MSG_SAVED					= "Record successfully saved.";
+	public final static String STATUS_MSG_ERROR					= "Something went wrong, please contact your system administrator.";
+	
 
 }

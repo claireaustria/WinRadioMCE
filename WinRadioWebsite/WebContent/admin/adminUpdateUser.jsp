@@ -62,6 +62,28 @@
 					
 					<div class="clear"></div>
 				</header>
+				<!-- Alert confirmation start -->				
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="alert bg-success" id="alertAcctUpdateSuccess" style="display:none;" role="alert">
+							<em class="fa fa-check-circle mr-2"></em> <%=CodeUtil.STATUS_MSG_SAVED %>
+							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertAcctUpdateSuccess')"></em></a>
+						</div>
+						<div class="alert bg-danger" id="alertAcctUpdateFail" style="display:none;" role="alert">
+							<em class="fa fa-minus-circle mr-2"></em> <%=CodeUtil.STATUS_MSG_ERROR %> 
+							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertAcctUpdateFail')"></em></a>
+						</div>
+						<div class="alert bg-success" id="alertPwChangeSuccess" style="display:none;" role="alert">
+							<em class="fa fa-check-circle mr-2"></em> Password changed successfully!
+							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertPwChangeSuccess')"></em></a>
+						</div>
+						<div class="alert bg-danger" id="alertPwChangeFail" style="display:none;" role="alert">
+							<em class="fa fa-minus-circle mr-2"></em> Something went wrong. Your password was not updated, please try again. 
+							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertPwChangeFail')"></em></a>
+						</div>
+					</div>
+				</div>
+				<!-- Alert confirmation end -->
 								
 				<%ResultSet rs = null;
            		PreparedStatement pstmt = null;
@@ -77,28 +99,7 @@
    				
    				while (rs.next()) {
 				%>
-				<!-- Alert confirmation start -->				
-				<div class="row">
-					<div class="col-lg-12">
-						<div class="alert bg-success" id="alertAcctUpdateSuccess" style="display:none;" role="alert">
-							<em class="fa fa-check-circle mr-2"></em> Account updated successfully!
-							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertAcctUpdateSuccess')"></em></a>
-						</div>
-						<div class="alert bg-danger" id="alertAcctUpdateFail" style="display:none;" role="alert">
-							<em class="fa fa-minus-circle mr-2"></em> Something went wrong. Your account details were not updated, please try again. 
-							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertAcctUpdateFail')"></em></a>
-						</div>
-						<div class="alert bg-success" id="alertPwChangeSuccess" style="display:none;" role="alert">
-							<em class="fa fa-check-circle mr-2"></em> Password changed successfully!
-							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertPwChangeSuccess')"></em></a>
-						</div>
-						<div class="alert bg-danger" id="alertPwChangeFail" style="display:none;" role="alert">
-							<em class="fa fa-minus-circle mr-2"></em> Something went wrong. Your password was not updated, please try again. 
-							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertPwChangeFail')"></em></a>
-						</div>
-					</div>
-				</div>
-				<!-- Alert confirmation end -->
+				
 				
 				<!-- Buttons start -->
 				<div class="row">

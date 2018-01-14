@@ -14,6 +14,7 @@ public class ConnectionUtil {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/winradio?autoReconnect=true&useSSL=false", "root", "sa123");
+			//Connection conn = DriverManager.getConnection("jdbc:mysql://mysql3000.mochahost.com/claireau_winradio?autoReconnect=true&useSSL=false", "claireau_root", "sa123");
 			return conn;
 		} catch (ClassNotFoundException e) {
 			e.printStackTrace();

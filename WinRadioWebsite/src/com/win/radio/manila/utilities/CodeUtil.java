@@ -26,6 +26,6 @@ public class CodeUtil {
 	public final static String STATUS_MSG_ADDED					= "Record added successfully.";
 	public final static String STATUS_MSG_SAVED					= "Record successfully saved.";
 	public final static String STATUS_MSG_ERROR					= "Something went wrong, please contact your system administrator.";
-	
+	public final static String STATUS_MSG_NO_SELECTED			= "Please select a record.";
 
 }

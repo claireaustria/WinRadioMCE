@@ -79,8 +79,7 @@
 				<div class="col-lg-12">
 					<div class="alert bg-warning" id="alertNoSelected"
 						style="display: none;" role="alert">
-						<em class="fa fa-minus mr-2"></em> Please select an entry to
-						modify. <a href="#" class="float-right"><em
+						<em class="fa fa-minus mr-2"></em> <%=CodeUtil.STATUS_MSG_NO_SELECTED %> <a href="#" class="float-right"><em
 							class="fa fa-remove" onclick="closeAlert('alertNoSelected')"></em></a>
 					</div>
 				</div>
@@ -123,19 +122,19 @@
 											ResultSet rs = null;
 											Connection conn = null;
 											PreparedStatement pstmt = null;
-											
 											String status;
 											
 											try {
 												conn = ConnectionUtil.getConnection();
-												pstmt = conn.prepareStatement(DramaOperations.GET_ALL_DRAMA);
+												pstmt = conn.prepareStatement(DramaOperations.GET_ALL_EPISODES);
 												pstmt.setString(1, String.valueOf(session.getAttribute("codRegion")));
+												pstmt.setString(2, "%");
 												rs = pstmt.executeQuery();
 												
 												while (rs.next()) {
 													if (rs.getString("STATUS").equals("0")) {
 														status = "Inactive";
-													} else {
+													} else if (rs.getString("STATUS").equals("1")) {
 														status = "Active";
 													}
 												
@@ -145,7 +144,7 @@
 											<td><%=rs.getString("DATE_POSTED")%></td>
 											<td><%=rs.getString("USERNAME")%></td>
 											<td><%=rs.getString("TITLE")%></td>
-											<td><%=status%></td>
+											<td><%=rs.getString("STATUS")%></td>
 											<td><%=rs.getString("UPDATE_DATE")%></td>
 										</tr>
 										<%

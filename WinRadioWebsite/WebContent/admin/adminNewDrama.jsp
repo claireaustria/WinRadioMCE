@@ -45,9 +45,9 @@
 
 <title>Win Radio Admin - DJ QOTD</title>
 
-	<!-- Import CSS files   
+<!-- Import CSS files   
 	================================================== -->
-	<%@include file="admin-css-imports.jsp" %>
+<%@include file="admin-css-imports.jsp"%>
 
 </head>
 <body>
@@ -73,16 +73,24 @@
 				<div class="col-lg-12">
 					<div class="alert bg-success" id="alertSuccess"
 						style="display: none;" role="alert">
-						<em class="fa fa-check-circle mr-2"></em> Update question
-						successful! <a href="#" class="float-right"><em
-							class="fa fa-remove" onclick="closeAlert('alertSuccess')"></em> </a>
+						<em class="fa fa-check-circle mr-2"></em>
+						<%=CodeUtil.STATUS_MSG_ADDED%>
+						<a href="#" class="float-right"><em class="fa fa-remove"
+							onclick="closeAlert('alertSuccess')"></em> </a>
 					</div>
 					<div class="alert bg-danger" id="alertFail" style="display: none;"
 						role="alert">
-						<em class="fa fa-minus-circle mr-2"></em> Something went wrong,
-						please try again. <a href="#" class="float-right"> <em
-							class="fa fa-remove" onclick="closeAlert('alertFail')"></em>
+						<em class="fa fa-minus-circle mr-2"></em>
+						<%=CodeUtil.STATUS_MSG_ERROR%>
+						<a href="#" class="float-right"> <em class="fa fa-remove"
+							onclick="closeAlert('alertFail')"></em>
 						</a>
+					</div>
+					<div class="alert bg-danger" id="alertMissingField"
+						style="display: none;" role="alert">
+						<em class="fa fa-minus-circle mr-2"></em> Please fill up all
+						fields. <a href="#" class="float-right"><em
+							class="fa fa-remove" onclick="closeAlert('alertMissingField')"></em></a>
 					</div>
 				</div>
 			</div>
@@ -131,11 +139,19 @@
 											required="required">
 									</div>
 								</div>
-								<div class="form-group">
-									<div class="col-12 widget-right no-padding">
+
+								<div class="form-group row">
+									<div class="col-lg-12">
 										<button type="button"
 											class="btn btn-primary btn-sm float-right"
 											onclick="addNewEpisode()">Submit</button>
+
+										<a href="adminDrama.jsp">
+											<button type="button"
+												class="btn btn-sm btn-primary float-right btn-options">
+												<em class="fa fa-long-arrow-left"></em> Back
+											</button>
+										</a>
 									</div>
 								</div>
 							</form>
@@ -153,7 +169,7 @@
 
 	<!-- Import JavaScript
 	================================================== -->
-	<%@include file="admin-js-imports.jsp" %>
+	<%@include file="admin-js-imports.jsp"%>
 
 	<script type="text/javascript">
 		function addNewEpisode() {
@@ -162,31 +178,35 @@
 			var file = $('#file').val();
 			var thumbnail = $('#thumbnail').val();
 
-			$
-					.ajax({
-						url : '${pageContext.request.contextPath}/createDramaController',
-						data : {
-							title : title,
-							description : description,
-							file : file,
-							thumbnail : thumbnail
-						},
-						type : 'post',
-						cache : false,
-						success : function(data) {
-							if ($.trim(data) == 'success') {
-								document.getElementById('alertSuccess').style.display = "block";
-								setTimeout(function() {
-									location.reload();
-								}, 2000);
-							} else if ($.trim(data) == 'fail') {
-								document.getElementById('alertFail').style.display = "block";
+			if ($.trim(title) != "" && $.trim(description) != "") {
+				$
+						.ajax({
+							url : '${pageContext.request.contextPath}/createDramaController',
+							data : {
+								title : title,
+								description : description,
+								file : file,
+								thumbnail : thumbnail
+							},
+							type : 'post',
+							cache : false,
+							success : function(data) {
+								if ($.trim(data) == 'success') {
+									document.getElementById('alertSuccess').style.display = "block";
+									setTimeout(function() {
+										location.reload();
+									}, 2000);
+								} else if ($.trim(data) == 'fail') {
+									document.getElementById('alertFail').style.display = "block";
+								}
+							},
+							error : function() {
+								alert('error');
 							}
-						},
-						error : function() {
-							alert('error');
-						}
-					});
+						});
+			} else {
+				document.getElementById('alertMissingField').style.display = "block";
+			}
 		}
 
 		function closeAlert(idAlert) {

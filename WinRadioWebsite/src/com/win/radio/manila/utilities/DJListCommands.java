@@ -15,7 +15,7 @@ public interface DJListCommands {
 			+ "DESCRIPTION, ID_ACCOUNT, COD_REGION) VALUES (?, ?, ?, ?, ?, ?, ?)";
 	
 	public String UPDATE_DJ = "UPDATE DJLIST " +
-			"SET UPDATE_DATE = ?, UPDATE_USER = ?, DESCRIPTION = ? WHERE ID_DJ = ?";
+			"SET UPDATE_DATE = ?, UPDATE_USER = ?, DJ_NAME = ?, DESCRIPTION = ? WHERE ID_DJ = ?";
 	
 	
 }

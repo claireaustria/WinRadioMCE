@@ -85,8 +85,7 @@
 				<div class="col-lg-12">
 					<div class="alert bg-warning" id="alertNoSelected"
 						style="display: none;" role="alert">
-						<em class="fa fa-minus mr-2"></em> Please select an entry to
-						modify. <a href="#" class="float-right"><em
+						<em class="fa fa-minus mr-2"></em> <%=CodeUtil.STATUS_MSG_NO_SELECTED %> <a href="#" class="float-right"><em
 							class="fa fa-remove" onclick="closeAlert('alertNoSelected')"></em></a>
 					</div>
 				</div>

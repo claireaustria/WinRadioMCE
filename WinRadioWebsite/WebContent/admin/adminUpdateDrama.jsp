@@ -46,9 +46,9 @@
 
 <title>Win Radio Admin - Heart Stories</title>
 
-	<!-- Import CSS files   
+<!-- Import CSS files   
 	================================================== -->
-	<%@include file="admin-css-imports.jsp" %>
+<%@include file="admin-css-imports.jsp"%>
 
 </head>
 <body>
@@ -75,15 +75,17 @@
 				<div class="col-lg-12">
 					<div class="alert bg-success" id="alertSuccess"
 						style="display: none;" role="alert">
-						<em class="fa fa-check-circle mr-2"></em> Episode updated! <a
-							href="#" class="float-right"><em class="fa fa-remove"
+						<em class="fa fa-check-circle mr-2"></em>
+						<%=CodeUtil.STATUS_MSG_ADDED%>
+						<a href="#" class="float-right"><em class="fa fa-remove"
 							onclick="closeAlert('alertSuccess')"></em> </a>
 					</div>
 					<div class="alert bg-danger" id="alertFail" style="display: none;"
 						role="alert">
-						<em class="fa fa-minus-circle mr-2"></em> Something went wrong,
-						please try again. <a href="#" class="float-right"> <em
-							class="fa fa-remove" onclick="closeAlert('alertFail')"></em>
+						<em class="fa fa-minus-circle mr-2"></em>
+						<%=CodeUtil.STATUS_MSG_ERROR%>
+						<a href="#" class="float-right"> <em class="fa fa-remove"
+							onclick="closeAlert('alertFail')"></em>
 						</a>
 					</div>
 				</div>
@@ -111,13 +113,14 @@
 						} else {
 							status = "Active";
 						}
-			%> 
-			
-			<!-- Row buttons start -->
+			%> <!-- Row buttons start -->
 			<div class="row">
 				<div class="col-lg-6">
 					<a href="adminDrama.jsp">
-						<button type="button" class="btn btn-sm btn-primary float-left btn-options"><em class="fa fa-long-arrow-left"></em> Back</button>
+						<button type="button"
+							class="btn btn-sm btn-primary float-left btn-options">
+							<em class="fa fa-long-arrow-left"></em> Back
+						</button>
 					</a>
 				</div>
 				<div class="col-lg-6">
@@ -152,9 +155,7 @@
 				</div>
 			</div>
 			<br />
-			<!-- Row buttons end --> 
-			
-			<!-- Row start: update question form -->
+			<!-- Row buttons end --> <!-- Row start: update question form -->
 			<div class="row justify-content-md-center">
 				<div class="col-lg-8">
 					<div class="card">
@@ -250,7 +251,7 @@
 
 	<!-- Import JavaScript
 	================================================== -->
-	<%@include file="admin-js-imports.jsp" %>
+	<%@include file="admin-js-imports.jsp"%>
 
 	<script type="text/javascript">
 		function updateEpisode() {
@@ -263,67 +264,68 @@
 			$
 					.ajax({
 						url : '${pageContext.request.contextPath}/updateDramaController',
-						data: {
-							action: 		'updateEpisodeDetails',
-							idEpisode: 		idEpisode,
-							title: 			title,
-							description: 	description,
-							filename:		filename,
-							image:			image
+						data : {
+							action : 'updateEpisodeDetails',
+							idEpisode : idEpisode,
+							title : title,
+							description : description,
+							filename : filename,
+							image : image
 						},
-						type: 'post',
-						cache: false,
-						success: function(data) {
+						type : 'post',
+						cache : false,
+						success : function(data) {
 							if ($.trim(data) == 'success') {
-			            		document.getElementById('alertSuccess').style.display = "block";
-			            		setTimeout(function() {
+								document.getElementById('alertSuccess').style.display = "block";
+								setTimeout(function() {
 									location.reload();
 								}, 2000);
-			            	} else {
-			            		document.getElementById('alertFail').style.display = "block";
-			            	}
+							} else {
+								document.getElementById('alertFail').style.display = "block";
+							}
 						},
-						error: function() {
+						error : function() {
 							alert("error");
 						}
 					})
 		}
-		
+
 		function updateStatus(strStatus) {
 			var idEpisode = $('#idEpisode').val();
 			var status = "";
-			
+
 			if (strStatus == 'activate') {
 				status = '1';
 			} else if (strStatus == 'deactivate') {
 				status = '0';
 			}
-			
-			$.ajax({
-				url : '${pageContext.request.contextPath}/updateDramaController',
-				data: {
-					action:				'updateEpisodeStatus',
-					idEpisode:			idEpisode,
-					status:				status					
-				},
-				type: 'post',
-				cache: false,
-				success : function(data) {
-					if ($.trim(data) == 'success') {
-	            		document.getElementById('alertSuccess').style.display = "block";
-	            		setTimeout(function() {
-							location.reload();
-						}, 2000);
-	            	} else {
-	            		document.getElementById('alertFail').style.display = "block";
-	            	}
-				},
-				error : function(data) {
-					alert("error");
-				}
-			})
+
+			$
+					.ajax({
+						url : '${pageContext.request.contextPath}/updateDramaController',
+						data : {
+							action : 'updateEpisodeStatus',
+							idEpisode : idEpisode,
+							status : status
+						},
+						type : 'post',
+						cache : false,
+						success : function(data) {
+							if ($.trim(data) == 'success') {
+								document.getElementById('alertSuccess').style.display = "block";
+								setTimeout(function() {
+									location.reload();
+								}, 2000);
+							} else {
+								document.getElementById('alertFail').style.display = "block";
+							}
+						},
+						error : function(data) {
+							alert("error");
+						}
+					})
 		}
-		
+
 		function closeAlert(idAlert) {
 			document.getElementById(idAlert).style.display = "none";
 		}
@@ -331,7 +333,6 @@
 		$('#btnCancel').click(function() {
 			window.location.href = 'adminQOTD.jsp';
 		})
-		
 	</script>
 
 </body>

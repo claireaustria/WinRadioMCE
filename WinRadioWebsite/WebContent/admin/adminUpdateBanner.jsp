@@ -75,15 +75,17 @@
 				<div class="col-lg-12">
 					<div class="alert bg-success" id="alertSuccess"
 						style="display: none;" role="alert">
-						<em class="fa fa-check-circle mr-2"></em> Sponsor updated! <a
-							href="#" class="float-right"><em class="fa fa-remove"
+						<em class="fa fa-check-circle mr-2"></em>
+						<%=CodeUtil.STATUS_MSG_SAVED%>
+						<a href="#" class="float-right"><em class="fa fa-remove"
 							onclick="closeAlert('alertSuccess')"></em> </a>
 					</div>
 					<div class="alert bg-danger" id="alertFail" style="display: none;"
 						role="alert">
-						<em class="fa fa-minus-circle mr-2"></em> Something went wrong,
-						please try again. <a href="#" class="float-right"> <em
-							class="fa fa-remove" onclick="closeAlert('alertFail')"></em>
+						<em class="fa fa-minus-circle mr-2"></em>
+						<%=CodeUtil.STATUS_MSG_ERROR%>
+						<a href="#" class="float-right"> <em class="fa fa-remove"
+							onclick="closeAlert('alertFail')"></em>
 						</a>
 					</div>
 				</div>

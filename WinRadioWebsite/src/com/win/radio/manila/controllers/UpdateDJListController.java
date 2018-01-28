@@ -45,6 +45,7 @@ public class UpdateDJListController extends HttpServlet {
 		dj.setUpdateDate(timestamp);
 		dj.setUpdateUser(idAccount);
 		dj.setIdDJ(Integer.valueOf(request.getParameter("idDJ")));
+		dj.setDjName(request.getParameter("djName"));
 		dj.setDescription(request.getParameter("description"));
 		
 		try{	

@@ -53,7 +53,7 @@ public class CreateWhatsHotEntryController extends HttpServlet {
 	    blogContentRequest.setCreateDate(timestamp);
 	    blogContentRequest.setUpdateDate(timestamp);
 	    blogContentRequest.setUpdateUser(updateUserIdAccount);
-	    blogContentRequest.setCodRegion(CodeUtil.COD_REGION_MNL);
+	    blogContentRequest.setCodRegion(String.valueOf(session.getAttribute("codRegion")));
 		
 		try{
 			if(BlogContentOperations.createBlog(blogContentRequest)) {				

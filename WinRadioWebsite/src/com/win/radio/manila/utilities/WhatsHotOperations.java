@@ -8,8 +8,9 @@ import java.sql.Statement;
 
 import com.win.radio.manila.models.BlogContentModel;
 import com.win.radio.manila.models.CompanyDescriptionModel;
+import com.win.radio.manila.models.WhatsHotModel;
 
-public class WhatsHotOperations implements BlogContentCommands  {
+public class WhatsHotOperations implements WhatsHotCommands  {
 
 	/* CONTROLLER FUNCTIONS */
 	
@@ -57,24 +58,27 @@ public class WhatsHotOperations implements BlogContentCommands  {
 		return true;
 	}
 	
-	public static boolean createBlog(BlogContentModel blog){
+	public static boolean createEntry(WhatsHotModel entry){
 		PreparedStatement pstmt = null;
 		Connection conn = null;
 		ResultSet rs = null;
 		try {
 			conn = ConnectionUtil.getConnection();
-			pstmt = conn.prepareStatement(CREATE_BLOG_POST);
-			pstmt.setTimestamp(1, blog.getCreateDate());
-			pstmt.setTimestamp(2, blog.getUpdateDate());
-			pstmt.setInt(3, blog.getUpdateUser());
-			pstmt.setString(4, blog.getTitle());
-			pstmt.setString(5, blog.getContent());
-			pstmt.setInt(6, blog.getPostOwner());
-			pstmt.setString(7, blog.getStatus());
-			pstmt.setString(8, blog.getCodRegion());
+			pstmt = conn.prepareStatement(CREATE_ENTRY);
+			pstmt.setTimestamp(1, entry.getCreateDate());
+			pstmt.setTimestamp(2, entry.getUpdateDate());	
+			pstmt.setInt(3, entry.getUpdateUser());
+			pstmt.setString(4, entry.getTitle());
+			pstmt.setString(5, entry.getContent());
+			pstmt.setInt(6, entry.getPostOwner());
+			pstmt.setString(7, entry.getStatus());
+			pstmt.setString(8, entry.getPreview());
+			pstmt.setString(9, entry.getPostingDate());
+			pstmt.setString(10, entry.getUrl());
+			pstmt.setString(11, entry.getCodRegion());
 			pstmt.executeUpdate(); 
 		} catch (SQLException sqle){
-			System.out.println("SQLException - createBlog: " +sqle.getMessage());
+			System.out.println("SQLException - createWhatsHotEntry: " +sqle.getMessage());
 			return false;
 		} finally {
 			if (pstmt != null) {

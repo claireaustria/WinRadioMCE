@@ -189,11 +189,12 @@
 		document.getElementById('alertMissingField').style.display = "none";
     	
     	var title=$("#title").val();
+		var url=$("#url").val();
 		var content=$("#content").val();
 		var postOwner = $("#postOwner").val();
 		var status = $("input[name='status']:checked").val();
 		
-		var blogContent = {title: title, content: content, postOwner: postOwner, status: status};
+		var blogContent = {title: title, content: content, postOwner: postOwner, status: status, url: url};
     	var blogContentJSON = JSON.stringify(blogContent);
 		
 		if ($.trim(title) != "" && $.trim(content) != "" && $.trim(postOwner) != "" && $.trim(status) != "") {

@@ -54,7 +54,8 @@
 	<div class="container-fluid" id="wrapper">
 		<div class="row">
 
-			<main class="col-xs-12 col-sm-8 offset-sm-4 col-lg-9 offset-lg-3 
+			<main
+				class="col-xs-12 col-sm-8 offset-sm-4 col-lg-9 offset-lg-3 
 					col-xl-10 offset-xl-2 pt-3 pl-4">
 			<header class="page-header row justify-center">
 			<div class="col-md-6 col-lg-8">
@@ -71,16 +72,25 @@
 				<div class="col-lg-12">
 					<div class="alert bg-success" id="alertSuccess"
 						style="display: none;" role="alert">
-						<em class="fa fa-check-circle mr-2"></em> <%=CodeUtil.STATUS_MSG_ADDED %>
-						<a href="#" class="float-right"><em
-							class="fa fa-remove" onclick="closeAlert('alertSuccess')"></em> </a>
+						<em class="fa fa-check-circle mr-2"></em>
+						<%=CodeUtil.STATUS_MSG_ADDED%>
+						<a href="#" class="float-right"><em class="fa fa-remove"
+							onclick="closeAlert('alertSuccess')"></em> </a>
 					</div>
 					<div class="alert bg-danger" id="alertFail" style="display: none;"
 						role="alert">
-						<em class="fa fa-minus-circle mr-2"></em> <%=CodeUtil.STATUS_MSG_ERROR %>
-						<a href="#" class="float-right"> <em
-							class="fa fa-remove" onclick="closeAlert('alertFail')"></em>
+						<em class="fa fa-minus-circle mr-2"></em>
+						<%=CodeUtil.STATUS_MSG_ERROR%>
+						<a href="#" class="float-right"> <em class="fa fa-remove"
+							onclick="closeAlert('alertFail')"></em>
 						</a>
+					</div>
+
+					<div class="alert bg-danger" id="alertMissingField"
+						style="display: none;" role="alert">
+						<em class="fa fa-minus-circle mr-2"></em> Please fill up all
+						fields. <a href="#" class="float-right"><em
+							class="fa fa-remove" onclick="closeAlert('alertMissingField')"></em></a>
 					</div>
 				</div>
 			</div>
@@ -91,7 +101,8 @@
 						<div class="card-block">
 							<h3 class="card-title">Add New Sponsor in Banner</h3>
 							<br>
-							<form action="${pageContext.request.contextPath}/fileUpload" method="post">
+							<form action="${pageContext.request.contextPath}/fileUpload"
+								method="post">
 								<center></center>
 								<div class="form-group row">
 									<label class="col-3 col-form label" for="title">Name of
@@ -107,12 +118,21 @@
 
 									<div class="col-lg-9">
 										<input class="form-control file" id="file" name="file"
-											type="file" placeholder="File..." required="required">
+											type="file" placeholder="File...">
 									</div>
 								</div>
-								<div class="form-group">
-									<div class="col-12 widget-right no-padding">
-										<button type="submit" class="btn btn-primary btn-sm float-right">Submit</button>
+								<div class="form-group row">
+									<div class="col-lg-12">
+										<button type="button"
+											class="btn btn-primary btn-sm float-right"
+											onclick="addSponsor()">Submit</button>
+
+										<a href="adminBanner.jsp">
+											<button type="button"
+												class="btn btn-sm btn-primary float-right btn-options">
+												<em class="fa fa-long-arrow-left"></em> Back
+											</button>
+										</a>
 									</div>
 								</div>
 							</form>
@@ -133,8 +153,40 @@
 	<%@include file="admin-js-imports.jsp"%>
 
 	<script type="text/javascript">
-		
-		
+		function addSponsor() {
+			var brand = $('#sponsorName').val();
+			var image = $('#file').val();
+
+			if ($.trim(brand) != "") {
+				$
+						.ajax({
+							url : '${pageContext.request.contextPath}/createBannerController',
+							data : {
+								brand : brand,
+								image : image
+							},
+							type : 'post',
+							cache : false,
+							success : function(data) {
+								if ($.trim(data) == 'success') {
+									document.getElementById('alertSuccess').style.display = "block";
+									setTimeout(function() {
+										location.reload();
+									}, 2000);
+								} else if ($.trim(data) == 'fail') {
+									document.getElementById('alertFail').style.display = "block";
+								}
+							},
+							error : function() {
+								document.getElementById('alertFail').style.display = "block";
+							}
+						});
+			} else {
+				document.getElementById('alertMissingField').style.display = "block";
+			}
+
+		}
+
 		function closeAlert(idAlert) {
 			document.getElementById(idAlert).style.display = "none";
 		}

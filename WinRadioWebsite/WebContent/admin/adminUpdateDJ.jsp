@@ -73,7 +73,7 @@
                	conn = ConnectionUtil.getConnection();
   				pstmt = conn.prepareStatement(DJListCommands.GET_ALL_DJ);
               	pstmt.setInt(1, idDJ);
-              	pstmt.setString(2, CodeUtil.COD_REGION_MNL);
+              	pstmt.setString(2, String.valueOf(session.getAttribute("codRegion")));
               	rs = pstmt.executeQuery();
   				
   				while (rs.next()) {
@@ -82,11 +82,11 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<div class="alert bg-success" id="alertSuccess" style="display:none;" role="alert">
-							<em class="fa fa-check-circle mr-2"></em> DJ details updated successfully!
+							<em class="fa fa-check-circle mr-2"></em> <%=CodeUtil.STATUS_MSG_SAVED %>
 							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertAcctUpdateSuccess')"></em></a>
 						</div>
 						<div class="alert bg-danger" id="alertFail" style="display:none;" role="alert">
-							<em class="fa fa-minus-circle mr-2"></em> Something went wrong. The DJ details were not updated, please try again. 
+							<em class="fa fa-minus-circle mr-2"></em> <%=CodeUtil.STATUS_MSG_ERROR %>
 							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertAcctUpdateFail')"></em></a>
 						</div>
 						<div class="alert bg-danger" id="alertMissingField" style="display:none;" role="alert">
@@ -99,7 +99,12 @@
 				
 				<!-- Buttons start -->
 				<div class="row">
-					<div class="col-lg-12">
+					<div class="col-lg-6">
+						<a href="adminDJMaintenance.jsp">
+							<button type="button" class="btn btn-sm btn-primary float-left btn-options"><em class="fa fa-long-arrow-left"></em> Back</button>
+						</a>
+					</div>
+					<div class="col-lg-6">
 						<span id="currentRow" style="display: none;"></span>
 						<button type="button" class="btn btn-secondary btn-md float-right btn-options" id="btnDeactivate"
 						onclick="updateAccountStatus('deactivate')" data-toggle="tooltip" title="Deactivate account">

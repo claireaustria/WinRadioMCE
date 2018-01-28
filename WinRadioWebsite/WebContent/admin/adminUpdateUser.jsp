@@ -72,7 +72,7 @@
 						<div class="alert bg-danger" id="alertAcctUpdateFail" style="display:none;" role="alert">
 							<em class="fa fa-minus-circle mr-2"></em> <%=CodeUtil.STATUS_MSG_ERROR %> 
 							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertAcctUpdateFail')"></em></a>
-						</div>
+						</div>	
 						<div class="alert bg-success" id="alertPwChangeSuccess" style="display:none;" role="alert">
 							<em class="fa fa-check-circle mr-2"></em> Password changed successfully!
 							<a href="#" class="float-right"><em class="fa fa-remove" onclick="closeAlert('alertPwChangeSuccess')"></em></a>

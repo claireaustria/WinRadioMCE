@@ -101,7 +101,7 @@
 						<%} %>
 						<button type="button" class="btn btn-sm btn-primary float-right btn-options" onclick="updateBlog('Published')">Publish to website</button>
 						<button type="button" class="btn btn-sm btn-primary float-right btn-options" onclick="updateBlog('Draft')">Save As Draft</button>
-						</div>
+					</div>
 				</div>
 				
 				<br/>

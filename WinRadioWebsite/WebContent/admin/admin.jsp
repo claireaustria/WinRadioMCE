@@ -140,7 +140,7 @@
 				<div class="row">
 					
 					
-					<%if (strAcctType.equals(CodeUtil.COD_TYPE_ADMIN) || strAcctType.equals(CodeUtil.COD_TYPE_CONTENT_MANAGER)) { %>
+					<%if (strAcctType.equals(CodeUtil.COD_TYPE_SUPER_USER) || strAcctType.equals(CodeUtil.COD_TYPE_CONTENT_MANAGER)) { %>
 					<div class="col-lg-8">
 					<%} else { %>
 					<div class="col-lg-12">
@@ -149,16 +149,16 @@
 							<div class="col-lg-12">
 								<div class="jumbotron">
 									<h1 class="mb-4">Hello, <%=session.getAttribute("firstName")%>!</h1>
-									<p class="lead">Welcome to the admin page of Win Radio PH. 
+									<p class="lead">Welcome to the admin page of Win Radio <%=session.getAttribute("codRegion")%>. 
 										<%if (strAcctType.equals(CodeUtil.COD_TYPE_DJ)) { %>
 										 What do you want to do today?
 										<%} %>
 									</p>		
-								</div>
+								</div>  
 							</div>
 						</section>
 						
-						<%if (strAcctType.equals(CodeUtil.COD_TYPE_ADMIN) || strAcctType.equals(CodeUtil.COD_TYPE_CONTENT_MANAGER)) { %>
+						<%if (strAcctType.equals(CodeUtil.COD_TYPE_SUPER_USER) || strAcctType.equals(CodeUtil.COD_TYPE_CONTENT_MANAGER)) { %>
 						<!-- Card statistics start -->
 						<section class="row">
 							<div class="col-lg-4">
@@ -189,7 +189,7 @@
 		                 	String timeStamp = new SimpleDateFormat("yyyy-MM-dd").format(Calendar.getInstance().getTime());
 		                 	
 		                 	pstmt.setString(1, timeStamp);
-		                 	pstmt.setString(2, CodeUtil.COD_REGION_MNL);
+		                 	pstmt.setString(2, String.valueOf(session.getAttribute("codRegion")));
 		                 	resultSet = pstmt.executeQuery();
 		        				while(resultSet.next()) {
 							%>
@@ -259,7 +259,7 @@
 						<%} %>
 					</div>
 					
-					<%if (strAcctType.equals(CodeUtil.COD_TYPE_ADMIN) || strAcctType.equals(CodeUtil.COD_TYPE_CONTENT_MANAGER)) { %>
+					<%if (strAcctType.equals(CodeUtil.COD_TYPE_SUPER_USER) || strAcctType.equals(CodeUtil.COD_TYPE_CONTENT_MANAGER)) { %>
 					<!-- User activity start -->
 					<div class="col-lg-4">
 						<div class="card mb-4">

@@ -3,7 +3,8 @@ package com.win.radio.manila.utilities;
 public interface TransactionLogCommands {
 	
 	/* JSP SCRIPTS */
-	public String GET_TRANSACTION_LOGS = "SELECT FORMAT(T.CREATE_DATE, 'MMM dd') + ' ' + CONVERT(varchar(15),CAST(T.CREATE_DATE AS TIME),100) as 'CREATE_DATE', A.FIRST_NAME + ' ' + A.LAST_NAME + ' ' + T.DESCRIPTION AS 'EVENT' " + 
+	public String GET_TRANSACTION_LOGS = "SELECT DATE_FORMAT(T.CREATE_DATE, '%b %d, %Y %h:%i') as 'CREATE_DATE', " + 
+			"CONCAT(A.FIRST_NAME, ' ', A.LAST_NAME, ' ', T.DESCRIPTION) AS 'EVENT' " + 
 			"FROM TRANSACTION_LOG T " + 
 			"LEFT JOIN ACCOUNT A ON T.UPDATE_USER = A.ID_ACCOUNT " + 
 			"ORDER BY ID_TRANSACTION DESC LIMIT 4";

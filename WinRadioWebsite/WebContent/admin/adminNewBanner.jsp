@@ -54,8 +54,7 @@
 	<div class="container-fluid" id="wrapper">
 		<div class="row">
 
-			<main
-				class="col-xs-12 col-sm-8 offset-sm-4 col-lg-9 offset-lg-3 
+			<main class="col-xs-12 col-sm-8 offset-sm-4 col-lg-9 offset-lg-3 
 					col-xl-10 offset-xl-2 pt-3 pl-4">
 			<header class="page-header row justify-center">
 			<div class="col-md-6 col-lg-8">
@@ -72,14 +71,14 @@
 				<div class="col-lg-12">
 					<div class="alert bg-success" id="alertSuccess"
 						style="display: none;" role="alert">
-						<em class="fa fa-check-circle mr-2"></em> Add new sponsor
-						successful! <a href="#" class="float-right"><em
+						<em class="fa fa-check-circle mr-2"></em> <%=CodeUtil.STATUS_MSG_ADDED %>
+						<a href="#" class="float-right"><em
 							class="fa fa-remove" onclick="closeAlert('alertSuccess')"></em> </a>
 					</div>
 					<div class="alert bg-danger" id="alertFail" style="display: none;"
 						role="alert">
-						<em class="fa fa-minus-circle mr-2"></em> Something went wrong,
-						please try again. <a href="#" class="float-right"> <em
+						<em class="fa fa-minus-circle mr-2"></em> <%=CodeUtil.STATUS_MSG_ERROR %>
+						<a href="#" class="float-right"> <em
 							class="fa fa-remove" onclick="closeAlert('alertFail')"></em>
 						</a>
 					</div>

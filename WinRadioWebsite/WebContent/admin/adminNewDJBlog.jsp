@@ -34,7 +34,7 @@
 			<main class="col-xs-12 col-sm-8 offset-sm-4 col-lg-9 offset-lg-3 col-xl-10 offset-xl-2 pt-3 pl-4">
 				<header class="page-header row justify-center">
 					<div class="col-md-6 col-lg-8" >
-						<h1 class="float-left text-center text-md-left">Update Blog Post</h1>
+						<h1 class="float-left text-center text-md-left">Create Blog Post</h1>
 					</div>
 					
 					<!-- include headerSection Start-->

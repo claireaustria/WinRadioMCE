@@ -1,5 +1,6 @@
 <!-- Prevent Access to the page without logging in -->
-	<%
+	<%@page import="com.win.radio.manila.utilities.DJListCommands"%>
+<%
 		try{
 			String userName = (String) session.getAttribute("userName");
 			if (null == userName) {
@@ -171,7 +172,47 @@
 									<div class="form-group row" style="display:none;" id="divScreenName">
 									  <label for="example-text-input" class="col-3 col-form-label">Screen Name</label>
 									  <div class="col-9">
-									    <input class="form-control" id="screenName" name="screenName" type="text" placeholder="DJ Name">
+									  	<select class="form-control" id="idDj" name="idDj" data-toggle="tooltip" title="If list is blank, create a record in the DJ list first">
+									  		<%ResultSet rs2 = null;
+						            		Statement select2 = null;
+						            		Connection conn2 = null;
+						            		
+						            		try{	 
+						            		conn2 = ConnectionUtil.getConnection();
+						        			select2 = conn2.createStatement();
+						        			rs2 = select2.executeQuery(DJListCommands.GET_ALL_DJ_NO_ACCT);
+						        				while(rs2.next()) {
+											%>
+									      	<option value="<%=rs2.getString("ID_DJ") %>"><%=rs2.getString("DJ_NAME") %></option>
+									      	<%	}
+						            		} catch(Exception ex)
+						            		{
+						            			ex.printStackTrace();
+						            		} finally {
+						            			if (rs2 != null) {
+						            				try {
+						            					rs2.close();
+						            				} catch (SQLException e) {
+						            					e.printStackTrace();
+						            				}
+						            			}
+						            			if (select2 != null) {
+						            				try {
+						            					select2.close();
+						            				} catch (SQLException e) {
+						            					e.printStackTrace();
+						            				}
+						            			}
+						            			if (conn2 != null) {
+						            				try {
+						            					conn.close();
+						            				} catch (SQLException e) {
+						            					e.printStackTrace();
+						            				}
+						            			}
+						            		}
+											%>
+									    </select>
 									  </div>
 									</div>
 									<div class="form-group row">
@@ -221,7 +262,10 @@
 	<%@include file="admin-js-imports.jsp" %>
 	
     <script type="text/javascript">
-		
+	    $(document).ready(function(){
+	        $('[data-toggle="tooltip"]').tooltip(); 
+	    });
+    
 		function checkIfValidMobileNo() {
 			var mobileNo=$("#mobileNo").val();
 			if (mobileNo.length != 11) {
@@ -233,14 +277,13 @@
 	    {
 	    	var firstName=$("#firstName").val();
 	    	var lastName=$("#lastName").val();
-	    	var screenName=$("#screenName").val();
 	    	var email=$("#email").val();
 	    	var username=$("#username").val();
 	    	var mobileNo=$("#mobileNo").val();
 	    	var acctType=$("#dropdownUserProfiles").val();
 	    	
 	    	if (acctType == 'PROFILE003') {
-	    		if ($.trim(firstName) == '' || $.trim(lastName) == '' || $.trim(screenName) == '' || $.trim(email) == '' || $.trim(username) == '' || $.trim(mobileNo) == '') {
+	    		if ($.trim(firstName) == '' || $.trim(lastName) == '' ||  $.trim(email) == '' || $.trim(username) == '' || $.trim(mobileNo) == '') {
 	    			return false;
 	    		}
 	    	} else {
@@ -316,10 +359,11 @@
 	    	var email=$("#email").val();
 	    	var username=$("#username").val();
 	    	var mobileNo=$("#mobileNo").val();
+	    	var idDj=$("#idDj").val();
 			
 			$.ajax({
 	            url:'${pageContext.request.contextPath}/createUserController',
-	            data:{firstName: firstName, lastName: lastName, gender: gender, codType: acctType, screenName: screenName, email: email, username: username, mobileNo: mobileNo},
+	            data:{firstName: firstName, lastName: lastName, gender: gender, codType: acctType, screenName: screenName, email: email, username: username, mobileNo: mobileNo, idDj:idDj},
 	            type:'post',
 	            cache:false,
 	            success:function(data){

@@ -126,7 +126,9 @@
 				                    conn = ConnectionUtil.getConnection();
 				       				pstmt = conn.prepareStatement(DJListCommands.GET_ALL_DJ);
 				                   	pstmt.setString(1, "%");
-				                   	pstmt.setString(2, CodeUtil.COD_REGION_MNL);
+				                   	pstmt.setString(2, String.valueOf(session.getAttribute("codRegion")));
+				                   	pstmt.setString(3, "%");
+				                   	pstmt.setString(4, String.valueOf(session.getAttribute("codRegion")));
 				                   	rs = pstmt.executeQuery();
 				       				
 				       				while (rs.next()) {

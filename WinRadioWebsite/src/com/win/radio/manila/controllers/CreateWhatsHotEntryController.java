@@ -15,8 +15,10 @@ import javax.servlet.http.HttpSession;
 import com.win.radio.manila.utilities.BlogContentOperations;
 import com.win.radio.manila.utilities.CodeUtil;
 import com.win.radio.manila.utilities.TransactionLogOperations;
+import com.win.radio.manila.utilities.WhatsHotOperations;
 import com.google.gson.Gson;
 import com.win.radio.manila.models.BlogContentModel;
+import com.win.radio.manila.models.WhatsHotModel;
 
 @WebServlet("/createWhatsHotEntryController")
 public class CreateWhatsHotEntryController extends HttpServlet {
@@ -36,38 +38,38 @@ public class CreateWhatsHotEntryController extends HttpServlet {
 		Calendar cal = Calendar.getInstance();  
 		java.sql.Timestamp timestamp = new java.sql.Timestamp(cal.getTimeInMillis());
 		
-		StringBuilder sbBlogContent = new StringBuilder();
+		StringBuilder sbEntry = new StringBuilder();
 	    BufferedReader reader = request.getReader();
 	    try {
 	        String line;
 	        while ((line = reader.readLine()) != null) {
-	        	sbBlogContent.append(line).append('\n');
+	        	sbEntry.append(line).append('\n');
 	        }
 	    } finally {
 	        reader.close();
 	    }
 	    
 	    Gson gson = new Gson();
-	    BlogContentModel blogContentRequest = (BlogContentModel) gson.fromJson(sbBlogContent.toString(), BlogContentModel.class);
+	    WhatsHotModel entryRequest = (WhatsHotModel) gson.fromJson(sbEntry.toString(), WhatsHotModel.class);
 				
-	    blogContentRequest.setCreateDate(timestamp);
-	    blogContentRequest.setUpdateDate(timestamp);
-	    blogContentRequest.setUpdateUser(updateUserIdAccount);
-	    blogContentRequest.setCodRegion(String.valueOf(session.getAttribute("codRegion")));
+	    entryRequest.setCreateDate(timestamp);
+	    entryRequest.setUpdateDate(timestamp);
+	    entryRequest.setUpdateUser(updateUserIdAccount);
+	    entryRequest.setCodRegion(String.valueOf(session.getAttribute("codRegion")));
 		
 		try{
-			if(BlogContentOperations.createBlog(blogContentRequest)) {				
+			if(WhatsHotOperations.createEntry(entryRequest)) {				
 				new TransactionLogOperations();
 				String strLogDesc ="";
-				String strBlogStatus = blogContentRequest.getStatus();
+				String strEntryStatus = entryRequest.getStatus();
 				
-				if (strBlogStatus.equals(CodeUtil.COD_BLOG_STATUS_DRAFT)) {
-					strLogDesc = "saved a new draft blog post.";
-				} else if (strBlogStatus.equals(CodeUtil.COD_BLOG_STATUS_PUBLISHED)) {
-					strLogDesc = "published a new blog post.";
+				if (strEntryStatus.equals(CodeUtil.COD_BLOG_STATUS_DRAFT)) {
+					strLogDesc = "saved a new post.";
+				} else if (strEntryStatus.equals(CodeUtil.COD_BLOG_STATUS_PUBLISHED)) {
+					strLogDesc = "published a new post.";
 				}
 				
-				TransactionLogOperations.addTransactionLog(updateUserIdAccount, "createBlog", strLogDesc, CodeUtil.COD_REGION_MNL);
+				TransactionLogOperations.addTransactionLog(updateUserIdAccount, "createWhatsHotEntry", strLogDesc, String.valueOf(session.getAttribute("codRegion")));
 	
 				rspns.println("success");
 			} else {

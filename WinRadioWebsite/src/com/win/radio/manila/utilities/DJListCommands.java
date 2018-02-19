@@ -3,12 +3,19 @@ package com.win.radio.manila.utilities;
 public interface DJListCommands {
 	
 	/*JSP SCRIPTS*/
-	public String GET_ALL_DJ = "SELECT DJ.ID_DJ, A.ID_ACCOUNT, DJ.DJ_NAME, DJ.DESCRIPTION " + 
+	public String GET_ALL_DJ = "SELECT ID_DJ, ID_ACCOUNT, DJ_NAME, DESCRIPTION " + 
+			"FROM DJLIST " + 
+			"WHERE ID_ACCOUNT = 0 " + 
+			"AND ID_DJ LIKE ? AND COD_REGION = ? " + 
+			"UNION " + 
+			"SELECT DJ.ID_DJ, A.ID_ACCOUNT, DJ.DJ_NAME, DJ.DESCRIPTION " + 
 			"FROM DJLIST DJ " + 
 			"LEFT JOIN ACCOUNT A ON DJ.ID_ACCOUNT = A.ID_ACCOUNT " + 
-			"WHERE A.COD_STATUS = 'STATUS001' " +
-			"AND DJ.ID_DJ LIKE ? AND DJ.COD_REGION = ? " +
+			"WHERE A.COD_STATUS = 'STATUS001' " + 
+			"AND DJ.ID_DJ LIKE ? AND DJ.COD_REGION = ? " + 
 			"ORDER BY ID_DJ DESC";
+	
+	public String GET_ALL_DJ_NO_ACCT = "SELECT ID_DJ, DJ_NAME FROM DJLIST WHERE ID_ACCOUNT = 0";
 
 	/* CONTROLLER SCRIPTS */
 	public String ADD_NEW_DJ = "INSERT INTO DJLIST (CREATE_DATE, UPDATE_DATE, UPDATE_USER, DJ_NAME, "
@@ -17,5 +24,5 @@ public interface DJListCommands {
 	public String UPDATE_DJ = "UPDATE DJLIST " +
 			"SET UPDATE_DATE = ?, UPDATE_USER = ?, DJ_NAME = ?, DESCRIPTION = ? WHERE ID_DJ = ?";
 	
-	
+	public String SET_DJ_ACCOUNT = "UPDATE DJLIST SET ID_ACCOUNT = ? WHERE ID_DJ = ?";
 }

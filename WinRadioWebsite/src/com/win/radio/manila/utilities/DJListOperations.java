@@ -89,5 +89,36 @@ public class DJListOperations implements DJListCommands {
 		return true;
 	}
 	
-	
+	public static boolean setDjAccount(int idDj, int idAccount) {
+		PreparedStatement pstmt = null;
+		Connection conn = null;
+		
+		try {
+			conn = ConnectionUtil.getConnection();
+			pstmt= conn.prepareStatement(SET_DJ_ACCOUNT);
+			pstmt.setInt(1, idDj);
+			pstmt.setInt(2, idAccount);
+			
+			pstmt.executeUpdate(); 
+		}	catch (SQLException sqle){
+			System.out.println("SQLException - setDjAccount: " +sqle.getMessage());
+			return false;
+		} 	finally {
+			if (pstmt != null) {
+				try {
+					pstmt.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			if (conn != null) {
+				try {
+					conn.close();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return true;
+	}
 }

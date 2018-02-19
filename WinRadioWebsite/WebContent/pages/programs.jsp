@@ -114,7 +114,7 @@
 								%>
 							<div id="snav-content<%=cnt2%>">
 								<h3><%=rs2.getString("PROG_NAME")%></h3>
-								<%=rs2.getString("DESCRIPTION")%>, <%=rs2.getString("SCHEDULE")%>
+								<p class="lead" style="white-space: pre-wrap;"><%=rs2.getString("DESCRIPTION")%></p>
 							</div>
 							<%
 										cnt2++;

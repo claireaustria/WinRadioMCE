@@ -82,9 +82,8 @@
 								</div>
 							</div>
 							<div class="video-wrap">
-								<video id="slide-video" poster="images/videos/explore.jpg"
+								<video id="slide-video" poster="images/videos/jocks.PNG"
 									preload="auto" loop autoplay muted>
-									<source src='images/videos/explore.webm' type='video/webm' />
 									<source src='images/videos/explore.mp4' type='video/mp4' />
 								</video>
 								<div class="video-overlay"
@@ -166,10 +165,6 @@
 								%>
 								<div class="songs-list">
 									<div class="songs-number"><%=rs.getInt("RANK")%></div>
-									<div class="songs-image track-image">
-										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg"
-											alt="Image 1">
-									</div>
 									<div class="songs-name track-name"><%=rs.getString("TITLE")%><br>
 										<span><%=rs.getString("ARTIST")%></span>
 									</div>
@@ -194,10 +189,6 @@
 								%>
 								<div class="songs-list">
 									<div class="songs-number"><%=rs.getInt("RANK")%></div>
-									<div class="songs-image track-image">
-										<img src="demos/music/tracks/poster-images/ibelieveinyou.jpg"
-											alt="Image 1">
-									</div>
 									<div class="songs-name track-name"><%=rs.getString("TITLE")%><br>
 										<span><%=rs.getString("ARTIST")%></span>
 									</div>

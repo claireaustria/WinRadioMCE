@@ -65,7 +65,7 @@ public class CreateUserController extends HttpServlet {
 			if(newId != 0) {
 				
 				if (account.getCodType().equals(CodeUtil.COD_TYPE_DJ)) {
-					DJListModel dj = new DJListModel();
+					/*DJListModel dj = new DJListModel();
 					dj.setCreateDate(timestamp);
 					dj.setUpdateDate(timestamp);
 					dj.setUpdateUser(idAccount);
@@ -75,8 +75,13 @@ public class CreateUserController extends HttpServlet {
 					dj.setCodRegion(CodeUtil.COD_REGION_MNL);
 					
 					new DJListOperations();
-					DJListOperations.addNewDJ(dj);
+					DJListOperations.addNewDJ(dj);*/
+					
+					new DJListOperations();
+					DJListOperations.setDjAccount(Integer.valueOf(request.getParameter("idDj")),newId);
+					
 				}
+				
 				
 				sendInitialEmail(account, saltString);
 			

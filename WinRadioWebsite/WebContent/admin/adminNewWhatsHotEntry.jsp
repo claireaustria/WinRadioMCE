@@ -194,13 +194,13 @@
 		var postOwner = $("#postOwner").val();
 		var status = $("input[name='status']:checked").val();
 		
-		var blogContent = {title: title, content: content, postOwner: postOwner, status: status, url: url};
-    	var blogContentJSON = JSON.stringify(blogContent);
+		var content = {title: title, content: content, postOwner: postOwner, status: status, url: url};
+    	var contentJSON = JSON.stringify(content);
 		
 		if ($.trim(title) != "" && $.trim(content) != "" && $.trim(postOwner) != "" && $.trim(status) != "") {
 			$.ajax({
 	            url:'${pageContext.request.contextPath}/createWhatsHotEntryController',
-	            data:blogContentJSON,
+	            data:contentJSON,
 	            type:'post',
 	            cache:false,
 	            success:function(data){

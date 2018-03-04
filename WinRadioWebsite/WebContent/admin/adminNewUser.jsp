@@ -170,9 +170,11 @@
 									  </div>
 									</div>
 									<div class="form-group row" style="display:none;" id="divScreenName">
-									  <label for="example-text-input" class="col-3 col-form-label">Screen Name</label>
+									  <label for="example-text-input" class="col-3 col-form-label">Jock Name</label>
 									  <div class="col-9">
-									  	<select class="form-control" id="idDj" name="idDj" data-toggle="tooltip" title="If list is blank, create a record in the DJ list first">
+									  	<select class="form-control" id="idDj" name="idDj" data-toggle="tooltip" 
+									  	title="If list is blank, create a record in the DJ list first"
+									  	onchange="handleSelect(this)">
 									  		<%ResultSet rs2 = null;
 						            		Statement select2 = null;
 						            		Connection conn2 = null;
@@ -212,6 +214,7 @@
 						            			}
 						            		}
 											%>
+											<option value="createDJ">+ Add a new jock name</option>
 									    </select>
 									  </div>
 									</div>
@@ -396,6 +399,13 @@
 		function closeAlert(idAlert) {
 			document.getElementById(idAlert).style.display = "none";
 		}
+		
+		$('#idDj').on('change',function(){
+			   var selection = $(this).val();
+			   if (selection == 'createDJ') {
+					window.location.href='adminNewDJ.jsp?idDJ=0&userAction=createAccount';
+			   } 
+		});
 	</script>
    
 </body>

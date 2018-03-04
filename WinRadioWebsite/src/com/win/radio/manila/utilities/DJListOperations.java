@@ -96,8 +96,8 @@ public class DJListOperations implements DJListCommands {
 		try {
 			conn = ConnectionUtil.getConnection();
 			pstmt= conn.prepareStatement(SET_DJ_ACCOUNT);
-			pstmt.setInt(1, idDj);
-			pstmt.setInt(2, idAccount);
+			pstmt.setInt(1, idAccount);
+			pstmt.setInt(2, idDj);
 			
 			pstmt.executeUpdate(); 
 		}	catch (SQLException sqle){

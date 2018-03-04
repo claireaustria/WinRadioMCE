@@ -84,7 +84,7 @@
 							<div class="video-wrap">
 								<video id="slide-video" poster="images/videos/jocks.PNG"
 									preload="auto" loop autoplay muted>
-									<source src='images/videos/explore.mp4' type='video/mp4' />
+									<source src='images/videos/jocks.mp4' type='video/mp4' />
 								</video>
 								<div class="video-overlay"
 									style="background-color: rgba(0, 0, 0, 0.55);"></div>

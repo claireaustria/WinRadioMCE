@@ -41,26 +41,51 @@ public class UpdateDJListController extends HttpServlet {
 		Calendar cal = Calendar.getInstance();  
 		java.sql.Timestamp timestamp = new java.sql.Timestamp(cal.getTimeInMillis());
 		
+		String strAction = request.getParameter("action");
+		
 		DJListModel dj = new DJListModel();
 		dj.setUpdateDate(timestamp);
 		dj.setUpdateUser(idAccount);
-		dj.setIdDJ(Integer.valueOf(request.getParameter("idDJ")));
 		dj.setDjName(request.getParameter("djName"));
 		dj.setDescription(request.getParameter("description"));
 		
-		try{	
-			if (DJListOperations.updateDJ(dj)) {
-				TransactionLogOperations.addTransactionLog(idAccount, "updateDJ", "updated a DJ's details.", CodeUtil.COD_REGION_MNL);
-				
-				rspns.println("success");
-			} else {
-				rspns.println("fail");
-			}
-			rspns.close();
+		if (strAction.equals("createDJ")) {
+			dj.setCodRegion(String.valueOf(session.getAttribute("codRegion")));
+			dj.setCreateDate(timestamp);
 			
-		} catch(Exception e)	{
-			e.printStackTrace();
+			try{	
+				if (DJListOperations.addNewDJ(dj)) {
+					TransactionLogOperations.addTransactionLog(idAccount, "createDJ", "updated a DJ's details.", CodeUtil.COD_REGION_MNL);
+					
+					rspns.println("success");
+				} else {
+					rspns.println("fail");
+				}
+				rspns.close();
+				
+			} catch(Exception e)	{
+				e.printStackTrace();
+			}
+			
+		} else if (strAction.equals("updateDJ")) {
+			dj.setIdDJ(Integer.valueOf(request.getParameter("idDJ")));
+			
+			try{	
+				if (DJListOperations.updateDJ(dj)) {
+					TransactionLogOperations.addTransactionLog(idAccount, "updateDJ", "updated a DJ's details.", CodeUtil.COD_REGION_MNL);
+					
+					rspns.println("success");
+				} else {
+					rspns.println("fail");
+				}
+				rspns.close();
+				
+			} catch(Exception e)	{
+				e.printStackTrace();
+			}
 		}
+		
+		
 	}
 
 }

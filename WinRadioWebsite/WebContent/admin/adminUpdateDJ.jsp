@@ -74,6 +74,8 @@
   				pstmt = conn.prepareStatement(DJListCommands.GET_ALL_DJ);
               	pstmt.setInt(1, idDJ);
               	pstmt.setString(2, String.valueOf(session.getAttribute("codRegion")));
+              	pstmt.setInt(3, idDJ);
+              	pstmt.setString(4, String.valueOf(session.getAttribute("codRegion")));
               	rs = pstmt.executeQuery();
   				
   				while (rs.next()) {
@@ -211,7 +213,7 @@
 			if ($.trim(idDJ) != "" && $.trim(description) != "") {
 				$.ajax({
 		            url:'${pageContext.request.contextPath}/updateDJListController',
-		            data:{idDJ: idDJ, description: description},
+		            data:{idDJ: idDJ, description: description, action: 'updateDJ'},
 		            type:'post',
 		            cache:false,
 		            success:function(data){

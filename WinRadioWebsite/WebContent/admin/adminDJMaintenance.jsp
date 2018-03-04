@@ -92,11 +92,11 @@
 				<div class="row">
 					<div class="col-lg-12">
 						<span id="currentRow" style="display: none;"></span>
-						<button type="submit" class="btn btn-primary btn-md float-right btn-options" id="btnNewUser" data-toggle="tooltip"
-						title="You will need to create a new user in order to create a DJ">
-							Create New DJ
+						<button type="submit" class="btn btn-primary btn-sm float-right btn-options" id="btnNewUser">
+						<!-- data-toggle="tooltip" title="You will need to create a new user in order to create a DJ"-->
+							Add New DJ
 						</button>
-						<button type="submit" class="btn btn-primary btn-md float-right btn-options" id="btnModifyDJ">Modify Details</button>
+						<button type="submit" class="btn btn-primary btn-sm float-right btn-options" id="btnModifyDJ">Modify Details</button>
 					</div>
 				</div>
 				
@@ -221,7 +221,7 @@
     
     /*Page redirect*/
     $('#btnNewUser').click(function(){
-       window.location.href='adminNewUser.jsp';
+       window.location.href='adminNewDJ.jsp?idDJ=0&userAction=create';
     })
     
     /*Page redirect*/
@@ -229,7 +229,7 @@
     	var span = document.getElementById("currentRow");
     	var spanText = span.textContent;
     	if ($.trim(spanText) != "") {
-       		window.location.href='adminUpdateDJ.jsp?idDJ='+spanText;
+       		window.location.href='adminNewDJ.jsp?idDJ='+spanText+'&userAction=update';
     	} else {
     		document.getElementById('alertNoRowSelected').style.display = "block";
     	}

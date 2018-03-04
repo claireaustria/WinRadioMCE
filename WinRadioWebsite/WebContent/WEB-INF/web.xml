@@ -3,10 +3,9 @@
   <display-name>WinRadio</display-name>
   <welcome-file-list>
     <welcome-file>coming-soon.html</welcome-file>
-    <welcome-file>admin-pass.jsp</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
     <welcome-file>index.html</welcome-file>
     <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
     <welcome-file>default.html</welcome-file>
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
@@ -23,4 +22,11 @@
 		javax.sql.DataSource
 	</res-type>
   </resource-ref>
+  <context-param> 
+   <description>Location to store uploaded file</description> 
+   <param-name>file-upload</param-name> 
+   <param-value>
+      img\
+   </param-value> 
+</context-param>
 </web-app>

@@ -1,3 +1,5 @@
+<%@page import="java.sql.PreparedStatement"%>
+<%@page import="com.win.radio.manila.utilities.IndexCommands"%>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 
@@ -110,29 +112,6 @@
 
 			<div class="content-wrap">
 
-				<!-- DIV: SPONSOR START -->
-				<div class="container clearfix">
-					<div class="heading-block center">
-						<h2>Sponsors</h2>
-					</div>
-
-					<div id="banner-container">
-						<div class="photobanner">
-							<img class="first" src="images/blog/small/1.jpg" alt="" /> <img
-								src="images/blog/small/2.jpg" alt="" /> <img
-								src="images/blog/small/19.jpg" alt="" /> <img
-								src="images/blog/small/3.jpg" alt="" /> <img
-								src="images/blog/small/10.jpg" alt="" /> <img
-								src="images/blog/small/12.jpg" alt="" /> <img
-								src="images/blog/small/13.jpg" alt="" /> <img
-								src="images/blog/small/17.jpg" alt="" /> <img
-								src="images/blog/small/18.jpg" alt="" /> <img
-								src="images/blog/small/19.jpg" alt="" />
-						</div>
-					</div>
-				</div>
-				<!-- DIV: SPONSOR END -->
-
 				<!-- DIV: MRH START -->
 				<div class="container clearfix bgcolor2">
 					<div class="row topmargin-lg">
@@ -151,15 +130,18 @@
 							<div class="songs-lists-wrap">
 								<%
 									ResultSet rs = null;
-									Statement stmt = null;
+									PreparedStatement pstmt = null;
 									Connection conn = null;
 									int cnt = 0;
+									
+									String strRegion = String.valueOf(request.getParameter("region"));
 
 									try {
 										conn = ConnectionUtil.getConnection();
-										stmt = conn.createStatement();
-										rs = stmt.executeQuery(IndexOperations.GET_ALL_MRH);
-
+										pstmt = conn.prepareStatement(IndexCommands.GET_ALL_MRH);
+										pstmt.setString(1, strRegion);
+										rs = pstmt.executeQuery();
+										
 										while (rs.next()) {
 											cnt++;
 								%>
@@ -205,9 +187,9 @@
 												e.printStackTrace();
 											}
 										}
-										if (stmt != null) {
+										if (pstmt != null) {
 											try {
-												stmt.close();
+												pstmt.close();
 											} catch (SQLException e) {
 												e.printStackTrace();
 											}
@@ -233,19 +215,19 @@
 				<!-- DIV: DJ LIST START -->
 				<div class="container clearfix">
 					<div class="fancy-title title-border">
-						<h3>Win Radio Manila DJs</h3>
+						<h3>Win Radio Jocks</h3>
 					</div>
 
 					<div class="row seven-cols">
 						<%
 							ResultSet rsDjList = null;
-							Statement stmtDjList = null;
+							PreparedStatement pstmtDjList = null;
 							Connection connDjList = null;
 
 							try {
 								connDjList = ConnectionUtil.getConnection();
-								stmtDjList = connDjList.createStatement();
-								rsDjList = stmtDjList.executeQuery(IndexOperations.GET_ALL_DJ);
+								pstmtDjList = connDjList.prepareStatement(IndexCommands.GET_ALL_DJ);pstmtDjList.setString(1, strRegion);
+								rsDjList = pstmtDjList.executeQuery();
 
 								while (rsDjList.next()) {
 						%>
@@ -301,9 +283,9 @@
 										e.printStackTrace();
 									}
 								}
-								if (stmtDjList != null) {
+								if (pstmtDjList != null) {
 									try {
-										stmtDjList.close();
+										pstmtDjList.close();
 									} catch (SQLException e) {
 										e.printStackTrace();
 									}
@@ -398,6 +380,29 @@
 					</div>
 				</div>
 				<!-- DIV: WHAT'S HOT END -->
+				
+				<!-- DIV: SPONSOR START -->
+				<div class="container clearfix">
+					<div class="heading-block center">
+						<h2>Sponsors</h2>
+					</div>
+
+					<div id="banner-container">
+						<div class="photobanner">
+							<img class="first" src="images/blog/small/1.jpg" alt="" /> <img
+								src="images/blog/small/2.jpg" alt="" /> <img
+								src="images/blog/small/19.jpg" alt="" /> <img
+								src="images/blog/small/3.jpg" alt="" /> <img
+								src="images/blog/small/10.jpg" alt="" /> <img
+								src="images/blog/small/12.jpg" alt="" /> <img
+								src="images/blog/small/13.jpg" alt="" /> <img
+								src="images/blog/small/17.jpg" alt="" /> <img
+								src="images/blog/small/18.jpg" alt="" /> <img
+								src="images/blog/small/19.jpg" alt="" />
+						</div>
+					</div>
+				</div>
+				<!-- DIV: SPONSOR END -->
 
 			</div>
 			<!-- content-wrap end -->

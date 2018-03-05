@@ -11,9 +11,9 @@
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
   <error-page>
-  	<error-code>404</error-code>
-  	<location>/error/404.html</location>
-	</error-page>
+    <error-code>404</error-code>
+    <location>/error/404.html</location>
+  </error-page>
   <resource-ref>
     <res-ref-name>
 	jdbc/WinRadio
@@ -22,11 +22,11 @@
 		javax.sql.DataSource
 	</res-type>
   </resource-ref>
-  <context-param> 
-   <description>Location to store uploaded file</description> 
-   <param-name>file-upload</param-name> 
-   <param-value>
+  <context-param>
+    <description>Location to store uploaded file</description>
+    <param-name>file-upload</param-name>
+    <param-value>
       img\
-   </param-value> 
-</context-param>
+   </param-value>
+  </context-param>
 </web-app>

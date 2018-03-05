@@ -13,7 +13,6 @@ import javax.servlet.http.HttpSession;
 
 import com.win.radio.manila.models.ProgramModel;
 import com.win.radio.manila.utilities.CodeUtil;
-import com.win.radio.manila.utilities.LogHelper;
 import com.win.radio.manila.utilities.PSOperations;
 import com.win.radio.manila.utilities.TransactionLogOperations;
 
@@ -54,7 +53,6 @@ public class UpdatePSController extends HttpServlet{
 			
 			if(PSOperations.updateProgram(prog))
 			{
-				new LogHelper();
 				TransactionLogOperations.addTransactionLog(idAccount, "updateProgram", "update a program schedule.", CodeUtil.COD_REGION_MNL);
 				
 				rspns.println("success");

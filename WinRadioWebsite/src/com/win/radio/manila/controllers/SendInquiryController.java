@@ -10,14 +10,8 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
-import com.win.radio.manila.utilities.AccountOperations;
 import com.win.radio.manila.utilities.CodeUtil;
-import com.win.radio.manila.utilities.DJListOperations;
-import com.win.radio.manila.utilities.TransactionLogOperations;
-import com.win.radio.manila.models.AccountModel;
-import com.win.radio.manila.models.DJListModel;
 
 @WebServlet("/sendInquiryController")
 public class SendInquiryController extends HttpServlet {

@@ -3,7 +3,6 @@ package com.win.radio.manila.controllers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -15,7 +14,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.win.radio.manila.utilities.AccountCommands;
-import com.win.radio.manila.utilities.AccountOperations;
 import com.win.radio.manila.utilities.ConnectionUtil;
 
 @WebServlet("/checkIfValueExists")

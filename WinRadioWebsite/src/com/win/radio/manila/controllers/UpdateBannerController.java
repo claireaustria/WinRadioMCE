@@ -2,14 +2,8 @@ package com.win.radio.manila.controllers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.SecureRandom;
-import java.sql.Date;
 import java.util.*;
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.activation.*;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,16 +11,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.eclipse.jdt.internal.compiler.parser.ParserBasicInformation;
-
 import com.win.radio.manila.utilities.CodeUtil;
 import com.win.radio.manila.utilities.DramaOperations;
-import com.win.radio.manila.utilities.LogHelper;
 import com.win.radio.manila.utilities.BannerOperations;
-import com.win.radio.manila.utilities.SQLOperations;
 import com.win.radio.manila.utilities.TransactionLogOperations;
 import com.win.radio.manila.models.BannerModel;
-import com.win.radio.manila.models.DramaModel;
 
 @WebServlet("/updateSponsorController")
 public class UpdateBannerController extends HttpServlet {

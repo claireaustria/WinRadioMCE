@@ -12,12 +12,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.win.radio.manila.utilities.BlogContentOperations;
 import com.win.radio.manila.utilities.CodeUtil;
 import com.win.radio.manila.utilities.TransactionLogOperations;
 import com.win.radio.manila.utilities.WhatsHotOperations;
 import com.google.gson.Gson;
-import com.win.radio.manila.models.BlogContentModel;
 import com.win.radio.manila.models.WhatsHotModel;
 
 @WebServlet("/createWhatsHotEntryController")

@@ -3,16 +3,8 @@ package com.win.radio.manila.controllers;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.security.SecureRandom;
-import java.sql.Date;
-import java.util.Locale;
-import java.util.Random;
 import java.util.*;
-import javax.mail.*;
-import javax.mail.internet.*;
-import javax.activation.*;
 
-import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -22,12 +14,9 @@ import javax.servlet.http.HttpSession;
 
 import com.win.radio.manila.utilities.AccountOperations;
 import com.win.radio.manila.utilities.CodeUtil;
-import com.win.radio.manila.utilities.DJListOperations;
-import com.win.radio.manila.utilities.LogHelper;
 import com.win.radio.manila.utilities.TransactionLogOperations;
 import com.google.gson.Gson;
 import com.win.radio.manila.models.AccountModel;
-import com.win.radio.manila.models.DJListModel;
 
 @WebServlet("/updateUserController")
 public class UpdateUserController extends HttpServlet {
